@@ -1,0 +1,10 @@
+.idea/
+Christmas2016/config/__pycache__/
+Christmas2016/config/settings/__pycache__/
+Christmas2016/config/settings/secrets.json
+Christmas2016/db.sqlite3
+docs/Makefile
+docs/_build/
+docs/_static/
+docs/_templates/
+docs/make.bat
