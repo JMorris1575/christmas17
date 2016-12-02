@@ -1,0 +1,234 @@
+article, aside, figcaption, figure, footer, header, hgroup, menu, nav, section: {
+    display: block;
+    }
+
+@font-face {
+    font-family: "Qumpellkana";
+    src: url("../fonts/QumpellkanaNo12.otf");
+    }
+
+@font-face {
+    font-family: "Alpine";
+    src: url("../fonts/Alpine.ttf");
+    }
+
+@font-face {
+    font-family: "Gregorian";
+    src: url("../fonts/GregorianFLF.ttf");
+    }
+
+footer {
+    bottom: 0px;
+    color: #208020;
+    font-family: sans;
+    font-size: 70%;
+    }
+
+header {
+    margin: 0px;
+    height: auto;
+    color: #208020;
+    font-family: Gregorian;
+    font-style: italic;
+    font-weight: bold;
+    }
+
+a.no-underline {
+    text-decoration: none;
+    }
+
+.banner {
+    margin-top: 0px;
+    padding: 0px;
+    border-top: 3px solid;
+    border-bottom: 3px solid;
+    border-color: red;
+    }
+
+.button {
+    width: 125px;
+    margin-bottom: 5px;
+    align: center;
+    }
+
+.comment {
+    font-family: sans;
+    font-size: small;
+    color: blue;
+    margin-top: 0px;
+    }
+
+.compact {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 160px;
+    width 600px;
+    }
+
+.container {
+    width: auto;
+    height: auto;
+    padding: 10px 10px 10px 10px;
+    overflow: auto;
+    border-bottom: 2px solid red;
+    margin: 0px 10px 0px 10px;
+    }
+
+.header-container {
+    width: auto;
+    padding: 1px;
+    margin: 0px;
+    border: 0px;
+    overflow: auto;
+    }
+
+.description {
+    font-family: sans;
+    font-size: medium;
+    color: #208020;
+    margin-top: 0px;
+    }
+
+.content {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    }
+
+.form-left {
+    margin-left: 150px;
+    }
+
+.info {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 150px;
+    padding: 10px;
+    height: auto, 100px;
+    width : 60%;
+    border: 2px solid green;
+    background-color: #f0f0f0;
+    color: #208020;
+    font-family: Alpine;
+    font-size: 120%;
+    font-style: bold;
+    }
+
+.large {
+    color: #208020;
+    margin: 0;
+    font-size: 175%;
+    font-style: italic;
+    width: 60%;
+    }
+
+.left {
+    float: left;
+    }
+
+.left-col {
+    float: left;
+    height: 165px;
+    width: 154px;
+    }
+
+.login-box {
+    width: 100px;
+    }
+
+.heading {
+    color: #208020;
+    font-family: Alpine;
+    font-size: 150%;
+    font-style: italic;
+    margin-top: 0px;
+    }
+
+.instructions {
+    color: #208020;
+    font-family: arial sans;
+    }
+
+.memory-block {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    }
+
+.memory {
+    width: auto;
+    margin: 0px;
+    font-weight: normal;
+    }
+
+.memory-box {
+    width: 60%;
+    color: blue;
+    font-family: serif;
+    font-style: italic;
+    padding: 5px;
+    }
+
+.name {
+    font-family: serif;
+    font-weight: bold;
+    }
+
+.right {
+    float: right;
+    padding-left: 10px;
+    padding-right: 10px;
+    }
+
+.right-col {
+    float: right;
+}
+
+.selected-gift-text {
+    color: red;
+    font-family: sans;
+    margin: 5px;
+    text-align: center;
+    }
+
+.selected-image {
+    border: 2px solid red;
+    }
+
+.small {
+    font-family: arial, sans-serif;
+    font-size: medium;
+    padding-top: 5px;
+    }
+
+.text-col {
+    float: left;
+    padding: 0px 10px 0px 10px;
+    width: 70%;
+    }
+
+.unselected-gift-text {
+    color: #208020;
+    font-family: sans;
+    margin: 5px;
+    text-align: center;
+    }
+
+.unselected-image {
+    border: 2px solid #208020;
+    }
+
+.left_col {
+    width: 75%;
+    float: left;
+    }
+
+.right_col {
+    background: #e0ffe0;
+    width: 24%;
+    height: 200%;
+    float: right;
+    padding: 5px;
+    }
+
+#header-image {
+    width: 150px;
+    height: 120px;}

@@ -1,0 +1,22 @@
+{% extends parent_template|default:"base.html" %}
+
+{% block title %}
+    {{ block.super }} - Permission Error
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <div class="info">
+        <p>
+            Uh oh! You were denied permission to do something. This can happen if you enter the wrong address into your
+            browser's address bar. Try using the buttons and links on the site to correct this problem. If you think you
+            should have permission for what you were trying to do, let me know and I'll see if I can fix it. Get back to
+            the main page by clicking the button below.
+        </p>
+    </div>
+
+    <a href="/">
+        <button class="button form-left">Main Page</button>
+    </a>
+
+{% endblock %}

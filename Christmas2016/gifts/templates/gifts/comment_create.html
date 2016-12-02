@@ -1,0 +1,39 @@
+{% extends parent_template|default:"gifts/base_gifts.html" %}
+{% load static %}
+
+{% block content %}
+
+    {{ block.super }}
+
+    <div class="info">
+        <p>
+            You can add a new comment about {{ gift }} here.  Scroll down to the entry box, if necessary, type in your
+            comment, then click the 'Save Comment' button.  Click the image or the 'Cancel' button to return to the
+            main page.  You should be able to delete or edit any comment you made but I haven't figured out how to let
+            you do that yet. :-)
+        </p>
+    </div>
+
+    <a class="form-left" href="/gift/list/" title="Click here to return to the main page.">
+        <img alt="Image of {{ gift }}" src="{% static gift.get_image_filename %}" width="450" height="300" />
+    </a>
+
+    <div>
+        <p class="description form-left">{{ gift.description }}</p>
+        {% for comment in gift.get_comments %}
+            <p class="comment form-left">{{ comment.display }}</p>
+        {% endfor %}
+    </div>
+
+
+    <form class="form-left" action="/gift/{{ gift.gift_number }}/comment/" method="post">{% csrf_token %}
+        <p class="instructions"><label for="comment">Enter a new comment below:</label></p>
+        <p><textarea id="comment" name="comment_text" rows="3" cols="40"></textarea></p>
+        <p><button class="button" type="submit">Save</button></p>
+    </form>
+
+    <a class="form-left" href="/gift/list/">
+        <button class="button">Cancel</button>
+    </a>
+
+{% endblock %}

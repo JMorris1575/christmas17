@@ -1,0 +1,71 @@
+{% load static %}
+
+    {% block header %}
+
+        <header>
+            <div class="header-container">
+                <a href="{% url 'dj-auth:login' %}">
+                    <img class="left" id="header-image" src="{% static 'images/bells.png' %}"
+                         height="250" alt="Image of Christmas Bells">
+                </a>
+                <div class="banner">
+                    <div class="compact">
+                        <a class="no-underline" href="{% url 'dj-auth:login' %}">
+                            <span class="large">Christmas 2016!</span>
+                        </a>
+                        {% if user.is_authenticated %}
+                            <span class="right">
+                                <a href="{% url 'dj-auth:logout' %}">
+                                    <button type="button" name="logout-btn">Logout</button>
+                                </a>
+                            </span>
+                            <span class="right small">Merry Christmas {{ user.first_name }}!</span>
+                        {% else %}
+                            <span class="right">
+                                <form action="{% url 'dj-auth:login' %}" method="post">
+                                    {% csrf_token %}
+                                    <span class="right">
+                                        <input type="submit" value="login" name="login-btn" tabindex="3"/>
+                                    </span>
+                                    <span class="right">
+                                        <label class="description" for="password">Password:</label>
+                                        <input type="password" class="login-box" name="password" id="password"
+                                               placeholder="password" tabindex="2"/>
+                                    </span>
+                                    <span class="right">
+                                        <label class="description" for="username">Username:</label>
+                                        <input type="text" class="login-box" name="username" id="username"
+                                               tabindex="1" />
+                                    </span>
+                                </form>
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="memory-block">
+                    <span class="right">
+                        <form action="/memory/create/" method="get">
+                            <button class="button" type="submit">Add Memory</button>
+                        </form>
+                        {% if user.userprofile.added_memories %}
+                            <form action="/memory/edit/" method="get">
+                                <button class="button" type="submit">Edit Memories</button>
+                            </form>
+                        {% endif %}
+                    </span>
+                    {% if display_memory %}
+                        <span class="memory-box">
+                            <span class="name">Christmas Memory from {{ display_memory.author }}:</span>
+                            <span class="memory">{{ display_memory }}</span>
+                        </span>
+                    {% endif %}
+                </div>
+                {% if user.is_staff %}
+                    <form action="/mail/" method="get">
+                        <button class="button" type="submit">Send E-mails...</button>
+                    </form>
+                {% endif %}
+            </div>
+        </header>
+
+    {% endblock %}

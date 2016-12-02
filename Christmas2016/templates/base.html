@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>
+            {% block title %}
+                Christmas 2016
+            {% endblock %}
+        </title>
+
+        <link href="{% static 'css/christmas16.css' %}" rel="stylesheet">
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--[if IE]><script
+            src="http://html5shiv.googlecode.com/svn/trunk/html5.js"-->
+
+        {% block head %}{% endblock %}
+
+    </head>
+
+    <body>
+
+        {% include "header.html" %}
+
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        {% include "footer.html" %}
+
+    </body>
+
+</html>

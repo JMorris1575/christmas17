@@ -1,0 +1,14 @@
+{% extends parent_template|default:"gifts/base_gifts.html" %}
+{% load static %}
+
+{{ block.super }}
+
+{% block content %}
+
+    <div class="content">
+        <h3>This page will allow paragraphs of the family Christmas Story to be edited by the family member who
+        wrote them.</h3>
+        <p>This time it is set to edit entry number: {{ entry_number }}.</p>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends parent_template|default:"base.html" %}
+{% load static %}
+
+{% block content %}
+
+    {{ block.super }}
+
+    <div class="content">
+        <div class="info">
+            <p>Here is a list of the memories you have added. You can edit or delete your entry by pressing, you
+                guessed it, the 'Edit' or 'Delete' button next to each entry.</p>
+        </div>
+        {% for memory in user_memories %}
+            <div class="container">
+
+                <!-- Left Column: memory text -->
+                <div class="text-col">
+                    <p class="description">{{ memory.post }}</p>
+                </div>
+
+                <!-- Right Column: Buttons to select a gift (or change one's mind) and add a comment -->
+                <span class="right-col">
+                    <form action="/memory/{{ memory.pk }}/edit/" method="get">
+                        <button class="button" type="submit">Edit</button>
+                    </form>
+                    <form class="button" action="/memory/{{ memory.pk }}/delete/" method="get">
+                        <button class="button" type="submit">Delete</button>
+                    </form>
+                </span>
+            </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

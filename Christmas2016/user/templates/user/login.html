@@ -1,0 +1,17 @@
+{% extends parent_template|default:"user/base_user.html" %}
+
+{% block title %}
+    {{ block.super }} - Login
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <div class="info">
+        <p>
+            Merry Christmas!  Login to our family Christmas page by entering the username and password you received
+            in the invitation e-mail into the boxes at the upper right.  Press 'Enter' or click 'Login' to enter the
+            main site.
+        </p>
+    </div>
+
+{% endblock %}

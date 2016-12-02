@@ -1,0 +1,16 @@
+{% extends parent_template|default:"mail/base_mail.html" %}
+
+{% block content %}
+
+    {{ block.super }}
+
+    <div class="content">
+        <h2>This page will allow an administrator to manage e-mails</h2>
+
+        <form class="form-left" action="/mail/invitation/" method="get">
+            <p><button class="button" type="submit">Send Invitation</button></p>
+        </form>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends parent_template|default:"base.html" %}
+{% load static %}
+
+{% block content %}
+
+    {{ block.super }}
+
+    <div class="content">
+
+        <h2>This page will allow the administrator to send invitations to all or selected users.</h2>
+
+
+
+        <form class="form-left" action="/mail/invitation/" method="post">{% csrf_token %}
+            <ul class="form-left">
+                {% for user in users %}
+                    <li>
+                        <input type="checkbox" name="family_member" value="{{ user }}"/>
+                        {{ user.userprofile.get_name }}<br />
+                    </li>
+                {% endfor %}
+            </ul>
+            <p><button class="button" type="submit">Send</button></p>
+        </form>
+
+    </div>
+
+{% endblock %}

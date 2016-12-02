@@ -1,0 +1,22 @@
+{% extends parent_template|default:"gifts/base_gifts.html" %}
+{% load static %}
+
+{% block content %}
+
+    {{ block.super }}
+
+    <div class="info">
+        <p>
+            Here is a larger image of {{ gift }} so that you can see it better.  Click this image to
+            get back to the main page.
+        </p>
+    </div>
+
+    <div>
+        <a href="/gift/list/" title="Click here to return to main page.">
+            <img alt="Large image of {{ gift }}" src="{% static gift.get_image_filename %}" />
+        </a>
+
+    </div>
+
+{% endblock %}
