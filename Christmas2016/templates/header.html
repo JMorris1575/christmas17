@@ -42,24 +42,26 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="memory-block">
-                    <span class="right">
-                        <form action="/memory/create/" method="get">
-                            <button class="button" type="submit">Add Memory</button>
-                        </form>
-                        {% if user.userprofile.added_memories %}
-                            <form action="/memory/edit/" method="get">
-                                <button class="button" type="submit">Edit Memories</button>
+                {% if user.is_authenticated %}
+                    <div class="memory-block">
+                        <span class="right">
+                            <form action="/memory/create/" method="get">
+                                <button class="button" type="submit">Add Memory</button>
                             </form>
-                        {% endif %}
-                    </span>
-                    {% if display_memory %}
-                        <span class="memory-box">
-                            <span class="name">Christmas Memory from {{ display_memory.author }}:</span>
-                            <span class="memory">{{ display_memory }}</span>
+                            {% if user.userprofile.added_memories %}
+                                <form action="/memory/edit/" method="get">
+                                    <button class="button" type="submit">Edit Memories</button>
+                                </form>
+                            {% endif %}
                         </span>
-                    {% endif %}
-                </div>
+                        {% if display_memory %}
+                            <span class="memory-box">
+                                <span class="name">Christmas Memory from {{ display_memory.author }}:</span>
+                                <span class="memory">{{ display_memory }}</span>
+                            </span>
+                        {% endif %}
+                    </div>
+                {% endif %}
                 {% if user.is_staff %}
                     <form action="/mail/" method="get">
                         <button class="button" type="submit">Send E-mails...</button>

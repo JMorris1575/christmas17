@@ -23,7 +23,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse_lazy
 
 # JSON-based secrets module
-with open("config/settings/secrets.json") as f:
+with open(os.path.join(BASE_DIR, 'config/settings/secrets.json')) as f:
     secrets = json.loads(f.read())
 
 def get_secret(setting, secrets=secrets):
@@ -41,9 +41,6 @@ def get_secret(setting, secrets=secrets):
 # SECURITY WARNING: keep the secret key used in production secret!
 
 SECRET_KEY = get_secret("SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -99,16 +96,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': get_secret('DATABASE_NAME'),
-        'USER': get_secret('DATABASE_USER'),
-        'PASSWORD': get_secret('DATABASE_PASSWORD'),
-        'HOST': get_secret('DATABASE_HOST'),
-        'PORT': get_secret('DATABASE_PORT')
-    }
-}
 
 
 # Password validation
@@ -143,17 +130,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static', 'site'),
-)
-
 LOGIN_REDIRECT_URL = reverse_lazy('gift_list')
 LOGIN_URL = reverse_lazy('dj-auth:login')
 LOGOUT_URL = reverse_lazy('dj-auth:logout')
-
 

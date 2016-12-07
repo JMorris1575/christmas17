@@ -3,6 +3,8 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import RedirectView
 
+from .views import LoginError
+
 
 urlpatterns = [
     url(r'^$',
@@ -11,10 +13,11 @@ urlpatterns = [
             permanent=False)),
     url(r'^login/$',
         auth_views.login,
-        {'template_name': 'user/login.html',
-         #'redirect_field_name': 'gift/list/',
+        {'template_name': 'user/login_error.html',
          'redirect_authenticated_user': True },
         name='login'),
+    url(r'login/error/$',
+        LoginError.as_view()),
     url(r'^logout/$',
         auth_views.logout,
         {'template_name': 'user/login.html',

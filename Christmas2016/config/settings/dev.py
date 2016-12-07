@@ -5,8 +5,22 @@ import os
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': get_secret('DATABASE_NAME'),
+        'USER': get_secret('DATABASE_USER'),
+        'PASSWORD': get_secret('DATABASE_PASSWORD'),
+        'HOST': get_secret('DATABASE_HOST'),
+        'PORT': get_secret('DATABASE_PORT')
+    }
+}
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_collection')
-# # print('STATIC_ROOT = ', STATIC_ROOT)
-# STATIC_URL = '/c16Development/static_collection/'
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static', 'site'), )
