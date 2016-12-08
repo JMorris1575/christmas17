@@ -33,7 +33,7 @@
                         <!-- if this gift has not been selected -->
                         <a href="/gift/{{ gift.gift_number }}" title="Click for larger image">
                             <img class="unselected-image" alt="Image of {{ gift }}"
-                                 src="{% static gift.get_image_filename %}"
+                                 src="{% static gift.get_thumbnail_filename %}"
                                  height="100" width="150" />
                         </a>
                         <h4 class="unselected-gift-text">{{ gift }}</h4>

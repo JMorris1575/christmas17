@@ -32,6 +32,8 @@ class Gift(models.Model):
             status = 'wrapped'
         else:
             status = 'unwrapped'
+        print(os.path.join('gifts', 'images', status, 'thumbnails',
+                           'Gift ' + str(self.gift_number) + '.png'))
         return os.path.join('gifts', 'images', status, 'thumbnails',
                             'Gift ' + str(self.gift_number) + '.png')
 

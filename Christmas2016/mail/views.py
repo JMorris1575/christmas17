@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 from config.settings.base import get_secret
+
+import os
 
 import utils, mail
 
@@ -41,7 +44,7 @@ class SendInvitation(View):
 
     def post(self, request):
         recipients = request.POST.getlist('family_member')
-        msg_file = open('mail/static/mail/invitation.txt')
+        msg_file = open(static('mail') + '/invitation.txt')
         orig_message = msg_file.read()
         for member in recipients:
             user = User.objects.get(username=member)
@@ -56,7 +59,7 @@ class SendInvitation(View):
             send_mail(
                 subject,
                 message,
-                'from@example.com',
+                'Jim@christmas.jmorris.webfactional.com',
                 [user.email],
                 fail_silently=False,
             )

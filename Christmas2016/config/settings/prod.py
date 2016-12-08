@@ -19,8 +19,8 @@ DATABASES = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'c16_static')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'c16_static/')
+STATIC_URL = 'http://christmas.jmorris.webfactional.com/static/'
 STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static', 'site',), )
 
 ALLOWED_HOSTS.append('christmas.jmorris.webfactional.com')
@@ -28,6 +28,8 @@ ALLOWED_HOSTS.append('christmas.jmorris.webfactional.com')
 ADMINS = (
     ('Jim', 'jmorris@ecybermind.net'), ('Jim', 'frjamesmorris@gmail.com')
 )
+
+
 
 EMAIL_HOST = get_secret('EMAIL_HOST')
 EMAIL_HOST_USER = get_secret('EMAIL_HOST_USER')
