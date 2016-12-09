@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
+from user.decorators import class_login_required
+from config.settings.base import get_secret
+
 from mail.models import EmailTemplate
 
-from config.settings.base import get_secret
 
 import os
 
@@ -26,6 +28,8 @@ def translate_tags(subject, message, name=None, username=None, password=None):
     message = message.replace('<password>', password)
     return subject, message
 
+
+@class_login_required
 class ManageEmail(View):
     template_name = 'mail/manage_emails.html'
 
@@ -34,6 +38,7 @@ class ManageEmail(View):
                       {'display_memory': utils.get_memory()})
 
 
+@class_login_required
 class SendInvitation(View):
     template_name = 'mail/send_invitation.html'
 
@@ -46,7 +51,6 @@ class SendInvitation(View):
         recipients = request.POST.getlist('family_member')
         template = EmailTemplate.objects.get(name='invitation')
         orig_message = template.template
-        print('orig_message = ', orig_message)
         for member in recipients:
             user = User.objects.get(username=member)
             password_key = user.username.upper()
@@ -67,15 +71,25 @@ class SendInvitation(View):
         return redirect('gift_list')
 
 
+@class_login_required
 class MailCompose(View):
     template_name = 'mail/compose.html'
 
     def get(self, request):
-        return render(request, self.template_name, {})
+        return render(request, self.template_name,
+                      { 'display_memory': utils.get_memory(),
+                        'users': User.objects.all() })
 
+    def post(self, request):
+        print("I've gotten to the post method of MailCompose.")
+        recipients = request.POST.getlist('family_member')
+        orig_subject = request.POST['subject']
+        orig_message = request.POST['message']
+        for member in recipients:
+            user = User.objects.get(username=member)
+            password_key = user.username.upper()
+            password = get_secret(password_key)
+            subject, message = translate_tags(orig_subject, orig_message, user.first_name, user.username, password)
+            send_mail(subject, message, 'Jim@christmas.jmorris.webfactional.com', [user.email], fail_silently=False,)
+        return redirect('gift_list')
 
-class MailManageTrade(View):
-    template_name = 'mail/trade_mail.html'
-
-    def get(self, request):
-        return render(request, self.template_name, {})
