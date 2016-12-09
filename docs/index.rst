@@ -15,6 +15,8 @@ Contents:
    startup.rst
    planning.rst
    building.rst
+   deployment.rst
+   private.rst
 
 
 Indices and tables

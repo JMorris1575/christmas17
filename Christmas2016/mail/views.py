@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
-from django.contrib.staticfiles.templatetags.staticfiles import static
+from mail.models import EmailTemplate
 
 from config.settings.base import get_secret
 
@@ -44,8 +44,9 @@ class SendInvitation(View):
 
     def post(self, request):
         recipients = request.POST.getlist('family_member')
-        msg_file = open(static('mail') + '/invitation.txt')
-        orig_message = msg_file.read()
+        template = EmailTemplate.objects.get(name='invitation')
+        orig_message = template.template
+        print('orig_message = ', orig_message)
         for member in recipients:
             user = User.objects.get(username=member)
             password_key = user.username.upper()

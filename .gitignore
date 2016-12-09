@@ -3,7 +3,9 @@ Christmas2016/config/__pycache__/
 Christmas2016/config/settings/__pycache__/
 Christmas2016/config/settings/secrets.json
 Christmas2016/db.sqlite3
+Christmas2016/c16_datadump.json
 docs/Makefile
+docs/private.rst
 docs/_build/
 docs/_static/
 docs/_templates/

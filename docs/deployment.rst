@@ -58,6 +58,25 @@ By the way, it seems changing the app names in the middle of the game has caused
 ``manage.py loaddata c16data.json`` because it contains some references to ``gift_exchange.gift`` which it says
 already exists. Be careful about that in the future!
 
+Copying the Revised Files to my Kalamazoo Computer
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+What I finally ended up doing was to make a backup of the c16Development directory, erase all the files in the original
+``c16Development`` directory, then do a ``git->clone...`` from the VCS menu. I had to make sure it went to the
+``Documents/MyDjangoProjects`` directory, and make sure the directory name was ``c16Development``. I had to copy
+``secrets.json`` from my Rectory computer and decided to copy ``c16_datadump.json`` from there too. To get sphinx to
+work I decided to copy the following::
+
+    _build
+    _static
+    _templates
+
+from my backup of ``c16Development``. Doing ``manage.py runserver`` allowed me to get into the local version of the
+website and running ``make html`` worked but warned me that this file ``deployment.rst`` and ``private.rst`` aren't
+in any toctree. I don't think I put them there but I will now.
+
+I did, and all seems well.
+
 Serving Static Files
 --------------------
 
@@ -479,3 +498,68 @@ And here is the new view that was required in user/views.py::
         def get(self, request):
             return render(request, self.template_name, {})
 
+Getting Mail to Work
+--------------------
+
+When I tried to send an invitation to myself I got a "Server Error (500)." I didn't know why. Unknown to me, at first,
+was that an error log was sent to me at jmorris@ecybermind.net. (It will be good to figure out if this is something from
+a django settings file or if it came from me having a superuser account.
+
+After mucking around for a while, and looking at the error message in the e-mail, I've decided that the problem is that
+I am attempting to get ``invitation.txt`` from the folder it is in, ``jmorris/webapps/c16_static/mail/`` but that is
+being served by the static-only server, or that one app is simply not allowed to reach into another one to get files.
+
+In either case, I have decided to copy ``invitation.txt`` to a folder accessible to ``Christmas2016/mail/views.py``. I
+will create a folder named ``mail_templates`` and put it there then figure out how to find it from the SendInvitation
+view.
+
+Trying it locally worked. The invitation e-mail was displayed on the console running ``runserver``. Now to try it
+online and ... I still got "Server Error (500)." Checking my e-mail and found:
+
+``No such file or directory: 'http://christmas.jmorris.webfactional.com/static/mail/invitation.txt'``
+
+even though this line:
+
+``msg_file = open('mail/mail_templates/invitation.txt')`` is in the ``views.py`` file.
+
+Nothing I tried ever got that to work so I searched the web for ``how to open txt files from a django view`` and
+didn't come up with much either.
+
+In the meantime I thought of putting ``invitation.txt`` into a model in the ``mail`` app and accessing it that way.
+Thus, I created the following model::
+
+    class EmailTemplate(models.Model):
+        name = models.CharField(max_length=15, blank=False)
+        template = models.TextField()
+
+        def __str__(self):
+            return self.name
+
+referred to it in ``mail.admin.py`` as follows:
+
+``admin.site.register(EmailTemplate)``
+
+and tested it out on a development machine. I had to ``makemigrations`` and ``migrate`` of course but with all the
+changes involved with correcting my mistake of listing everyone's e-mails and passwords above, and possibly from
+having changed the names of some existing model fields, I was having trouble with ``makemigrations``. I decided to
+delete all previous migrations and start anew with ``manage.py makemigrations`` and ``manage.py migrate``. It all seemed
+to work.
+
+Once I use django's ``admin`` app to enter an ``invitation`` EmailTemplate I tried it on the development machine and it
+worked. I copied everything over to the production site, deleted its old migrations files, and did
+
+``manage.py dumpdata mail > emailtemplates.json`` on the development machine, copied the .json file, and did
+
+``manage.py loaddata emailtemplates.json on the production machine, tested sending an invitation to myself and IT
+WORKED!!!
+
+Now I just have to update the wording and send it out to the family.
+
+One thing, though, trying to reply to it, thus sending the reply to Jim@christmas.jmorris.webfactional.com but I don't
+know if it was sent there or not because I can't access it! I'll have to study up on how webfaction's e-mail system is
+supposed to work.
+
+Ah! I'm supposed to enter the **mailbox** name, not my username! When I did that I found all my Jim@etc. emails and a
+host of spam e-mails that were sent last June as well.
+
+Time to update the invitation...
