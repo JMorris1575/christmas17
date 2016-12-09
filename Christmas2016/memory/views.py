@@ -17,7 +17,6 @@ class MemoryCreate(View):
                       { 'display_memory': utils.get_memory()})
 
     def post(self, request):
-        print("Got to MemoryCreate's post method.")
         memory_text = request.POST['memory_text']
         user = request.user
         memory = Memory(post=memory_text, user=user)

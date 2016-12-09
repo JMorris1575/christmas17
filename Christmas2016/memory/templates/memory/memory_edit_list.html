@@ -7,18 +7,37 @@
 
     <div class="content">
         <div class="info">
-            <p>Here is a list of the memories you have added. You can edit or delete your entry by pressing, you
-                guessed it, the 'Edit' or 'Delete' button next to each entry.</p>
+            <p>Here is a list of the memories you have added. You can edit or delete an entry by clicking, you
+                guessed it, the 'Edit' or 'Delete' button next to each one. You can also click "Add New Memory"
+                to do that or "Return to Main Page" to do that. (And, yes, I know it seems silly to have
+                "Add Memory" and "Edit Memories" buttons on pages designed to do that but I haven't figured out
+                how to get rid of them yet.
+            </p>
+        </div>
+        <div class="line"></div>
+        <div class="container">
+            <ul class="menu">
+                <li class="left menu-list-item">
+                    <a class="no-underline menu-item" href="{% url 'dj-auth:login' %}">
+                        Return to Main Page
+                    </a>
+                </li>
+                <li class="left menu-list-item">
+                    <a class="no-underline menu-item" href="/memory/create/">
+                        Add New Memory
+                    </a>
+                </li>
+            </ul>
         </div>
         {% for memory in user_memories %}
             <div class="container">
 
                 <!-- Left Column: memory text -->
                 <div class="text-col">
-                    <p class="description">{{ memory.post }}</p>
+                    <p class="memory-box">{{ memory.post }}</p>
                 </div>
 
-                <!-- Right Column: Buttons to select a gift (or change one's mind) and add a comment -->
+                <!-- Right Column: Buttons to edit or delete this memory -->
                 <span class="right-col">
                     <form action="/memory/{{ memory.pk }}/edit/" method="get">
                         <button class="button" type="submit">Edit</button>

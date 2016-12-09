@@ -37,6 +37,10 @@ a.no-underline {
     text-decoration: none;
     }
 
+a.menu-item {
+    color: #208020;
+    }
+
 .banner {
     margin-top: 0px;
     padding: 0px;
@@ -94,6 +98,10 @@ a.no-underline {
     border-bottom: 1px solid lightgray;
     }
 
+.full-width {
+    width: auto;
+    }
+
 .form-left {
     margin-left: 150px;
     }
@@ -131,6 +139,11 @@ a.no-underline {
     width: 154px;
     }
 
+.line {
+    border-top: 2px solid red;
+    margin: 0px 10px 0px 10px;
+    }
+
 .login-box {
     width: 100px;
     }
@@ -146,6 +159,20 @@ a.no-underline {
 .instructions {
     color: #208020;
     font-family: arial sans;
+    }
+
+.menu {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    }
+
+.menu-list-item {
+    list-style-type: none;
+    margin-right: 20px;
+    padding: 5px;
+    font-size: 110%;
+    font-weight: bold;
+    font-family: sans-serif;
     }
 
 .memory-block {
