@@ -24,11 +24,8 @@ class MemoryCreate(View):
         user.userprofile.added_memories = True
         user.userprofile.save()
         # get a list of this user's memory entries
-        user_memories = Memory.objects.filter(user=request.user)
-        return render(request, 'memory/memory_edit_list.html',
-        { 'display_memory': utils.get_memory(),
-          'user_memories': user_memories }
-        )
+        return redirect('memory_list')
+
 
 
 @class_login_required
@@ -80,8 +77,12 @@ class MemoryDelete(View):
 
     def post(self, request, memory_id=None):
         current_memory = Memory.objects.get(pk=memory_id)
-        if request.user == current_memory.user:
+        user = request.user
+        if user == current_memory.user:
             current_memory.delete()
+            if Memory.objects.filter(user=user).count() == 0:
+                user.userprofile.added_memories = False
+                user.userprofile.save()
             return redirect('memory_list')
         else:
             raise PermissionDenied

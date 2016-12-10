@@ -4,15 +4,19 @@
 
         <header>
             <div class="header-container">
+                <!-- logo image -->
                 <a href="{% url 'dj-auth:login' %}">
                     <img class="left" id="header-image" src="{% static 'images/bells.png' %}"
                          height="250" alt="Image of Christmas Bells">
                 </a>
+                <!-- Christmas Banner -->
                 <div class="banner">
                     <div class="compact">
+                        <!-- Website Name -->
                         <a class="no-underline" href="{% url 'dj-auth:login' %}">
                             <span class="large">Christmas 2016!</span>
                         </a>
+                        <!-- Login or Welcome Area -->
                         {% if user.is_authenticated %}
                             <span class="right">
                                 <a href="{% url 'dj-auth:logout' %}">
@@ -42,8 +46,10 @@
                         {% endif %}
                     </div>
                 </div>
+                <!-- Memory Block -->
                 {% if user.is_authenticated %}
                     <div class="memory-block">
+                        <!-- Add Memory and Edit Memories Buttons
                         <span class="right">
                             <form action="/memory/create/" method="get">
                                 <button class="button" type="submit">Add Memory</button>
@@ -54,6 +60,7 @@
                                 </form>
                             {% endif %}
                         </span>
+                        <!-- Display of Current Memory -->
                         {% if display_memory %}
                             <span class="memory-box">
                                 <span class="name">Christmas Memory from {{ display_memory.author }}:</span>
@@ -62,11 +69,26 @@
                         {% endif %}
                     </div>
                 {% endif %}
-                {% if user.is_staff %}
-                    <form action="/mail/" method="get">
-                        <button class="button" type="submit">Send E-mails...</button>
-                    </form>
-                {% endif %}
+                <!-- Menu Tabs -->
+                <div class="line-grey"></div>
+                <ul class="menu form-left">
+                    <li class="menu-list-item left">
+                        <a class="menu-item" href="/gift/list/">Gifts</a>
+                    </li>
+                    <li class="menu-list-item left">
+                        <a class="menu-item" href="/memory/create/">Add Memory</a>
+                    </li>
+                    {% if user.userprofile.added_memories %}
+                        <li class="menu-list-item left">
+                            <a class="menu-item no-underline" href="/memory/edit/">Edit Memories</a>
+                        </li>
+                    {% endif %}
+                    {% if user.is_staff %}
+                        <li class="menu-list-item left">
+                            <a class="menu-item" href="/mail/">Send E-mails...</a>
+                        </li>
+                    {% endif %}
+                </ul>
             </div>
         </header>
 
