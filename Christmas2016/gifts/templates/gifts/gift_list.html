@@ -5,85 +5,83 @@
 
     {% block content %}
 
-    <div class="content">
-        <div class="info">
-            <p>Here we are again at our family Christmas page! It's easier, now, to add a Christmas memory, just click
-            on "Add Memory" above. If you change your mind click on "Edit Memories," which will appear if you have
-            added at least one.</p>
-        </div>
-
-        <div class="line"></div>
-
-        {% for gift in gift_list %}
-
-            <div class="container">
-
-                <!-- Left Column: gift image and caption -->
-                <div class="left-col">
-                    <!-- the gift image and caption -->
-                    {% if gift.selected %}
-                        <!-- if this gift has been selected -->
-                        <a href="/gift/{{ gift.gift_number }}" title="Click for larger image">
-                            <img class="selected-image" alt="Image of {{ gift }}"
-                                 src="{% static gift.get_thumbnail_filename %}"
-                                 height="100" width="150" />
-                        </a>
-                        <h4 class="selected-gift-text">{{ gift }}</h4>
-                        <p class="selected-gift-text">Selected by {{ gift.receiver_name }}</p>
-                    {% else %}
-                        <!-- if this gift has not been selected -->
-                        <a href="/gift/{{ gift.gift_number }}" title="Click for larger image">
-                            <img class="unselected-image" alt="Image of {{ gift }}"
-                                 src="{% static gift.get_thumbnail_filename %}"
-                                 height="100" width="150" />
-                        </a>
-                        <h4 class="unselected-gift-text">{{ gift }}</h4>
-                    {% endif %}
-                </div>
-
-                <!-- Text Column: gift description and comments -->
-                <div class="text-col">
-                    <p class="description">{{ gift.description }}</p>
-                    {% for comment in gift.get_comments %}
-                        {% if comment.user == user %}
-                            <p class="comment">
-                                {{ comment.display }}
-                                <a href="/gift/{{ gift.gift_number }}/comment/{{ comment.pk }}/edit"> (edit)</a>
-                            </p>
-                        {% else %}
-                            <p class="comment">{{ comment.display }}</p>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-                <!-- Right Column: Buttons to select a gift (or change one's mind) and add a comment -->
-                <span class="right-col">
-                    {% if gift.selected %}
-                        {% if gift.receiver == user %}
-                            <form action="/gift/change_mind/" method="post">{% csrf_token %}
-                                <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
-                                <button class="button" type="submit">Changed My Mind</button>
-                            </form>
-                        {% else %}
-                            <button class="button" type="submit" disabled>Select</button>
-                        {% endif %}
-                    {% else %}
-                        {% if not user.userprofile.gift_selected %}
-                        <form action="/gift/select/" method="post">{% csrf_token %}
-                                <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
-                                <button class="button" type="submit">Select</button>
-                            </form>
-                        {% else %}
-                            <button class="button" type="submit" disabled>Select</button>
-                        {% endif %}
-                    {% endif %}
-                    <form class="button" action="/gift/{{ gift.gift_number }}/comment/" method="get">
-                        <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
-                        <button class="button" type="submit">Add Comment</button>
-                    </form>
-                </span>
-            </div>
-        {% endfor %}
+    <div class="info">
+        <p>Here we are again at our family Christmas page! It's easier, now, to add a Christmas memory, just click
+        on "Add Memory" above. If you change your mind click on "Edit Memories," which will appear if you have
+        added at least one.</p>
     </div>
+
+    <div class="line-red"></div>
+
+    {% for gift in gift_list %}
+
+        <div class="container">
+
+            <!-- Left Column: gift image and caption -->
+            <div class="left-col">
+                <!-- the gift image and caption -->
+                {% if gift.selected %}
+                    <!-- if this gift has been selected -->
+                    <a href="/gift/{{ gift.gift_number }}" title="Click for larger image">
+                        <img class="selected-image" alt="Image of {{ gift }}"
+                             src="{% static gift.get_thumbnail_filename %}"
+                             height="100" width="150" />
+                    </a>
+                    <h4 class="selected-gift-text">{{ gift }}</h4>
+                    <p class="selected-gift-text">Selected by {{ gift.receiver_name }}</p>
+                {% else %}
+                    <!-- if this gift has not been selected -->
+                    <a href="/gift/{{ gift.gift_number }}" title="Click for larger image">
+                        <img class="unselected-image" alt="Image of {{ gift }}"
+                             src="{% static gift.get_thumbnail_filename %}"
+                             height="100" width="150" />
+                    </a>
+                    <h4 class="unselected-gift-text">{{ gift }}</h4>
+                {% endif %}
+            </div>
+
+            <!-- Text Column: gift description and comments -->
+            <div class="text-col">
+                <p class="description">{{ gift.description }}</p>
+                {% for comment in gift.get_comments %}
+                    {% if comment.user == user %}
+                        <p class="comment">
+                            {{ comment.display }}
+                            <a href="/gift/{{ gift.gift_number }}/comment/{{ comment.pk }}/edit"> (edit)</a>
+                        </p>
+                    {% else %}
+                        <p class="comment">{{ comment.display }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Right Column: Buttons to select a gift (or change one's mind) and add a comment -->
+            <span class="right-col">
+                {% if gift.selected %}
+                    {% if gift.receiver == user %}
+                        <form action="/gift/change_mind/" method="post">{% csrf_token %}
+                            <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
+                            <button class="button" type="submit">Changed My Mind</button>
+                        </form>
+                    {% else %}
+                        <button class="button" type="submit" disabled>Select</button>
+                    {% endif %}
+                {% else %}
+                    {% if not user.userprofile.gift_selected %}
+                    <form action="/gift/select/" method="post">{% csrf_token %}
+                            <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
+                            <button class="button" type="submit">Select</button>
+                        </form>
+                    {% else %}
+                        <button class="button" type="submit" disabled>Select</button>
+                    {% endif %}
+                {% endif %}
+                <form class="button" action="/gift/{{ gift.gift_number }}/comment/" method="get">
+                    <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
+                    <button class="button" type="submit">Add Comment</button>
+                </form>
+            </span>
+        </div>
+    {% endfor %}
 
 {% endblock %}

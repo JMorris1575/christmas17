@@ -19,10 +19,12 @@ article, aside, figcaption, figure, footer, header, hgroup, menu, nav, section: 
 
 footer {
     bottom: 0px;
+    margin-top: 20px;
     color: #208020;
     font-family: sans;
     font-size: 70%;
     overflow: auto;
+    border-top: 1px solid lightgray;
     }
 
 header {
@@ -33,6 +35,7 @@ header {
     font-style: italic;
     font-weight: bold;
     overflow: auto;
+    border-bottom: 1px solid lightgray;
     }
 
 a.no-underline {
@@ -42,6 +45,11 @@ a.no-underline {
 a.menu-item {
     color: #208020;
     text-decoration: none;
+    }
+
+p.no-p-height {
+    margin-top: 0px;
+    margin-bottom: 0px;
     }
 
 .banner {
@@ -107,14 +115,13 @@ a.menu-item {
 
 .form-left {
     margin-left: 150px;
+    padding: 0px;
     }
 
 .info {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 150px;
+    margin: 20px auto 20px auto;
     padding: 10px;
-    height: auto, 100px;
+    height: auto, 150px;
     width : 60%;
     border: 2px solid green;
     background-color: #f0f0f0;
@@ -173,7 +180,6 @@ a.menu-item {
     margin-top: 0px;
     margin-bottom: 0px;
     overflow: auto;
-    padding-left: 0px;
     }
 
 .menu-list-item {
