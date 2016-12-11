@@ -132,6 +132,11 @@ p.no-p-height {
     font-weight: bold;
     }
 
+.info p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    }
+
 .large {
     color: #208020;
     margin: 0;

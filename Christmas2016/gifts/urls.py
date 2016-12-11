@@ -14,6 +14,9 @@ urlpatterns = [
     url(r'^change_mind/$', ChangeMind.as_view()),
     url(r'^(?P<giftNumber>[0-9]+)/$', SingleGift.as_view()),
     url(r'^(?P<gift_number>[0-9]+)/comment/$', AddComment.as_view()),
+    url(r'^(?P<gift_number>[0-9]+)/comment/(?P<comment_number>[0-9]+)/$',
+        RedirectView.as_view(
+            url='edit/')),
     url(r'^(?P<gift_number>[0-9]+)/comment/(?P<comment_number>[0-9]+)/edit/$', EditComment.as_view()),
     url(r'^(?P<gift_number>[0-9]+)/comment/(?P<comment_number>[0-9]+)/delete/$', DeleteComment.as_view())
 ]

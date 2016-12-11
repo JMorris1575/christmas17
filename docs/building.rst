@@ -2076,13 +2076,13 @@ Here is a table of urls, views and templates:
 +--------------------------------+-----------------------+----------------------+
 | URL                            | View                  | Template             |
 +================================+=======================+======================+
-| question/question_list/        | QuestionList          | quetion_list.html    |
+| question/list/                 | QuestionList          | quetion_list.html    |
 +--------------------------------+-----------------------+----------------------+
-| question/create_response/      | CreateResponse        | response_edit.html   |
+| question/response/create/      | CreateResponse        | response_edit.html   |
 +--------------------------------+-----------------------+----------------------+
-| question/n/edit_response/      | EditResponse          | response_edit.html   |
+| question/n/response/r/edit     | EditResponse          | response_edit.html   |
 +--------------------------------+-----------------------+----------------------+
-| question/n/delete_response/    | DeleteResponse        | response_delete.html |
+| question/n/response/r/delete   | DeleteResponse        | response_delete.html |
 +--------------------------------+-----------------------+----------------------+
 
 Implementing the Question App
@@ -2094,3 +2094,34 @@ done ``manage.py startapp question`` and that's why it was rejected. I will just
 and work with the existing (and version controlled) `question` app.
 
 I created a new branch in PyCharm called question after commiting and pushing the current state of the master branch.
+Then, once in the newly created ``question`` branch I pushed that to github too. Now to start work. I'll start with
+the models. I discovered that I had already worked a little bit on the models. I updated them according to my
+discoveries above and here is the resulting file:
+
+**question/models.py**::
+
+    from django.db import models
+    from django.conf import settings
+
+    from model_mixins import AuthorMixin as AuthorMixin
+
+
+    class Question(models.Model):
+        question = models.TextField()
+        date = models.DateField()
+
+        def __str__(self):
+            return self.question
+
+
+    class Response(models.Model, AuthorMixin):
+        response = models.TextField
+        question = models.ForeignKey(Question)
+        author = models.ForeignKey(settings.AUTH_USER_MODEL)
+        entered = models.DateTimeField(auto_now_add=True)
+
+        def __str__(self):
+            return self.response
+
+I added the ``auto_now_add=True`` argument to the ``entered`` field so that the date and time would automatically be
+saved when the response is created.

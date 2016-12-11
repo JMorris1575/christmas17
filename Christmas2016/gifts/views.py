@@ -1,5 +1,3 @@
-import random
-
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth import PermissionDenied
@@ -93,7 +91,10 @@ class EditComment(View):
     template_name = 'gifts/comment_edit.html'
 
     def get(self, request, gift_number=None, comment_number=None):
-        comment = Comment.objects.get(pk=comment_number)
+        try:
+            comment = Comment.objects.get(pk=comment_number)
+        except:
+            return redirect('gift_list')
         if request.user == comment.user:
             return render(request, self.template_name,
                           {'display_memory': utils.get_memory(),
@@ -118,8 +119,11 @@ class DeleteComment(View):
     template_name = 'gifts/comment_delete.html'
 
     def get(self, request, gift_number=None, comment_number=None):
-        gift = Gift.objects.get(gift_number=gift_number)
-        comment = Comment.objects.get(pk=comment_number)
+        try:
+            gift = Gift.objects.get(gift_number=gift_number)
+            comment = Comment.objects.get(pk=comment_number)
+        except:
+            return redirect('gift_list')
         if request.user == comment.user:
             return render(request, self.template_name,
                           {'display_memory': utils.get_memory(),
@@ -130,7 +134,10 @@ class DeleteComment(View):
             raise PermissionDenied
 
     def post(self, request, gift_number=None, comment_number=None):
-        comment = Comment.objects.get(pk=comment_number)
+        try:
+            comment = Comment.objects.get(pk=comment_number)
+        except:
+            return redirect('gift_list')
         if request.user == comment.user:
             comment.delete()
             return redirect('gift_list')
