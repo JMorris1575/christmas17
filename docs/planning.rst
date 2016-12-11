@@ -745,8 +745,19 @@ had been exceeded. Here are the global variables needed:
     * user: User who is adding a sentence
     * time: time the story was locked by the user
 
-It seems thin information could be saved in a model that would have only one instance, but I wonder of Django, or
+It seems this information could be saved in a model that would have only one instance, but I wonder of Django, or
 Python, has a better way to do that.
+
+December 10, 2016:
+
+I thought of another way to handle the problem of two people adding to the story at the same time: branching. Whenever
+a family member responds to an entry that has already been responded to, the story branches into a new story based on
+what that family member has added. Now the complication is how to keep track of all the branches.
+
+Suppose every branch is named by a letter A-Z, a-z and every level is given a number 1 - ..., then the first entry would
+be called A1, the second A2, etc. As long as no family member ever responds to the same numbered level of branch A, the
+story never branches. But if one or more family member(s) respond(s) to, say, A3 after there is already a response to
+A3, a new branch is, or new branches are, created with increasing letters of the alphabet.
 
 November 11, 2016:
 

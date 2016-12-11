@@ -550,7 +550,7 @@ worked. I copied everything over to the production site, deleted its old migrati
 
 ``manage.py dumpdata mail > emailtemplates.json`` on the development machine, copied the .json file, and did
 
-``manage.py loaddata emailtemplates.json on the production machine, tested sending an invitation to myself and IT
+``manage.py loaddata emailtemplates.json`` on the production machine, tested sending an invitation to myself and IT
 WORKED!!!
 
 Now I just have to update the wording and send it out to the family.

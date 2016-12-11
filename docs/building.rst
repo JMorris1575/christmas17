@@ -1482,7 +1482,7 @@ So, how am I supposed to use reverse? Given the url pattern::
         GiftList.as_view(),
         name='gift_list'),
 
-I tried ``redirect('gift_list`) and that worked -- except that most of the Select buttons were still active. That may be
+I tried ``redirect('gift_list')`` and that worked -- except that most of the Select buttons were still active. That may be
 a problem in the ``gift_list.html`` template however.
 
 Actually, it may be a problem elsewhere. Using the ``/admin/`` page to check the UserProfile I found that nothing was
@@ -1988,3 +1988,109 @@ the initial loading time down) I should add them to the database and concentrate
 I will add the thumbnails, update the gift descriptions, eliminate the old comments and maybe the old memories, make a
 new branch called ``new_features``, then get back into the ``master`` branch to start on deployment.
 
+New Features
+------------
+
+The website is online and working now (as of December 9, 2016) and so it's time to work on the new features. After
+rejecting the trading idea I have three ideas left:
+
+#. Christmas Story
+
+#. Who Am I?
+
+#. Question of the Day
+
+Christmas Story
++++++++++++++++
+
+I like this idea but it may be difficult to implement if I try to either prevent, or allow for, the possibility of two
+users adding an entry at the same point in the story line. It is very much worth looking into but I might not have time
+to implement it before Christmas.
+
+Who Am I?
++++++++++
+
+I haven't given this one too much thought yet but it seems relatively simple to implement. I would have to create one
+model for the clues and another model for the guesses. The Clue model would have the fields::
+
+    clue_giver: User
+    clue_set: integer indicating which set of this user's clues this one belongs to
+    clue: text field
+    display_date: date field (the date on which the results will first be available - 3 days after clues posted?
+
+The Guess model would have the fields::
+
+    guesser: User
+    guess: User
+    clue: Clue
+    comment: text field (guesser can give his or her reasons, or make other comments)
+    correct: boolean, True if guess is correct, False otherwise
+
+This may be more complicated than I thought, and it might not engage people's interest. It also might be hard for people
+to give good clues. But, it might be worth the effort to try to implement.
+
+Question of the Day
++++++++++++++++++++
+
+Given that Janet has already supplied a set of questions, the most complicated part of this would be to learn how not to
+display a question until its proper date. I would need two models, one for the Questions and one for the Responses. The
+Question model would have these fields::
+
+    question: text field
+    date: date field giving the date to start being displayed
+
+The Response model would have these fields::
+
+    question: ForeignKey to Question
+    user: ForeignKey to User -- the one giving the response
+    entry_date_time: DateTimeField according to when this response was first created
+    response: text field
+
+This one might be the easiest of the three to implement. Let's see if I can imagine it in use:
+
+Madeline clicks on the **Questions** menu item and goes to the question of the day page. There she sees, at the top
+of the page contents, the most recent question and the answers of anyone who has answered it so far. Beneath that are
+the questions and answers from previous questions. Madeline sees a button next to each entry. Entries on which she has
+not yet given a response have a "Respond" button. Entries on which she has already responded have an "Edit My Response"
+button instead.
+
+Since she hasn't responded yet to the most recent question she clicks on its "Respond" button and is sent to a page that
+displays the question and gives her a space to answer. After writing her response she clicks the "Save" button and
+returns to the Questions page.
+
+Now she sees that she can add to her response in the second question down and clicks on the "Edit My Response" button
+next to it. This sends her to the same page she uses to enter her responses except that the response box is already
+filled with her previous response. She starts to edit it but deletes something she didn't want to delete and can't
+remember what, exactly, it said. She clicks the "Cancel" button and is returned to the Quesstions page with her original
+response still intact. Entering the edit process again, she completes the edit the way she wants and presses the "Save"
+button to return to the Questions page.
+
+Having finished what she wanted to do, and having read the responses of other family members, listed in reverse order of
+their insertion, Madeline clicks on the **Gifts** menu item to return to the main page.
+
+Writing this story suggests to me that the Response model needs a DateTime field to keep track of when a response was
+entered so that they can be listed in reverse order. I have added it to the model outline above.
+
+Here is a table of urls, views and templates:
+
++--------------------------------+-----------------------+----------------------+
+| URL                            | View                  | Template             |
++================================+=======================+======================+
+| question/question_list/        | QuestionList          | quetion_list.html    |
++--------------------------------+-----------------------+----------------------+
+| question/create_response/      | CreateResponse        | response_edit.html   |
++--------------------------------+-----------------------+----------------------+
+| question/n/edit_response/      | EditResponse          | response_edit.html   |
++--------------------------------+-----------------------+----------------------+
+| question/n/delete_response/    | DeleteResponse        | response_delete.html |
++--------------------------------+-----------------------+----------------------+
+
+Implementing the Question App
++++++++++++++++++++++++++++++
+
+First I need to do a ``manage.py startapp question``. But, alas, ``'question' conflicts with th name of an existing
+Python module and cannot be used as an app name.`` So lets try ``manage.py startapp questions``. Oops! I had already
+done ``manage.py startapp question`` and that's why it was rejected. I will just delete the whole ``questions`` folder
+and work with the existing (and version controlled) `question` app.
+
+I created a new branch in PyCharm called question after commiting and pushing the current state of the master branch.
