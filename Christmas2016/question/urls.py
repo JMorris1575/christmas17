@@ -7,9 +7,11 @@ urlpatterns = [
         RedirectView.as_view(
             url='/question/list/')),
     url(r'^list/$', QuestionList.as_view(), name='question_list'),
-    url(r'^response/create/$', CreateResponse.as_view()),
+    url(r'^response/create/$', CreateResponse.as_view(), name='create_response'),
     url(r'^(?P<question_number>[0-9]+)/response/(?P<response_number>[0-9]+)/',
         RedirectView.as_view(url='edit/')),
-    url(r'^(?P<question_number>[0-9]+)/response/(?P<response_number>[0-9]+)/edit/', EditResponse.as_view()),
+    url(r'^(?P<question_number>[0-9]+)/response/(?P<user_id>[0-9]+)/edit/',
+        EditResponse.as_view(),
+        name='edit_response'),
     url(r'^(?P<question_number>[0-9]+)/response/(?P<response_number>[0-9]+)/delete/', DeleteResponse.as_view()),
 ]

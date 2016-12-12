@@ -55,6 +55,6 @@ class Comment(models.Model, AuthorMixin):
             return self.comment
 
     def display(self):
-        prefix = self.author() + ' says: '
+        prefix = self.author(self.user) + ' says: '
         return prefix + self.comment
 

@@ -2125,3 +2125,13 @@ discoveries above and here is the resulting file:
 
 I added the ``auto_now_add=True`` argument to the ``entered`` field so that the date and time would automatically be
 saved when the response is created.
+
+Discovering Problems in Previous Work
++++++++++++++++++++++++++++++++++++++
+
+In creating the urlpatterns for the ``question`` app I wondered what would happen if a user entered a url without
+completing it, such as ``gift/1/comment/27/`` instead of ``gift/1/comment/27/edit/``. I created a urlpattern for that
+and redirected it to the edit page.
+
+Similarly I wondered whether entering a non-existent number would crash the program and it did. I fixed this, in at
+least some of the gift views, with a ``try: except:`` block.

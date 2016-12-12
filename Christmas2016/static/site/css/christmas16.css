@@ -220,6 +220,15 @@ p.no-p-height {
     font-weight: bold;
     }
 
+.question {
+    color: #208020;
+    }
+
+.response {
+    color: blue;
+    padding-left: 50px;
+    }
+
 .right {
     float: right;
     padding-left: 10px;

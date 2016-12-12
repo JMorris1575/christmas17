@@ -11,16 +11,26 @@ class Question(models.Model):
     def __str__(self):
         return self.question
 
+    def get_responses(self):
+        return Response.objects.filter(question=self)
+
+    def get_responders(self):
+        responses = self.get_responses()
+        responders = []
+        for response in responses:
+            responders.append(response.responder)
+        return responders
+
 
 class Response(models.Model, AuthorMixin):
-    response = models.TextField
+    response = models.TextField()
     question = models.ForeignKey(Question)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    responder = models.ForeignKey(settings.AUTH_USER_MODEL)
     entered = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.response
 
     def display(self):
-        prefix = self.author() + " says: "
+        prefix = self.author(self.responder) + " says: "
         return prefix + self.response
