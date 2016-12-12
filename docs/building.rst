@@ -2135,3 +2135,23 @@ and redirected it to the edit page.
 
 Similarly I wondered whether entering a non-existent number would crash the program and it did. I fixed this, in at
 least some of the gift views, with a ``try: except:`` block.
+
+Working on the Question/Response List
++++++++++++++++++++++++++++++++++++++
+
+Little by little this is taking shape. I learned I can use the same ``container`` class that I did for the ``gift_list``
+page to separate the questions with red lines. I learned how to use the view to send only the questions that are dated
+on or before today's date. I puzzled for a while over how to create the link for a user editing his or her response. The
+problem was that I had thought of using ``/question/n/response/r/edit/`` where n is the ``question.pk`` and r is the
+``response.pk`` but the template has no way of knowing which response belongs to the current user. I decided to use
+``/question/n/user/u/response_edit/`` instead where n is the ``question.pk`` and u is the ``user.pk`` and have the view
+figure out which response belongs to that user.
+
+In the process I've learned about filters and about reversing urls in templates instead of hard coding the urls as I've
+been doing. I will have to apply that gradually to the already existing code.
+
+The Create Response Page
+++++++++++++++++++++++++
+
+The next thing to do is work on the page used for creating responses and the corresponding view.
+
