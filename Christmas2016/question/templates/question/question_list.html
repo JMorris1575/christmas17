@@ -32,7 +32,7 @@
                         <button class="button" type="button">Edit My Response</button>
                     </a>
                 {% else %}
-                    <a href="{% url 'create_response' %}">
+                    <a href="{% url 'create_response' question.pk %}">
                         <button class="button" type="button">Respond</button>
                     </a>
                 {% endif %}

@@ -72,7 +72,6 @@ class AddComment(View):
     template_name = 'gifts/comment_create.html'
 
     def get(self, request, gift_number=None):
-        print('In AddComment.get, request = ', request)
         return render(request, self.template_name,
                       {'display_memory': utils.get_memory(),
                        'gift': Gift.objects.get(gift_number = gift_number)})

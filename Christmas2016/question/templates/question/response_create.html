@@ -1,0 +1,34 @@
+{% extends parent_template|default:"question/base_question.html" %}
+{% load static %}
+
+{% block content %}
+
+    {{ block.super }}
+
+    <div class="info">
+        <p>
+            You can write your response to this question here.  Scroll down to the entry box, if necessary, type in your
+            response, then click the 'Save' button.  Click on "Gifts" above (or the bells, or the Christmas 2016 title)
+            to return to the main page.
+        </p>
+    </div>
+
+    <div>
+        <p class="description form-left">{{ question }}</p>
+        {% for response in question.get_responses %}
+            <p class="comment form-left">{{ response.display }}</p>
+        {% endfor %}
+    </div>
+
+
+    <form class="form-left" action="{% url 'create_response' question.pk %}" method="post">{% csrf_token %}
+        <p class="instructions"><label for="response">Enter your response below:</label></p>
+        <p><textarea id="response" name="response_text" rows="3" cols="40"></textarea></p>
+        <p><button class="button" type="submit">Save</button></p>
+    </form>
+
+    <a class="form-left" href="/gift/list/">
+        <button class="button">Cancel</button>
+    </a>
+
+{% endblock %}

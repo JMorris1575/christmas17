@@ -2078,7 +2078,7 @@ Here is a table of urls, views and templates:
 +================================+=======================+======================+
 | question/list/                 | QuestionList          | quetion_list.html    |
 +--------------------------------+-----------------------+----------------------+
-| question/response/create/      | CreateResponse        | response_edit.html   |
+| question/n/response/create/    | CreateResponse        | response_edit.html   |
 +--------------------------------+-----------------------+----------------------+
 | question/n/response/r/edit     | EditResponse          | response_edit.html   |
 +--------------------------------+-----------------------+----------------------+
