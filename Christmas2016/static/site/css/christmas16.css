@@ -227,6 +227,7 @@ p.no-p-height {
 .response {
     color: blue;
     padding-left: 50px;
+    margin-bottom: 10px;
     }
 
 .right {

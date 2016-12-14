@@ -102,7 +102,7 @@ class EditComment(View):
         else:
             raise PermissionDenied
 
-    def post(self, request, comment_number=None):
+    def post(self, request, gift_number=None, comment_number=None):
         comment = Comment.objects.get(pk=comment_number)
         if request.user == comment.user:
             comment.comment = request.POST['comment_text']

@@ -1,0 +1,31 @@
+{% extends parent_template|default:"question/base_question.html" %}
+{% load static %}
+
+{% block content %}
+
+    {{ block.super }}
+
+    <div class="info">
+        <p>
+            You can edit or delete your response here. Scroll down to the entry box, if necessary, edit your
+            response and click the 'Save' button or click the Delete... button to delete this response.  Click on the
+            "Question Page" button to return to that page or on "Gifts," the bells, or the "Christmas 2016" title to
+            return to the main page.
+        </p>
+    </div>
+
+    <form class="form-left" action="/question/{{ question.pk }}/response/{{ user.pk }}/edit/" method="post">{% csrf_token %}
+        <p class="instructions form-left"><label for="response">Edit your response below:</label></p>
+        <p><textarea id="response" name="response_text" rows="3" cols="40">{{ response.response }}</textarea></p>
+        <p><button class="button" type="submit">Save</button></p>
+    </form>
+
+    <form class="form-left" action="/question/{{ question.pk }}/response/{{ user.pk }}/delete/" method="get">
+        <p><button class="button" type="submit">Delete</button></p>
+    </form>
+
+    <a class="form-left" href="/question/list/">
+        <button class="button">Cancel</button>
+    </a>
+
+{% endblock %}

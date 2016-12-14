@@ -12,7 +12,7 @@ class Question(models.Model):
         return self.question
 
     def get_responses(self):
-        return Response.objects.filter(question=self)
+        return Response.objects.filter(question=self).order_by('-entered')
 
     def get_responders(self):
         responses = self.get_responses()
