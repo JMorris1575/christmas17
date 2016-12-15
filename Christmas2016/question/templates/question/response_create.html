@@ -13,10 +13,14 @@
         </p>
     </div>
 
-    <div>
-        <p class="description form-left">{{ question }}</p>
+    <div class="form-left green">
+        <h3>Question for {{ question.date }}</h3>
+        <h4 class="question">{{ question }}</h4>
+    </div>
+
+    <div class="form-left">
         {% for response in question.get_responses %}
-            <p class="comment form-left">{{ response.display }}</p>
+            <p class="comment">{{ response.display }}</p>
         {% endfor %}
     </div>
 
