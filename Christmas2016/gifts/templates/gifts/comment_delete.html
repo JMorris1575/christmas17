@@ -4,8 +4,12 @@
 
     {{ block.super }}
 
-    <h2 class="form-left">Are you sure you want to delete the comment:</h2>
-    <h3 class="form-left">{{ comment.display }}</h3>
+    <div class="form-left green">
+        <h4>Comment on {{ gift }}</h4>
+    </div>
+
+    <h2 class="form-left green">Are you sure you want to delete the comment:</h2>
+    <h3 class="form-left blue">{{ comment.comment }}</h3>
 
     <form class="form-left" action="/gift/{{ gift.gift_number }}/comment/{{ comment.pk }}/delete/" method="post">{% csrf_token %}
         <p><button class="button" type="submit">Yes</button></p>

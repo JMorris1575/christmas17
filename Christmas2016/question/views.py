@@ -47,10 +47,10 @@ class CreateResponse(View):
 class EditResponse(View):
     template_name = 'question/response_edit.html'
 
-    def get(self, request, question_number=None, user_id=None):
+    def get(self, request, question_number=None, response_number=None):
         try:
             current_question = Question.objects.get(pk=question_number)
-            response = Response.objects.get(question=current_question, responder=user_id)
+            response = Response.objects.get(pk=response_number)
         except:
             return redirect('question_list')
         if request.user == response.responder:
@@ -61,10 +61,10 @@ class EditResponse(View):
         else:
             raise PermissionDenied
 
-    def post(self, request, question_number=None, user_id=None):
+    def post(self, request, question_number=None, response_number=None):
         try:
             current_question = Question.objects.get(pk=question_number)
-            response = Response.objects.get(question=current_question, responder=user_id)
+            response = Response.objects.get(pk=response_number)
         except:
             return redirect('question_list')
         if request.user == response.responder:
@@ -78,10 +78,11 @@ class EditResponse(View):
 class DeleteResponse(View):
     template_name = 'question/response_delete.html'
 
-    def get(self, request, question_number=None, user_id=None):
+    def get(self, request, question_number=None, response_number=None):
         try:
+            print("In DeleteResponse's try section")
             current_question = Question.objects.get(pk=question_number)
-            response = Response.objects.get(question=current_question, responder=user_id)
+            response = Response.objects.get(pk=response_number)
         except:
             return redirect('question_list')
         if request.user == response.responder:
@@ -93,10 +94,10 @@ class DeleteResponse(View):
         else:
             raise PermissionDenied
 
-    def post(self, request, question_number=None, user_id=None):
+    def post(self, request, question_number=None, response_number=None):
         try:
             current_question = Question.objects.get(pk=question_number)
-            response = Response.objects.get(question=current_question, responder=user_id)
+            response = Response.objects.get(pk=response_number)
         except:
             return redirect('question_list')
         if request.user == response.responder:

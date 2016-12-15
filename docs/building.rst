@@ -2150,8 +2150,38 @@ figure out which response belongs to that user.
 In the process I've learned about filters and about reversing urls in templates instead of hard coding the urls as I've
 been doing. I will have to apply that gradually to the already existing code.
 
-The Create Response Page
-++++++++++++++++++++++++
+The Create Response Page etc.
++++++++++++++++++++++++++++++
 
-The next thing to do is work on the page used for creating responses and the corresponding view.
+The next thing to do is work on the page used for creating responses ``create_response.html`` and the corresponding
+view.
+
+I did that and the rest of the response pages: ``response_edit.html`` and ``response_delete.html``. As explained above,
+to use an ``Edit Response...`` button I had to change the url scheme to include the ``user.pk`` rather than the
+``response.pk`` but it occurs to me that if I followed the same technique I did with the comments, placing an ``(Edit)``
+link next to each response of the current user I could use the original url scheme. I'll think about that for a bit
+before changing it. I'd like to deploy the new feature tonight and might not have enough time.
+
+I would like to improve the looks of the ``question_list.html`` however. That should be relatively easy. -- It was! --
+
+So easy, in fact, that I think I'll try for that more sensible url scheme. First I'll make some changes to
+``question_list.html`` -- namely, adding the ``(Edit...)`` link.
+
+After some errors, mostly just forgetting part of the interactions between files, it seems to be working now with the
+original url scheme.
+
+Last Steps Before Deploying the Question Feature
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+#. Improve the appearance of the delete pages for comments and responses (and memories?)
+
+#. Finish correcting the local passwords on this machine (the Kalamazoo machine).
+
+#. Decide and implement the ordering of the questions -- which ones appear when.
+
+#. Make sure there are no more responses lingering about.
+
+#. Deploy.
+
+
 

@@ -8,6 +8,9 @@ class Question(models.Model):
     question = models.TextField()
     date = models.DateField()
 
+    class Meta:
+        ordering = ['-date']
+
     def __str__(self):
         return self.question
 

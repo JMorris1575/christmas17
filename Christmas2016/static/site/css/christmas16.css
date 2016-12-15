@@ -60,6 +60,10 @@ p.no-p-height {
     border-color: red;
     }
 
+.blue {
+    color: blue;
+    }
+
 .button {
     width: 125px;
     margin-bottom: 5px;
@@ -116,6 +120,10 @@ p.no-p-height {
 .form-left {
     margin-left: 150px;
     padding: 0px;
+    }
+
+.green {
+    color: #208020;
     }
 
 .info {

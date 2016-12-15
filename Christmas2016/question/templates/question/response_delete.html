@@ -4,10 +4,15 @@
 
     {{ block.super }}
 
-    <h2 class="form-left">Are you sure you want to delete the response:</h2>
-    <h3 class="form-left">{{ response }}</h3>
+    <div class="form-left green">
+        <h3>Question for {{ question.date }}</h3>
+        <h4 class="question">{{ question }}</h4>
+    </div>
 
-    <form class="form-left" action="/question/{{ question.pk }}/response/{{ user.pk }}/delete/" method="post">{% csrf_token %}
+    <h2 class="form-left green">Are you sure you want to delete the response:</h2>
+    <h3 class="form-left response">{{ response }}</h3>
+
+    <form class="form-left" action="{% url 'delete_response' question.pk response.pk %}" method="post">{% csrf_token %}
         <p><button class="button" type="submit">Yes</button></p>
     </form>
 

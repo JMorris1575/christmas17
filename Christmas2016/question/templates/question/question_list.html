@@ -8,8 +8,9 @@
     <div class="info">
         <p>
             Janet has provided ten conversational questions for us to answer. A new question will appear (almost) every
-            day until December 23. A list of the questions that have appeared so far appears below. Respond by clicking
-            on the Respond button below. After you have responded you can edit (or delete) your response by clicking on
+            day until December 23. The questions that have appeared so far are displayed below. You can respond to any
+            of the questions that have appeared so far, or edit your previous responses. Respond by clicking on the
+            Respond button below. After you have responded you can edit (or delete) your response by clicking on
             the Edit My Response button that will appear in its place.
         </p>
     </div>
@@ -20,19 +21,21 @@
 
         <div class="container">
             <h3 class="form-left question">
-                Question for {{ question.date }}: {{ question }}
+                Question for {{ question.date }}:
             </h3>
+            <h4 class="form-left question">
+                 {{ question }}
+            </h4>
             {% for response in question.get_responses  %}
                 <div class="form-left response">
                     {{ response.display }}
+                    {% if response.responder == user %}
+                        <a href="{% url 'edit_response' question.pk response.pk%}"> (Edit...)</a>
+                    {% endif %}
                 </div>
             {% endfor %}
             <span class="right-col">
-                {% if user in question.get_responders %}
-                    <a href="{% url 'edit_response' question.pk user.pk %}">
-                        <button class="button" type="button">Edit My Response</button>
-                    </a>
-                {% else %}
+                {% if user not in question.get_responders %}
                     <a href="{% url 'create_response' question.pk %}">
                         <button class="button" type="button">Respond</button>
                     </a>

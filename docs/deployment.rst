@@ -563,3 +563,18 @@ Ah! I'm supposed to enter the **mailbox** name, not my username! When I did that
 host of spam e-mails that were sent last June as well.
 
 Time to update the invitation...
+
+Deploying the Question Feature
+------------------------------
+
+#. Make a new ``questions.json`` to transfer the final form of the questions both online and to the rectory computer.
+
+#. Merge the question branch into the master. (locally, github or both?)
+
+#. Consider stopping the server while the changes are being made.
+
+#. Copy all the necessary files to webfaction. (Try to find out which files have been changed.)
+
+#. Do a migrate and possibly a makemigrations.
+
+#. Restart the server.

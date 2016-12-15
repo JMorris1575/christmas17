@@ -14,17 +14,22 @@
         </p>
     </div>
 
-    <form class="form-left" action="/question/{{ question.pk }}/response/{{ user.pk }}/edit/" method="post">{% csrf_token %}
-        <p class="instructions form-left"><label for="response">Edit your response below:</label></p>
+    <div class="form-left green">
+        <h3>Question for {{ question.date }}</h3>
+        <h4 class="question">{{ question }}</h4>
+    </div>
+
+    <form class="form-left green" action="{% url 'edit_response' question.pk response.pk %}" method="post">{% csrf_token %}
+        <p><label for="response">Edit your response below:</label></p>
         <p><textarea id="response" name="response_text" rows="3" cols="40">{{ response.response }}</textarea></p>
         <p><button class="button" type="submit">Save</button></p>
     </form>
 
-    <form class="form-left" action="/question/{{ question.pk }}/response/{{ user.pk }}/delete/" method="get">
+    <form class="form-left" action="{% url 'delete_response' question.pk response.pk %}" method="get">
         <p><button class="button" type="submit">Delete</button></p>
     </form>
 
-    <a class="form-left" href="/question/list/">
+    <a class="form-left" href="{% url 'question_list' %}">
         <button class="button">Cancel</button>
     </a>
 

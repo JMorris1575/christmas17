@@ -47,7 +47,7 @@
                     {% if comment.user == user %}
                         <p class="comment">
                             {{ comment.display }}
-                            <a href="/gift/{{ gift.gift_number }}/comment/{{ comment.pk }}/edit"> (edit)</a>
+                            <a href="/gift/{{ gift.gift_number }}/comment/{{ comment.pk }}/edit"> (Edit...)</a>
                         </p>
                     {% else %}
                         <p class="comment">{{ comment.display }}</p>
