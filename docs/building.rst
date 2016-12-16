@@ -2183,5 +2183,118 @@ Last Steps Before Deploying the Question Feature
 
 #. Deploy.
 
+Rethinking the Christmas Story Idea
+-----------------------------------
+
+After implementing the **Question of the Day** feature I'm thinking this one isn't as difficult as I originally thought.
+I could create two models, one to hold the story lines and one for the branches that might be created. The ``Story``
+model would have four fields: the branch for which each line is intended, the key to the preceding line, the user
+supplying the line and the text they supply. The ``Branch`` model would have just one field, a comma-separated string of
+integers indicating the order in which the story lines are to be displayed.
+
+At first, there would only be one branch and it would contain a sequence of integers:
+
+``1, 2, 3, 4,``
+
+But if two or more users submit a story line intended for the same branch after the same preceding line a new branch is
+created:
+
+Original branch: ``1, 2, 3, 4, 5,``
+
+First New Branch: ``1, 2, 3, 4, 6,``
+
+Second New Branch: ``1, 2, 3, 4, 7,``
+
+From then on the story branches would be displayed on separate pages and clicking the ``Add to Story`` button on a
+branch's page adds to that branch.
+
+Thinking through the details, when two users have accessed the ``/view_story/1/`` page and have both pressed
+``Add to Story`` and been delivered to a ``/story/1/edit/4/`` page.  User 1 has clicked ``Save`` and the ``post`` method
+of the view checks to see whether anyone else has already responded to line 4 (by checking the ``Story`` model's entries
+for any containing line 4 - the line being continued). Finding no entries already there the ``post`` method creates a
+new entry in the ``Story`` model and saves it. Now User 2 clicks ``Save`` and the ``post`` method DOES find a previous
+entry responding to line 4. It checks through all the existing branches to see if any have "4" as their final entry and
+none of them do so it creates a new branch by copying all of the entries so far and saving the new list to a new branch.
+Now it goes back to check the existing branches for one with a "4" as its final entry and finds the newly created
+branch. It creates and saves the new line to this newly created branch.
+
+Now User 3 finally gets around to clicking ``Save`` and the process repeats, creating a third branch just as the second
+was created.
+
+Much of the logic, it seems can go into the model class perhaps with a ``check_entry(previous_line)`` method that
+returns either ``True`` or ``False`` depending on whether ``continued_line`` is the last entry; and a
+``create_branch(old_branch)`` method that creates a new branch from an ``old_branch`` and returns the branch number.
+
+The display of the story could take place in a series of ``.story_line`` ``<div>``s with the author's name in the left
+column, the story line itself in the center column and the ``Add to Story`` button appearing only on the last one.
+
+Details of the Story App
+++++++++++++++++++++++++
+
+Here are the model definitions::
+
+    Story
+        story_line: TextField
+        branch_number: integer
+        user: ForeignKey to User -- the one writing the story line
+        previous: integer -- the pk of the previous Story entry
+
+        methods:
+            __str__: the story line (up to 80 char?)
+            display: displays the entire story_line
+
+    Branch
+        sequence: a string of space separated integers
+
+        methods:
+            __str__: sequence string
+            as_list: converts sequence string to a list of integers
+            check_entry(previous): returns True or False depending on whether previous is the last entry in sequence
+            create_branch(from_branch): creates a new branch using the from_branch's sequence as a starting point
+
+Here is the URL, View, Template table:
+
++--------------------------------+-----------------------+----------------------+
+| URL                            | View                  | Template             |
++================================+=======================+======================+
+| story/b/display/               | StoryDisplay          | story_display.html   |
++--------------------------------+-----------------------+----------------------+
+| story/b/add/p/                 | StoryAdd              | story_add.html       |
++--------------------------------+-----------------------+----------------------+
+| story/b/check/p/               | StoryCheck            | story_check.html     |
++--------------------------------+-----------------------+----------------------+
+
+where b is the branch number and p is the number (pk) of the previous post.
+
+Planning the Implementation of the Story App
+++++++++++++++++++++++++++++++++++++++++++++
+
+#. Commit, save, and push the master branch.
+
+#. Create a new branch in git called ``story``.
+
+#. Create (or update) ``story/models.py`` according to the outline above.
+
+#. Perform ``makemigrations`` and ``migrate`` on the local machine.
+
+#. Write ``story/urls.py`` according to the chart above.
+
+#. Write the ``StoryDisplay`` view.
+
+#. Write the ``story_display.html`` template.
+
+#. Test the display of a fake story you create in ``/admin/`` Edit ``christmas16.css`` as necessary.
+
+#. Create a branching story in ``/admin/`` and test its display.
+
+#. Write the ``StoryAdd`` view and the ``story_add.html`` template.
+
+#. Write the ``StoryCheck`` view and the ``story_check.html`` template.
+
+#. Test adding lines to both fake branches of the story.
+
+#. Simulate two people adding to the same point of the same branch.
+
+#. Deploy!
 
 

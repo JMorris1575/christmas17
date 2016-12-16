@@ -578,3 +578,15 @@ Deploying the Question Feature
 #. Do a migrate and possibly a makemigrations.
 
 #. Restart the server.
+
+Deploying the Story Feature
+---------------------------
+
+#. Merge the story branch into the master. Keep track of how it works.
+
+#. Copy all necessary files to webfaction.
+
+#. Do a ``makemigrations`` and a ``migrate`` on the remote computer.
+
+#. Restart the server.
+
