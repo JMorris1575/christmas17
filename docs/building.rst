@@ -1495,9 +1495,13 @@ query:  ``profile = UserProfile.objects.get(user=request.user)``.  Time to study
 I experimented in ``manage.py shell`` and found that the following sequence of commands added a UserProfile for 'Jim':
 
 ``from django.contrib.auth.models import User``
+
 ``from user.models import UserProfile``
+
 ``jim = User.objects.gt(username='Jim')``
+
 ``profiles = UserProfile(user=jim)``
+
 ``profiles.save()``
 
 I wrote a program intending to use it to create UserProfiles for each user as follows::
@@ -1557,13 +1561,17 @@ Then fill in the resulting file with::
 
 This didn't work. It threw a ``ValueError: Cannot assign "<User: Matt>": "UserProfile.user" must be a "User" instance.``
 
+.. _connecting_userprofile_to_user_label
+
 He is, but I couldn't figure out how to convince it. Just to get on with it I will connect the Users to the UserProfiles
 manually -- ugh! I did this by temporarily copy and pasting all the usernames here (from running a quick program in
 ``manage.py shell``, then eventually learned that, after importing the User and UserProfile models I could repeat the
 following statements with each of the different names in the first line:
 
 ``user = User.objects.get(username='Matt')``
+
 ``profile = UserProfile(user=user)``
+
 ``profile.save()``
 
 Now, will the Select buttons be shown correctly?
@@ -2297,4 +2305,11 @@ Planning the Implementation of the Story App
 
 #. Deploy!
 
+Adding New Users
+----------------
 
+Just before Christmas I added Scott's friend Jenny and her two children Aston and Harper to the website. Including them
+in secrets.json was easy enough, as was going into the online version of admin to enter them as users. I had to relearn
+how to connect users to user profiles as I did :ref:`above <connect_userprofile_to_user_label>`.
+
+Once that was done I could check to see if each could actually sign in and send Jenny some e-mails.
