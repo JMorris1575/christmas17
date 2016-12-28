@@ -13,7 +13,7 @@ urlpatterns = [
             permanent=False)),
     url(r'^login/$',
         auth_views.login,
-        {'template_name': 'user/login_error.html',
+        {'template_name': 'user/login.html',
          'redirect_authenticated_user': True },
         name='login'),
     url(r'login/error/$',
