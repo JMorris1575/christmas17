@@ -16,6 +16,9 @@ Initial Thoughts
 * I want to redesign the look and feel of the website. This will test my artistic skills, such as they are, and will
   probably require some changes to the base.html, header.html and footer.html templates.
 
+Getting Up and Running on the Rectory Computer
+----------------------------------------------
+
 Refactoring the Main Folder
 +++++++++++++++++++++++++++
 
@@ -79,3 +82,26 @@ Initial Migration
 *****************
 
 
+Getting Up and Running on the Home Computer
+-------------------------------------------
+
+.. index:: cloning, GitHub; cloning, PyCharm; cloning
+
+Cloning the Website from GitHub
++++++++++++++++++++++++++++++++
+
+This was not a difficult process, though I had to get into a project for which I had enabled Version Control. I used
+``c16Development``. I went to ``VCS > Git > Clone...``, put in ``https://github.com/JMorris1575/christmas17`` for the
+Git Repository URL, left the Parent Directory at ``C:\Users\frjam\Documents\MyDjangoProjects``, and changed the
+Directory Name to ``c17Development, then clicked the **Clone** button.
+
+In order to write the paragraph above I had to get into the cloning dialog several times and noticed it was still set
+to the c16 settings. I went to ``VCS > Git > Push...``, clicked on ``origin > Define Remote``, clicked ``OK`` and got
+an error message:
+
+``Couldn't add remote: remote origin already exists.``
+
+Hmm... I seem to remember going through something like this last night just before pushing the website from my
+Rectory computer. I think I had to change it in settings...
+
+Nope, nothing there. Ah! Now I remember,
