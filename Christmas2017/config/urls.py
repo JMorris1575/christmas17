@@ -1,4 +1,4 @@
-"""Christmas2016 URL Configuration
+"""Christmas2017 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -30,5 +30,5 @@ urlpatterns = [
     url(r'^question/', include('question.urls')),
 ]
 
-admin.site.site_header = 'Christmas 2016 Admin'
-admin.site.site_title = 'C-2016 Site Admin'
+admin.site.site_header = 'Christmas 2017 Admin'
+admin.site.site_title = 'C-2017 Site Admin'

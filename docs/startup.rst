@@ -1,367 +1,264 @@
-Starting the Project
-====================
+Startup Notes
+=============
 
-Creating the Virtual Environment
---------------------------------
+**Christmas 2017 Website -- Started on October 20, 2017**
 
-The Christmas 2016 project was started on my rectory computer. I used the administrator version of the Windows 10
-command prompt, which opens in C:\Windows\System32. I'm not sure it was necessary to use the administrator version to
-create a virtual environment. I should try the regular version of the command prompt when I create the environment
-on my home computer. [See note below.]
+This document chronicles the initial steps for developing the Christmas 2017 website. Little of the actual website will
+be discussed here. That will be in another document: ``c17development.rst``.
 
-I typed the command::
+Laying the Groundwork
+---------------------
 
-    > mkvirtualenv c16
+.. index:: python, virtual environment
 
-which created the virtual environment using Python 3.5
+Python and the Virtual Environment
+++++++++++++++++++++++++++++++++++
 
-[**Note:** I did need to use the administrator version of the command prompt. It gave me a "PermissionError." I think
-it may be because I was changing things in the Program Files/Python35 folder on the whole computer -- rather than just
-in a virtual environment. I did have a little trouble before that however. Typing::
+On my home computer I checked to see which version of Python was installed. It is Python 3.6 and
+I learned, by running
 
-    > mkvirtualenv c16
+``mkvirtualenv c17``
 
-it said it was using Python 3.4 for it's base. I discovered that, although both Python35 and Python34 appeared in the
-path environment variable, virtual environment and virtual environment wrapper had never been installed for Python 3.5.
-I ran::
+that virtualenvwrapper was installed under Python 3.6 also.
 
-    > pip install virtualenvwrapper-win
+The setup on the rectory computer was the same so I created the c17 environment there as well.
 
-and, once I was using the administrator version of the command prompt, it installed both virtual environment and virtual
-environment wrapper.]
+.. index:: Django; installing django
 
-Install Django
---------------
+Installing Django
++++++++++++++++++
 
-I got out of the administrator version and opened a regular version of the command prompt. Once entering into the
-c16 virtual environment I typed::
+Once in the c17 environment I installed django with:
 
-    > pip install Django
+``pip install django``
 
-which collected and installed Django 1.10.2.
+and it installed django-1.11.6. I did the same on the rectory computer.
 
-[**Note:** I had no problem repeating this on the Kalamazoo computer. I also created the batch file ``c16.bat`` to cd to
-the ``C:\Users\frjam\Documents\MyDjangoProjects\c16Development\Christmas2016`` directory.]
+.. index:: sphinx
+
+Installing Sphinx
++++++++++++++++++
+
+While in the c17 environment I did a:
+
+``pip install sphinx``
+
+to install Sphinx. It installed version 1.6.4.
+
+I commanded:
+
+``sphinx-quickstart``
+
+to enter the Sphinx 1.6.4 quickstart utility. I used **Christmas 2017** as the Project name and **Jim Morris** as the
+Author name. I used the defaults for most of the entries except the one about **todo** entries and the one about
+creating a **.nojekyll** file to publish the document on GitHub pages.
+
+I later discovered that the **todo** entries do not apply to these ``.rst`` files but probably only ``.py`` files. I
+changed the setting in docs\\conf.py to:
+
+``todo_include_todos = False``
+
+.. index:: PyCharm
+
+Starting with PyCharm
++++++++++++++++++++++
+
+I wanted to update this document and so I entered and updated PyCharm. I am currently running version 2017.2.3. Upon
+entering PyCharm I started a new project by clicking ``File>New Project...``. In the dialog that appeared I browsed to
+the existing Location: ``C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development`` and browsed to
+``C:\Users\frjam_000\Envs\c17\Scripts\python.exe`` to set the Interpreter. I clicked on the ``Create`` button and then the
+``Yes`` button to let it know I wanted a project from the existing documents.
+
+I will have to do the same on my home computer when I get back there.
+
+.. index:: GitHub
+
+Setting up on GitHub
+++++++++++++++++++++
+
+This was simple. I just signed in to my GitHub account and clicked on the New Repository button. I named the new
+repository ``christmas17``, gave it a quick description ``The family Christmas website for 2017`` but did not add a
+README file or do any of the other things that were suggested. When I am ready I will push the file from PyCharm.
+
+Setting up the Django Project
+-----------------------------
+
+This section may be pointless. See the Cloning Option section below.
+
+Initial Thoughts
+++++++++++++++++
+
+I'm thinking what I will need to do is to go to the command prompt, start the django project, then change the directory
+structure to what it was for Christmas 2016. This can be done in PyCharm along with the changes necessary within a
+couple of the python files. This is outlined in the startup notes in the Christmas 2016 documentation files.
+
+.. index:: Django; creating the project
 
 Creating the Django Project
----------------------------
++++++++++++++++++++++++++++
 
-I plan on using a project structure similar to the following (based on section 3.3 of Two Scoops of Django")::
+In a regular command prompt (not administrator), I got into the c17development directory and issued the command:
+
+``django-admin startproject Christmas2017``
+
+In PyCharm I used Refactor to change the inner ``Christmas2017`` directory name to ``config``. It automatically found
+the references in ``manage.py``, ``settings.py``, and ``wsgi.py`` that needed changing but also found three lines
+in ``docs/conf.py`` that DIDN'T need changing. In the Refactoring Preview pane I clicked on ``docs`` and pressed
+``Delete``. It complained about the code changing and made me "search again" but, when I highlighted the individual
+files and clicked ``Delete`` for each one it did the refactoring properly.
+
+In the command prompt window I switched to the Christmas2017 directory and entered:
+
+``python manage.py runserver``
+
+Upon going to ``localhost:8000`` in the browser I got to the "It worked!" page. Yay!
+
+.. index:: chmod, c17.bat
+
+Making My Life Easier
++++++++++++++++++++++
+
+I remembered there was some way to simplify the command to just ``manage.py`` and I found a reference to it in the
+documentation for BnB notes. This command should do it:
+
+``chmod +x ./manage.py``
+
+and it worked! I tried to learn more about the ``chmod`` command, specifically, what the ``+x`` did and why I used
+``./`` in front of the ``magage.py`` but that information may be in the Test Driven Development book and I haven't
+looked it up yet.
+
+
+Also, I want to create a c17.bat file with the proper contents to more easily get to the right directory with the
+proper environment variable set and in the proper virtual environment. Looking at ``c16.bat``, I created a batch file
+named ``c17.bat`` as follows::
+
+    echo off
+    cd "Documents\MyDjangoProjects\c17Development\Christmas2017"
+    set DJANGO_SETTINGS_MODULE=config.settings.dev
+    workon c17
+
+I used Notepad++ to create the file (copied and pasted the above) and saved it in ``C:\\Users\\frjam_000`` on the
+rectory computer. It worked perfectly.
+
+But now I'm wondering just what that environment variable does. I'm too tired right now to figure it all out but,
+according to the notes in last year's ``startup.rst`` it may have something to do with separating development and
+production settings.
+
+.. index:: directory structure
+
+Directory Structure
++++++++++++++++++++
+
+Here is the directory structure I established based on last year's::
 
     \-MyDjangoProjects
      |-(other_projects)
-     \-c16Development
+     \-c17Development
        |-.gitignore
        |-requirements.txt
        |-docs
-       |-readme.md
-       \-Christmas2016
+       \-Christmas2017
          |-manage.py
          |-templates
          \-config
            |-__init.py__
            |-settings.py
-           |urls.py
+           |-urls.py
            \-wsgi.py
 
-To accomplish this I used the command prompt to enter into the c16Development directory and ran the command::
+Starting Version Control
+++++++++++++++++++++++++
 
-    > django-admin startproject Christmas2016
+.. index:: Database; changing to PostgrSQL
 
-and renamed the inner Christmas2016 directory to config.
+Changing the Database
++++++++++++++++++++++
 
-Using Sphinx
-------------
+.. index:: clone
 
-To create this document I followed the instructions on www.sphinx-doc.org/en/stable/tuturial.html. Sphinx is already
-installed on this computer so I simply ran::
+Cloning Option
+--------------
 
-    > sphinx-quickstart
+Introduction
+++++++++++++
 
-while in the c16Development directory. I used all the defaults except for saying 'y' to the "autodoc" extension as
-recommended in the sphinx-doc tutorial. I added this document to the ..toctree:: as follows::
+It occurred to me that starting a new Django project and then copying all the files to it may not be the way to go.
+Maybe I can clone the Christmas 2016 files from GitHub and start from there.
 
-    Contents:
+Backing Things Up
++++++++++++++++++
 
-    .. toctree::
-       :maxdepth: 2
+I want to back up what I have done so far just in case so, outside of PyCharm to avoid it's refactoring,
+I will rename the ``Christmas2017`` folder to ``Christmas2017BAK`` and then try to clone the ``Christmas2016``
+website from GitHub.
 
-       startup.rst
+Performing the Clone
+++++++++++++++++++++
 
-Then, moving to the c16Development/docs directory I ran the following command::
+Under the VCS menu I selected ``Enable Version Control Integration`` and selected ``Git`` as my version control
+system.
 
-    make html
+Then I was able to select ``VCS>Git...>Clone...`` and enter
 
-Later I will play with the conf.py document to give the documentation its own personality.
+``Git Repository URL: https://github.com/JMorris1575/christmas16``
+``Parent Directory: C:\Users\frjam_000\Documents\MyDjangoProjects``
+``Directory Name: christmas16``
 
-[Note: I settled on using the alabaster theme (the default) with some html_theme_options and an html_logo set in
-the conf.py file.]
+This created a new folder named ``christmas16`` in the ``MyDjangoProjects`` directory which is not what I wanted. I
+should have entered ``c17Development`` for the ``Directory Name``. However, I noticed that the ``christmas16`` folder
+included the ``docs`` folder which I don't want to overwrite. I will rename it, clone the files, delete the new ``docs``
+folder, then rename the original back to ``docs``. Here goes...
 
-[**Note:** Spinx was also installed on the Kalamazoo computer so, after updating this file, I tried to use ``make html``
-but got::
+It did not allow me to clone to the existing c17Development folder. I will rename that folder then try again...
 
-    Theme error:
-    unsupported theme option 'fixed_sidebar' given
+This time it worked, but upon renaming the folder PyCharm lost track of it, of course and asked me to open the newly
+cloned folder. I did this and, after having to wait for PyCharm's lengthy indexing process, was able to drag and drop
+the ``docs`` folder to ``c17Development`` but that actually MOVED the folder instead of copying it so I will copy it
+back to ``c17DevelopmentBAK`` just to be safe.
 
-After deactivating the c16 virtual environment, and learning (again) that I had to be in the administrator version of
-the command prompt, I upgraded sphinx via::
+Done!
 
-    > pip install --upgrade sphinx
+.. index:: Database; Installing psycopg2
 
-I noticed that the upgrade included alabaster 0.7.9, among other things, and, when I ran ``make html`` again it worked
-properly. I should probably upgrade sphinx on the rectory computer also.]
+Testing the Local Website
++++++++++++++++++++++++++
 
-Testing the Website
--------------------
+Now to see if the website is working locally...
 
-Changing the name of the inner Christmas2016 directory to config means that a couple of changes need to be made.  First,
-in manage.py::
+It did not. At first the problem was that it couldn't find ``secrets.json`` since that file was, sensibly, not in my
+GitHub repository. After copying it over from ``c16Development`` the new problem was that it could find "no module
+named psycopg2" which, of course, it couldn't because I haven't installed that module in the ``c17`` virtual
+environment as yet.
 
-    if __name__ == "__main__":
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+Studying the Christmas2016 documentation::
 
-Then, in wsgi.py::
+    I got into the c16 environment and tried a migrate (manage.py migrate). It complained about an Error Loading
+    psycopg2 which I should have expected. As explained in BnBNotes preliminaries.rst, I went to:
 
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+    ``http://www.lfd.uci.edu/~gohlke/pythonlibs/#psycopg``
 
-To test the website I typed::
+    and downloaded:
 
-    > manage.py runserver
+    ``psycopg2-2.6.2-cp35-cp35m-win_amd64.whl``
 
-but I got an error::
+    and copied it to the c:directory. In the c:directory I typed:
 
-    ImportError: No module named 'Christmas2016'
+    ``> pip install psycopg2-2.6.2-cp35-cp35m-win_amd64.whl``
 
-I found the following entry in the settings file::
+    and it installed successfully. Trying a migrate again succeeded and I could open the website at localhost:8000.
 
-    WSGI_APPLICATION = 'Christmas2016.wsgi.application'
+    [Note: the cp35 in two positions in the psycopg2 filename indicates python 35. Be sure to download the version for
+    the version of python you are using.]
 
-and changed it to::
+I went to ``http://www.lfd.uci.edu/~gohlke/pythonlibs/#psycopg`` and downloaded:
 
-    WSGI_APPLICATION = 'config.wsgi.application'
+``psycopg2-2.7.3-cp36-cp36m-win_amd64.whl``
 
-but it gave me the same ImportError.
+this was after checking that I had an AMD processor in this computer (the rectory computer) by going to
+``Computer>System properties``.
 
-In the settings file there was also an entry::
+Upon doing a:
 
-    ROOT_URLCONF = 'Christmas2016.urls'
+``> pip install psycopg2-2.7.3-cp36-cp36m-win_amd64.whl``
 
-so I changed that to::
-
-    ROOT_URLCONF = 'config.urls'
-
-and it worked! Going to http://localhost:8000/ got me to the Welcome to Django page.
-
-The ROOT_URLCONF and the WSGI_APPLICATION settings were also present in the settings.py file in Django 1.8 so I'm
-guessing I just forgot to mention them when I was writing the BnB_Development preliminaries.rst file on which this
-work is based.
-
-.. _setting_env_variables:
-
-[**Note:** When I tried to run ``manage.py runserver`` on my home computer I got::
-
-    ImportError: No module named 'config.settings.dev'; 'config.settings' is not a package
-
-After digging through the stack trace I learned that it was getting ``config.settings.dev`` from the ENVIRONMENT_VARIABLE.
-I remembered setting this while working on *Task Driven Development* and wanted to look there to see how to reset it but
-alas, I apparently didn't keep notes like this while I was working on that. (Yes I did. They turned up in my BnB notes.)
-After a lot of mucking around and trying various things I learned that my ``c16.bat`` file was setting it -- DUH! I had
-copied it without thinking from the ``bnb.bat`` file.  When I tried, again, to run the server I now got a psycopg2 error.
-After pip installing it in the c16 virtual environment and using pgAdminIII to create the c16database I was finally
-able to run the server.]
-
-Changing the Database to PostgreSQL
------------------------------------
-
-PosgreSQL 9.5 was already installed on this computer (my rectory computer) and so all I had to do was
-
-#. Open pgAdminIII.
-
-#. Double-click ``PostgreSQL 9.5`` and enter the password (Dylan Selfie).
-
-#. Right click Databases and select ``New Database...``
-
-#. Add the name (I chose c16database).
-
-#. Select an Owner (I selected Jim).
-
-#. Update the settings.py file to include::
-
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'c16database',
-        'USER': 'Jim',
-        'PASSWORD': 'DaysOf49',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
-        }
-    }
-
-Before you store this project on github you will want to settle on a means of keeping the secrets from the general
-public.
-
-I got into the c16 environment and tried a migrate (``manage.py migrate``).  It complained about an Error Loading
-psycopg2 which I should have expected. As explained in BnBNotes preliminaries.rst, I went to:
-
-http://www.lfd.uci.edu/~gohlke/pythonlibs/#psycopg
-
-and downloaded:
-
-``psycopg2-2.6.2-cp35-cp35m-win_amd64.whl``
-
-and copied it to the c:\ directory. In the c:\ directory I typed::
-
-    > pip install psycopg2-2.6.2-cp35-cp35m-win_amd64.whl
-
-and it installed successfully. Trying a migrate again succeeded and I could open the website at localhost:8000.
-
-[Note: the cp35 in two positions in the psycopg2 filename indicates python 35. Be sure to download the version for
-the version of python you are using.]
-
-Keeping Secrets
----------------
-
-Looking into the information in chapter 5 of *Two Scoops of Django* I learned that the Apache server, such as is
-used on webfaction.com, prevents the use of environment variables to store secrets. It suggests what it calls the
-**secrets file pattern.** It says::
-
-    "To implement the secrets file pattern, follow these three steps:
-        1. Create a secrets file using the configuration format of choice,
-           be it JSON, Config, YAML, or even XML.
-        2. Add a secrets loader (JSON-powered example below) to manage the
-           secrets in a cohesive, explicit manner.
-        3. Add the secrets file name to the .gitignore or .hgignore."
-
-I tried it, saving the SECRET_KEY as well as the DATABASE_NAME, USER, PASSWORD, HOST and PORT in a ``secrets.json`` file,
-and it worked! I have to remember, tough, to add all the other secrets, such as e-mail configuration, to the
-``secrets.json`` file.
-
-Separating Development and Production Settings
-----------------------------------------------
-
-For the time being, at least, I think all I have to do to separate development settings from production settings is:
-
-#. Create a module named settings in the config directory creating a blank __init__ file.
-
-#. Move the existing settings.py and secrets.json files to that directory, renaming settings.py to base.py.
-
-#. Change the ``with open`` line in base.py to say ``with open("config/settings/secrets.json") as f:``
-
-#. Create a dev.py file and a prod.py file for development and production respectively. The only difference for now
-   is the DEBUG setting. In dev.py it should be DEBUG = True, in prod.py it should be DEBUG = False.
-
-#. Insert a line in dev.py and prod.py saying ``from .base import *``
-
-#. Modify the c16.bat file to include ``set DJANGO_SETTINGS_MODULE="config.settings.dev"`` again.
-   :ref:`(See note on Testing the Website above.) <setting_env_variables>`
-
-Initializing Version Control
-----------------------------
-
-I've decided to use git from the command line instead of using it through PyCharm. I hope to learn it better and avoid
-some of the problems I have had when using it through PyCharm. I am downloading the most recent version of Git, version
-2.10.1 64-bit and will install it afterward. Looking at Chapter One of the book *Pro Git*, I learned a little about
-``git config``. I can list all the configuration variables by typing::
-
-    > git config --list
-
-Doing so I saw these at the end::
-
-    core.editor=notepad
-    user.name=JMorris157
-    user.email=FrJamesMorris@gmail.com
-
-According to *Pro Git* the user name and e-mail are used in every commit, and the core.editor is the default text
-editor. I changed it to Notepad++ by typing the following::
-
-    > git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe -multiInst -nosession"
-
-(I had to use the online version of ProGit, accessed through git-scm.com/book/en/v2/Getting-Started_First-Time-Git-Setup
-since the command line ran off the end of the page in the pdf file.)
-
-To start using git on Christmas2016 I typed the following in the command line set to the c16 virtual environment and
-having cd'd to the ``C:\Users\frjam\Documents\MyDjangoProjects\c16Development directory`` ::
-
-    > git init
-    > cd docs
-    > git add conf.py
-    > git add index.rst
-    > git add startup.rst
-    > cd ../Christmas2016
-    > git add manage.py
-    > cd config
-    > git add __init__.py
-    > git add urls.py
-    > git add wsgi.py
-    > cd settings
-    > git add __init__.py
-    > git add base.py
-    > git add dev.py
-    > git add prod.py
-
-I must admit, PyCharm's method is easier -- although git's own GUI might be of assistance here too.
-
-PyCharm had a nice method of adding untracked files to .gitignore. When I created the .gitignore file in the
-``c16Development`` directory, it asked me if I wanted to add the untracked files. When I agreed, it did -- very nice!
-
-I went to github.com and created a christmas16 repository, clicked on the New Repository button, did NOT add a readme.md
-file, then followed their instructions for pushing an existing repository from the command line::
-
-    > git remote add origin https://github.com/JMorris1575/christmas16.git
-    > git push -u origin master
-
-This asked for my username and password (JMorris1575, pet_kzoo) and seemed to work perfectly. Now I will try to
-"Enable version control integration" in PyCharm and commit and push the changes that have taken place in this file.
-
-It worked! . . . but now I have to do it again.
-
-Getting my Rectory Computer Up To Date
---------------------------------------
-
-First I tried a ``git clone https://github.com/JMorris1575/christmas16`` after typing ``> c16`` and that resulted in
-the project being placed in the Christmas2016 folder in a folder named for the github repository: ``christmas16``.
-
-I didn't notice until I tried to build these documentation files on the rectory computer and it told me there was
-nothing to change. I may have tried to get PyCharm to synchronize its Version Control System and do a pull but, of
-course, that didn't change anything either.
-
-When I noticed my mistake I erased the ``christmas16`` folder from the ``Christmas2016`` folder and tried another clone
-to the ``c16Development`` folder. That, of course, copied a ``christmas16`` folder into the ``c16Development``
-directory. I moved it to the desktop, copied its contents to the ``c16Development`` folder, and PyCharm gave me some
-error about the git configuration. I clicked configure but it didn't seem I could do anything. I initialized PyCharm's
-Version Control System and, I hope, all will work well now. At least it indicates that secrets.json and settings.py
-(which shouldn't be there any more) are not included in version control.
-
-I've just copied secrets.json to the ``config/settings`` folder. It makes sense that it wasn't there before because it
-is NOT included under version control. I also deleted the extra ``settings.py`` which is now in
-``config/settings/base.py``.
-
-Otherwise, things seem to be working as they should. I just made some changes in the ``planning.rst`` file and ``git
-status`` tracked them properly -- along with the changes in this file.
-
-Wow! It even reverts back to 'unchanged' when I delete the new section!
-
-A Commit Changes... and a Git/Push... both worked!
-
-Building this documentation, however, showed me that I have not put PoinsettaCandles.png under version control so it
-wasn't copied in the clone. I've copied it now, and put the ``docs/_static`` folder under version control (I think) so
-I'll have to see if it takes.
-
-Ah, now I remember! I put ``docs/_static`` into the ``.gitignore`` file because the image for the docs will probably be
-stored in the main program's static folder.
-
-Upgrade to Django 1.10.3
-------------------------
-
-On November 9, 2016, I upgraded to Django 1.10.3 on my computer in Kalamazoo.  This was as I kept getting "Programming
-Errors" in django code when trying to delete what I thought was going to be a temporary user.  I still haven't deleted
-it.  I did enter myself, so I could just leave it in and use it or I could try to delete it through pgAdminIII.
-
-
-
-
-
-
-
-
+and the 2016 Christmas website seems to be working!

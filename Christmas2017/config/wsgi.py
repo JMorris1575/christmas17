@@ -1,5 +1,5 @@
 """
-WSGI config for Christmas2016 project.
+WSGI config for Christmas2017 project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
