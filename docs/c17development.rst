@@ -73,9 +73,104 @@ I wonder if there is a way to delete a superuser too.
 Copying Data to c17Database from c16database
 ********************************************
 
+Microsoft Windows [Version 10.0.15063]
+(c) 2017 Microsoft Corporation. All rights reserved.
+
+C:\Users\frjam_000>c17
+
+C:\Users\frjam_000>echo off
+(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py makemigrations
+Did you rename response.author to response.responder (a ForeignKey)? [y/N] y
+You are trying to add a non-nullable field 'date' to question without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 1
+Please enter the default value now, as valid Python
+The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+>>> This is a test question
+Invalid input: invalid syntax (<string>, line 1)
+>>> timezone.now
+You are trying to add the field 'entered' with 'auto_now_add=True' to response without a default; the database needs something to populate existing rows.
+
+ 1) Provide a one-off default now (will be set on all existing rows)
+ 2) Quit, and let me add a default in models.py
+Select an option: 1
+Please enter the default value now, as valid Python
+You can accept the default 'timezone.now' by pressing 'Enter' or you can provide another value.
+The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+[default: timezone.now] >>> timezone.now
+You are trying to add a non-nullable field 'response' to response without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 1
+Please enter the default value now, as valid Python
+The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+>>> Test Question
+Invalid input: unexpected EOF while parsing (<string>, line 1)
+>>> Test
+Invalid input: name 'Test' is not defined
+>>> "Test Question"
+Migrations for 'question':
+  question\migrations\0002_auto_20171024_2115.py
+    - Change Meta options on question
+    - Rename field author on response to responder
+    - Add field date to question
+    - Add field entered to response
+    - Add field response to response
+
+(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, gifts, mail, memory, question, sessions, story, user
+Running migrations:
+  Applying question.0002_auto_20171024_2115... OK
+
+(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py user.json to_c17_gifts.json to_c17_memory.json to_c17_mail.json to_c17_question.json
+Unknown command: 'user.json'
+Type 'manage.py help' for usage.
+
+(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_user.json
+Installed 27 object(s) from 1 fixture(s)
+
+(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_gifts.json
+Installed 30 object(s) from 1 fixture(s)
+
+(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_mail.json
+C:\Users\frjam_000\Envs\c17\lib\site-packages\django\core\management\commands\loaddata.py:205: RuntimeWarning: No fixture data found for 'to_c17_mail'. (File format may be invalid.)
+  RuntimeWarning
+Installed 0 object(s) from 1 fixture(s)
+
+(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_memory.json
+Installed 14 object(s) from 1 fixture(s)
+
+(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_question.json
+Installed 13 object(s) from 1 fixture(s)
+
+(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>
+
 .. index:: Database; migrating
 
 Initial Migration
 *****************
+
+.. index:: Version Control; setting remote
+
+Resetting the Remote to c17Development
+++++++++++++++++++++++++++++++++++++++
+
+Because my current files were all cloned from the origin:
+
+``https://github.com/JMorris1575/christmas16``
+
+that repository was the remote pointed to in PyCharm. To change that I went to ``VCS>Git>Remotes`` and changed it to:
+
+``origin	https://github.com/JMorris1575/christmas17``
+
+After doing a commit and a push the files were all safely stored in the proper GitHub repository.
+
 
 
