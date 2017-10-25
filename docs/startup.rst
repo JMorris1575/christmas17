@@ -71,7 +71,7 @@ the existing Location: ``C:\Users\frjam_000\Documents\MyDjangoProjects\c17Develo
 
 I will have to do the same on my home computer when I get back there.
 
-.. index:: GitHub
+.. index:: GitHub; new repository
 
 Setting up on GitHub
 ++++++++++++++++++++
