@@ -34,19 +34,19 @@ Switching to a New Database
 Creating the New Database
 *************************
 
-Again, checking the Christmas2016 documentation I was reminded how to create a new PostgreSQL database::
+Again, checking the Christmas2016 documentation I was reminded how to create a new PostgreSQL database:
 
-    #. Open pgAdminIII
+#. Open pgAdminIII
 
-    #. Double-click PostgreSQL and enter the password (Dylan Selfie).
+#. Double-click PostgreSQL and enter the password (Dylan Selfie).
 
-    #. Right click Databases and select New Database...
+#. Right click Databases and select New Database...
 
-    #. Add the name (I chose c17database).
+#. Add the name (I chose c17database).
 
-    #. Select an Owner (I selected Jim).
+#. Select an Owner (I selected Jim).
 
-    #. Update the secrets.json file to refer to c17database instead of c16database.
+#. Update the secrets.json file to refer to c17database instead of c16database.
 
 I tested to see if I could get into the website and found I had to do:
 
@@ -76,89 +76,46 @@ I wonder if there is a way to delete a superuser too.
 Initial Migration
 *****************
 
-(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py makemigrations
-Did you rename response.author to response.responder (a ForeignKey)? [y/N] y
-You are trying to add a non-nullable field 'date' to question without a default; we can't do that (the database needs
-something to populate existing rows).
-Please select a fix:
-1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
-2) Quit, and let me add a default in models.py
-Select an option: 1
-Please enter the default value now, as valid Python
-The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
-Type 'exit' to exit this prompt
->>> This is a test question
-Invalid input: invalid syntax (<string>, line 1)
->>> timezone.now
-You are trying to add the field 'entered' with 'auto_now_add=True' to response without a default; the database needs
-something to populate existing rows.
-1) Provide a one-off default now (will be set on all existing rows)
-2) Quit, and let me add a default in models.py
-Select an option: 1
-Please enter the default value now, as valid Python
-You can accept the default 'timezone.now' by pressing 'Enter' or you can provide another value.
-The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
-Type 'exit' to exit this prompt
-[default: timezone.now] >>> timezone.now
-You are trying to add a non-nullable field 'response' to response without a default; we can't do that (the database
-needs something to populate existing rows).
-Please select a fix:
-1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
-2) Quit, and let me add a default in models.py
-Select an option: 1
-Please enter the default value now, as valid Python
-The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
-Type 'exit' to exit this prompt
->>> Test Question
-Invalid input: unexpected EOF while parsing (<string>, line 1)
->>> Test
-Invalid input: name 'Test' is not defined
->>> "Test Question"
-Migrations for 'question':
-question\migrations\0002_auto_20171024_2115.py
-- Change Meta options on question
-- Rename field author on response to responder
-- Add field date to question
-- Add field entered to response
-- Add field response to response
+In order to get the database working (apparently there was some problem with the question app) I did a
 
-(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py migrate
-Operations to perform:
-Apply all migrations: admin, auth, contenttypes, gifts, mail, memory, question, sessions, story, user
-Running migrations:
-Applying question.0002_auto_20171024_2115... OK
+``manage.py makemigrations``
 
-.. index:: Version Control; setting remote
+It wanted to know if I had renamed response.author to response.responder, which I'm sure I did :-), and corrected some
+"non-nullable" fields to include a default. I just selected the suggested default of ``timezone.now`` for most of them
+and "Test Question" for the non-nullable field 'response.' Obviously not a great default. I hope I can change it in the
+model file later.
+
+Finally it was happy with me and said::
+
+    Migrations for 'question':
+    question\migrations\0002_auto_20171024_2115.py
+    - Change Meta options on question
+    - Rename field author on response to responder
+    - Add field date to question
+    - Add field entered to response
+    - Add field response to response
+
+Then I did a ``manage.py migrate`` and got this response::
+
+    Operations to perform:
+    Apply all migrations: admin, auth, contenttypes, gifts, mail, memory, question, sessions, story, user
+    Running migrations:
+    Applying question.0002_auto_20171024_2115... OK
 
 .. index:: Database; copying data
 
 Copying Data to c17Database from c16database
 ********************************************
 
-(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py user.json to_c17_gifts.json
-to_c17_memory.json to_c17_mail.json to_c17_question.json
-Unknown command: 'user.json'
-Type 'manage.py help' for usage.
+To copy the c16Database I used ``manage.py dumpdata`` in the c16 environment to create a bunch of files from the various
+models used by the website: to_c17_user.json, to_c17_gifts.json, to_c17_mail.json, to_c17_memory.json and
+to_c17_question.json. Then I used ``manage.py loaddata <fixture>`` in the c17 environment to read them in. (Later I
+learned how to do them as a group (:ref:`see below <loading-multiple-fixtures>`.) I still don't know why I
+couldn't dump them as a group.)
 
-(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_user.json
-Installed 27 object(s) from 1 fixture(s)
+The mail data seems to be empty but it didn't stop me from loading it all. Now the website works locally.
 
-(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_gifts.json
-Installed 30 object(s) from 1 fixture(s)
-
-(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_mail.json
-C:\Users\frjam_000\Envs\c17\lib\site-packages\django\core\management\commands\loaddata.py:205: RuntimeWarning: No
-fixture data found for 'to_c17_mail'. (File format may be invalid.)
-RuntimeWarning
-Installed 0 object(s) from 1 fixture(s)
-
-(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_memory.json
-Installed 14 object(s) from 1 fixture(s)
-
-(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>manage.py loaddata to_c17_question.json
-Installed 13 object(s) from 1 fixture(s)
-
-(c17) C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development\Christmas2017>
+.. index:: Version Control; setting remote
 
 Resetting the Remote to c17Development
 ++++++++++++++++++++++++++++++++++++++
@@ -204,7 +161,7 @@ TeamViewer and mucked around with it for a while but it seems to be correct now.
 to this file before the pull would work. I may have to learn what that means. ;-)
 
 ..index:: Problems; Couldn't import Django
-lls
+
 Installing Sphinx on the Home Computer
 ++++++++++++++++++++++++++++++++++++++
 
@@ -276,6 +233,8 @@ when their chmod mode is set to allow execution. But I don't like it using a glo
 the purpose of having a virtual environment it seems to me if I have to install everything in the global version of
 Python.
 
+.. index:: manage.bat; creation
+
 I think I will do better with a batch file in the Christmas 2017 directory::
 
     echo off
@@ -303,9 +262,13 @@ It also complained that I had 19 unapplied migrations. So I got into a separate 
 Now, when I try to get into the local website it sends me to the login page and won't let me get off it. It knows no
 users as of yet.
 
+.. _loading-multiple-fixtures:
+
 Now I will try:
 
 ``manage.py loaddata to_c17_user.json to_c17_gifts.json to_c17_mail.json to_c17_memory.json to_c17_question.json``
+
+.. index:: manage.bat; rewrite
 
 It worked after I added some more %n values to the ``manage.bat`` file. (After adding a %2 it accepted only the first
 "fixture," so I added %2 through %9.) Now I can get into the website locally! It took almost a day but I'm finally at
