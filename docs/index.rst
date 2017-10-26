@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Christmas 2017's documentation!
-==========================================
+Christmas 2017 Documentation
+============================
 
 These documents constitute something of a journal I made while developing the Christmas 2017 website. This, as always,
 is to simplify the process of developing Django websites in the future.
@@ -14,7 +14,7 @@ is to simplify the process of developing Django websites in the future.
    :caption: Contents:
 
    startup
-   c17development
+   c17conversion
 
 
 
