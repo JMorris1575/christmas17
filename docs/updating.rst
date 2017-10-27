@@ -95,6 +95,14 @@ Choosing Fonts
 The header font, the one with the website's title "Christmas 2017" this year is set in the header. Last year it was
 Gregorian. This year I might try OldStandard.
 
+I didn't particularly like that, even in its italic form. I'll go to fontspace.com and try some script fonts.
+
+Also, I'm wondering if I should name the fonts something more generic, or more descriptive of their usage, in the css
+file so that when I change my mind about a font I only have to change it in one place.
+
+I decided to call it "Banner_Font" and it was easy to test different fonts that way. I've downloaded something called
+"HappyFont" which I will try for a while.
+
 .. index:: Updating; contents
 
 Header Content

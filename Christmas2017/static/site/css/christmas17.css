@@ -18,8 +18,8 @@ article, aside, figcaption, figure, footer, header, hgroup, menu, nav, section: 
     }
 
 @font-face {
-    font-family: "OldStandard";
-    src: url("../fonts/OldStandard-Regular.ttf");
+    font-family: "Banner_Font";
+    src: url("../fonts/HappyTime.otf");
     }
 
 footer {
@@ -38,7 +38,7 @@ header {
     height: auto;
     color: #ffbb33;
     background-color: #cc0000;
-    font-family: OldStandard;
+    font-family: Banner_Font;
     font-style: italic;
     font-weight: bold;
     overflow: auto;

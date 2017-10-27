@@ -274,5 +274,21 @@ It worked after I added some more %n values to the ``manage.bat`` file. (After a
 "fixture," so I added %2 through %9.) Now I can get into the website locally! It took almost a day but I'm finally at
 the same point on both computers. Time for a commit.
 
+General Notes
+-------------
+
+.. index:: Transfer; secrets.json
+
+Transfer Notes
+++++++++++++++
+
+October 27, 2017: the git pull from what I had done at home worked fine. I wanted to remove secrets.json from PyCharm's
+list of tracked files just in case, in spite of it being in ``.gitignore``, it might end up on GitHub.
+
+Using the "Terminal" in PyCharm I tried ``git untrack secrets.json`` but was informed that ``untrack`` was not a proper
+git command. Looking at ``git --help``, I thought the thing to use would be ``git rm secrets.json`` but it needed the
+whole path name: ``git rm -f Christmas2017/config/settings/secrets.json`` AND it turns out that it erases the whole
+file! I had to restore it through TeamViewer but now it is marked as untracked. Yay!
+
 
 
