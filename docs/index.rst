@@ -10,11 +10,13 @@ These documents constitute something of a journal I made while developing the Ch
 is to simplify the process of developing Django websites in the future.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
+   :numbered:
 
    startup
    c17conversion
+   updating
 
 
 
