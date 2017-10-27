@@ -17,6 +17,11 @@ article, aside, figcaption, figure, footer, header, hgroup, menu, nav, section: 
     src: url("../fonts/GregorianFLF.ttf");
     }
 
+@font-face {
+    font-family: "OldStandard";
+    src: url("../fonts/OldStandard-Regular.ttf");
+    }
+
 footer {
     bottom: 0px;
     margin-top: 20px;
@@ -31,7 +36,7 @@ header {
     margin: 0px;
     height: auto;
     color: #208020;
-    font-family: Gregorian;
+    font-family: OldStandard;
     font-style: italic;
     font-weight: bold;
     overflow: auto;

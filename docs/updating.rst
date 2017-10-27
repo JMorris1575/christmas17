@@ -4,8 +4,8 @@ Updating the Website
 This document chronicles the changes I made to Christmas 2017 from Christmas 2016. It may end up containing notes about
 sources of files and notes about css and html in general.
 
-Initial Thoughts about the Website
-----------------------------------
+Initial Thoughts and Plans
+--------------------------
 
 Design and Appearance
 +++++++++++++++++++++
@@ -70,3 +70,13 @@ Html Reference: https://www.w3schools.com/tags/default.asp
 
 CSS Reference: https://www.w3schools.com/cssref/default.asp
 
+Changing the Look and Feel
+--------------------------
+
+.. index:: Fonts; choices
+
+Choosing Fonts
+++++++++++++++
+
+The header font, the one with the website's title "Christmas 2017" this year is set in the header. Last year it was
+Gregorian. This year I might try
