@@ -7,20 +7,34 @@ sources of files and notes about css and html in general.
 Initial Thoughts and Plans
 --------------------------
 
+.. index:: Plans; initial
+
+Plans at the Beginning
+++++++++++++++++++++++
+
+.. index:: Design; header
+
 Design and Appearance
-+++++++++++++++++++++
+*********************
 
 I envision a different, more elegant, look than I've had in the past. The old site looks rather garish to me now. I'm
 thinking about the header being a red gradient bar with an icon at the left and the title "Christmas 2017" just to the
 right of that in golden letters. I've started to create a model in Gimp and I like the looks of it so far.
 
+I don't think I want the login to be part of the header. I'd like a separate page for that so that, when someone logs
+in incorrectly it will be more clear what happened instead of just having the username disappear.
+
+Also, I think the design of the header will be nicer, and more elegant, if the current memory displayed under the header
+instead of as part of it. Perhaps in a box below the header like the introduction -- which no one would read after the
+first time, if that -- does now.
+
+.. index:: Apps; ideas
+
+Apps, New and Old
+*****************
+
 I will keep the same elements I got working last year, at least if Janet wants to come up with another set of questions.
 But then, perhaps I could follow her style and make them up myself.
-
-.. index:: New Apps; ideas
-
-New Apps
-++++++++
 
 I'd like to get the Story app working, something we could use to make a shared story. I still haven't quite figured out
 how to handle the case where two people are writing an addition at the same time. Can I branch the story? Can I block
@@ -79,4 +93,16 @@ Choosing Fonts
 ++++++++++++++
 
 The header font, the one with the website's title "Christmas 2017" this year is set in the header. Last year it was
-Gregorian. This year I might try
+Gregorian. This year I might try OldStandard.
+
+.. index:: Updating; contents
+
+Header Content
+++++++++++++++
+
+I had to change ``base.html`` to refer to ``christmas17.css`` and give "Christmas 2017" as the title of the page. So far
+I have only changed ``header.html`` to say "Christmas 2017" in the banner rather than "Christmas 2016."
+
+Header Styling
+++++++++++++++
+

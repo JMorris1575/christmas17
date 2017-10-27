@@ -25,7 +25,8 @@ article, aside, figcaption, figure, footer, header, hgroup, menu, nav, section: 
 footer {
     bottom: 0px;
     margin-top: 20px;
-    color: #208020;
+    color: #ffbb33;
+    background-color: #cc0000;
     font-family: sans;
     font-size: 70%;
     overflow: auto;
@@ -35,7 +36,8 @@ footer {
 header {
     margin: 0px;
     height: auto;
-    color: #208020;
+    color: #ffbb33;
+    background-color: #cc0000;
     font-family: OldStandard;
     font-style: italic;
     font-weight: bold;
@@ -48,7 +50,7 @@ a.no-underline {
     }
 
 a.menu-item {
-    color: #208020;
+    color: #ffbb33;
     text-decoration: none;
     }
 
@@ -62,7 +64,7 @@ p.no-p-height {
     padding: 0px;
     border-top: 3px solid;
     border-bottom: 3px solid;
-    border-color: red;
+    border-color: #cc0000;
     }
 
 .blue {
@@ -151,9 +153,9 @@ p.no-p-height {
     }
 
 .large {
-    color: #208020;
+    color: #ffbb33;
     margin: 0;
-    font-size: 175%;
+    font-size: 250%;
     font-style: italic;
     width: 60%;
     }
