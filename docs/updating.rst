@@ -84,8 +84,21 @@ Html Reference: https://www.w3schools.com/tags/default.asp
 
 CSS Reference: https://www.w3schools.com/cssref/default.asp
 
-Changing the Look and Feel
---------------------------
+Improving the Header
+--------------------
+
+Steps to Improve Header
++++++++++++++++++++++++
+
+#. Improve the appearance of the banner by changing the font and background color.
+#. Get the memories to display below the banner and the menu choices.
+#. Improve the appearance of the memory section.
+#. Develop a new banner image.
+#. Separate the login page from the header.
+
+   #. Develop two forms of the header: one for unauthenticated users and one for authenticated users.
+   #. Develop a login page and a failed login page
+
 
 .. index:: Fonts; choices
 
@@ -113,4 +126,27 @@ I have only changed ``header.html`` to say "Christmas 2017" in the banner rather
 
 Header Styling
 ++++++++++++++
+
+Changing the background to what seems to me an elegant red color and the text to a golden yellow was not very
+difficult. Under *header* in ``christmas17.css``, I set the background-color to #cc0000 and the color to #ffbb33. I may
+want to tweak those colors later.
+
+Moving the Memories Display
++++++++++++++++++++++++++++
+
+This should be a fairly simple change to the ``header.html`` file. My first attempt was to simply take the section
+labelled "Memory Block" and move it outside the <header></header> tags. That seemed to work! First time too!
+
+Improving Memory Appearance
++++++++++++++++++++++++++++
+
+The most difficult part here will probably be in deciding how I want it to look. Perhaps a box with a different
+background color (pale yellow?) directly below the menu tabs stretching all the way across the screen, but always the
+same height. Have the text be left justified but centered in the box vertically. (Is this possible in html?)
+
+New Banner Image
+++++++++++++++++
+
+Creating a Separate Login Page
+++++++++++++++++++++++++++++++
 
