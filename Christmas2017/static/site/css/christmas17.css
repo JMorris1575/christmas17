@@ -17,10 +17,11 @@ article, aside, figcaption, figure, footer, header, hgroup, menu, nav, section: 
     src: url("../fonts/GregorianFLF.ttf");
     }
 
-@font-face {
+/*@font-face {
     font-family: "Banner_Font";
-    src: url("../fonts/HappyTime.otf");
-    }
+    src: url("../fonts/GreatVibes-Regular.ttf");
+    /* src: url("https://fonts.googleapis.com/css?family='Great Vibes'"); */
+    }*/
 
 footer {
     bottom: 0px;
@@ -38,9 +39,9 @@ header {
     height: auto;
     color: #ffbb33;
     background-color: #cc0000;
-    font-family: Banner_Font;
+    font-family: 'Great Vibes', cursive;
     font-style: italic;
-    font-weight: bold;
+    /*font-weight: bold;*/
     overflow: auto;
     border-bottom: 1px solid lightgray;
     }
@@ -155,7 +156,7 @@ p.no-p-height {
 .large {
     color: #ffbb33;
     margin: 0;
-    font-size: 250%;
+    font-size: 450%;
     font-style: italic;
     width: 60%;
     }

@@ -105,6 +105,9 @@ Steps to Improve Header
 Choosing Fonts
 ++++++++++++++
 
+Local Fonts
+***********
+
 The header font, the one with the website's title "Christmas 2017" this year is set in the header. Last year it was
 Gregorian. This year I might try OldStandard.
 
@@ -115,6 +118,54 @@ file so that when I change my mind about a font I only have to change it in one 
 
 I decided to call it "Banner_Font" and it was easy to test different fonts that way. I've downloaded something called
 "HappyFont" which I will try for a while.
+
+.. index:: Fonts; web fonts
+
+Web Fonts
+*********
+
+I thought I'd try the font "Great Vibes" for the banner text from fonts.google.com. I could download it but it might be
+better to learn how to use it as a web font which the user's browser downloads from the internet. From pages 162-163 in
+*The CSS Pocket Guide* and from Google's guide at https://developers.google.com/fonts/docs/getting_started I'm thinking
+what I need to do is as follows:
+
+.. index:: Problems; displaying web fonts
+
+In ``christmas17.css`` add::
+
+    @font-face {
+        font-family: "Banner_Font";
+        src: url("https://fonts.googleapis.com/css?family=Great+Vibes");
+        }
+
+then, in the header selector::
+
+    header {
+        ...
+        font-family: Banner_Font, cursive;
+        ...
+    }
+
+Let's see if that works...
+
+Hmm... So far, whether I use it as a web font or download it and use it locally, Great Vibes doesn't display. Instead it
+shows the backup font, which I have indicated as ``cursive`` but seems to give me something like Comic Sans. Perhaps it
+doesn't like the bold or italic settings in the .css file. I will comment them out and see.
+
+No, it wasn't that. The problem with the downloaded local version was that I spelled it wrong, it was supposed to be
+called ``GreatVibes-Regular`` but I wrote ``GreatVibes-Reglar``. Meanwhile, when I follow the instructions on google's
+site referenced above and include::
+
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+
+in the <head> section of ``base.html`` and eliminate the @font-face section above and enter::
+
+    font-family: 'Great Fonts', cursive;
+
+into the ``header`` selector it works as it is supposed to. Turn off the bold in the header, change the size to 400%
+in the ``.large`` selector and I like the way it looks. I will have to find a better way to do the bold text since
+turning if off in the header also affected the "Merry Christmas Jim" at the right.
+
 
 .. index:: Updating; contents
 
