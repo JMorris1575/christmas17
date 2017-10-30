@@ -91,7 +91,7 @@ html_theme = 'alabaster'
 # documentation.
 #
 html_theme_options = {
-    'logo': 'images/bells.png',
+    'logo': 'images/ThreeOrnaments.png',
     'page_width': '1200px',
     'sidebar_width': '300px',
     'show_related': 'true',

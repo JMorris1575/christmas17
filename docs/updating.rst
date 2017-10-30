@@ -166,6 +166,13 @@ into the ``header`` selector it works as it is supposed to. Turn off the bold in
 in the ``.large`` selector and I like the way it looks. I will have to find a better way to do the bold text since
 turning if off in the header also affected the "Merry Christmas Jim" at the right.
 
+Speaking of which, the google site suggested "Open Sans" as a font to go with "Great Vibes" so I will try to include
+that too by modifying my <link> tag to say::
+
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Open+Sans" rel="stylesheet">
+
+
+
 
 .. index:: Updating; contents
 
@@ -197,6 +204,8 @@ same height. Have the text be left justified but centered in the box vertically.
 
 New Banner Image
 ++++++++++++++++
+
+I've created an image of three Christmas ornaments in Blender. It still needs work but it's a decent start.
 
 Creating a Separate Login Page
 ++++++++++++++++++++++++++++++

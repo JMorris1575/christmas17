@@ -97,7 +97,7 @@ p.no-p-height {
     height: auto;
     padding: 10px 10px 10px 10px;
     overflow: auto;
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid #cc0000;
     margin: 0px 10px 0px 10px;
     }
 
@@ -176,7 +176,8 @@ p.no-p-height {
     }
 
 .line-red {
-    border-top: 2px solid red;
+    border-top: 2px solid;
+    border-color: #cc0000;
     margin: 0px 10px 0px 10px;
     }
 
@@ -268,7 +269,8 @@ p.no-p-height {
     }
 
 .small {
-    font-family: arial, sans-serif;
+    font-family: "Open Sans", arial, sans-serif;
+    font-weight: bold;
     font-size: medium;
     padding-top: 5px;
     }
@@ -305,4 +307,4 @@ p.no-p-height {
 
 #header-image {
     width: 150px;
-    height: 120px;}
+    height: 150px;}
