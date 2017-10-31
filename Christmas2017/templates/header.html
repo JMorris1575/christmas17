@@ -20,17 +20,9 @@
                         <!-- Login and Welcome Area -->
                         {% if user.is_authenticated %}
                             <span class="right">
-                                <a href="{% url 'dj-auth:logout' %}">
-                                    <button type="button" name="logout-btn">Logout</button>
-                                </a>
+                                <a class="serif" href="{% url 'dj-auth:logout' %}">Logout</a>
                             </span>
-                            <span class="right small">Merry Christmas {{ user.first_name }}!</span>
-                        {% else %}
-                            <span class="right">
-                                <a href="{% url 'dj-auth:login' %}">
-                                    <button type="button" name="login-btn">Login</button>
-                                </a>
-                            </span>
+                            <span class="right">Merry Christmas {{ user.first_name }}!</span>
                         {% endif %}
                     </div>
                 </div>

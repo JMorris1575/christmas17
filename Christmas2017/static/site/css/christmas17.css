@@ -278,6 +278,10 @@ p.no-p-height {
     border: 2px solid red;
     }
 
+.serif {
+    font-family: "Times New Roman", serif;
+    }
+
 .small {
     font-family: "Open Sans", arial, sans-serif;
     font-weight: bold;
