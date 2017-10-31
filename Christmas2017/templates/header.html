@@ -17,7 +17,7 @@
                         <a class="no-underline" href="{% url 'dj-auth:login' %}">
                             <span class="large">Christmas 2017</span>
                         </a>
-                        <!-- Login or Welcome Area -->
+                        <!-- Login and Welcome Area -->
                         {% if user.is_authenticated %}
                             <span class="right">
                                 <a href="{% url 'dj-auth:logout' %}">
@@ -27,22 +27,9 @@
                             <span class="right small">Merry Christmas {{ user.first_name }}!</span>
                         {% else %}
                             <span class="right">
-                                <form action="{% url 'dj-auth:login' %}" method="post">
-                                    {% csrf_token %}
-                                    <span class="right">
-                                        <input type="submit" value="login" name="login-btn" tabindex="3"/>
-                                    </span>
-                                    <span class="right">
-                                        <label class="description" for="password">Password:</label>
-                                        <input type="password" class="login-box" name="password" id="password"
-                                               placeholder="password" tabindex="2"/>
-                                    </span>
-                                    <span class="right">
-                                        <label class="description" for="username">Username:</label>
-                                        <input type="text" class="login-box" name="username" id="username"
-                                               tabindex="1" />
-                                    </span>
-                                </form>
+                                <a href="{% url 'dj-auth:login' %}">
+                                    <button type="button" name="login-btn">Login</button>
+                                </a>
                             </span>
                         {% endif %}
                     </div>

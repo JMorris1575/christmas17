@@ -9,9 +9,25 @@
     <div class="info">
         <p>
             Merry Christmas!  Login to our family Christmas page by entering the username and password you received
-            in the invitation e-mail into the boxes at the upper right.  Press 'Enter' or click 'Login' to enter the
-            main site.
+            in the invitation e-mail into the boxes below.  Press 'Enter' or click 'Login' to enter the website.
         </p>
     </div>
+    <form action="{% url 'dj-auth:login' %}" method="post">
+        {% csrf_token %}
+        <div>
+            <p class="login-box">
+                <label class="description" for="username">Username:</label>
+                <input type="text" class="login-edit" name="username" id="username"
+                       tabindex="1" />
+            </p>
+            <p class="login-box">
+                <label class="description" for="password">Password:</label>
+                <input type="password" class="login-edit" name="password" id="password" tabindex="2"/>
+            </p>
+            <p class="login-box">
+                <input type="submit" value="Login" name="login-btn" tabindex="3"/>
+            </p>
+        </div>
+    </form>
 
 {% endblock %}
