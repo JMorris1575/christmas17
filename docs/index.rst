@@ -17,6 +17,7 @@ is to simplify the process of developing Django websites in the future.
    startup
    c17conversion
    updating
+   new_apps
 
 
 

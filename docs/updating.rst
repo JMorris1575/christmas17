@@ -41,6 +41,8 @@ how to handle the case where two people are writing an addition at the same time
 out one person until the other finishes -- or block the first person's entry after a certain time limit? Still to be
 worked out.
 
+.. _trivia_desc:
+
 I've also thought of a Christmas Trivia section where family members answer trivia questions about Christmas and get
 scored for their attempts. I think that will be easy enough to program, but I need to find a good source of questions.
 It would be perfect to find a Christmas Trivia game already out there but then I'd probably be violating the copyright
@@ -74,6 +76,8 @@ order:
 * https://www.fontsquirrel.com/
 
 .. index:: Reference; html, Reference; css
+
+.. _w3schools:
 
 Html and CSS Assistance
 +++++++++++++++++++++++
@@ -171,8 +175,7 @@ that too by modifying my <link> tag to say::
 
     <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Open+Sans" rel="stylesheet">
 
-
-
+That worked without any problems.
 
 .. index:: Updating; contents
 
@@ -209,4 +212,12 @@ I've created an image of three Christmas ornaments in Blender. It still needs wo
 
 Creating a Separate Login Page
 ++++++++++++++++++++++++++++++
+
+That turned out to be a bit easier than I expected. I just moved the login section out of the header and into the
+pre-existing separate login page. It took a while to re-learn how to center the elements by setting their size in css
+and then setting margins like this::
+
+    margin: 20px auto 20px auto;
+
+I got this from the css reference pages listed :ref:`above.<w3schools>`
 
