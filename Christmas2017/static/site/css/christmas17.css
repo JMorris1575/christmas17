@@ -171,6 +171,11 @@ p.no-p-height {
     width: 154px;
     }
 
+.left_col {
+    width: 75%;
+    float: left;
+    }
+
 .line-grey {
     border-top: 1px solid lightgray;
     }
@@ -267,6 +272,14 @@ p.no-p-height {
     float: right;
 }
 
+.right_col {
+    background: #e0ffe0;
+    width: 24%;
+    height: 200%;
+    float: right;
+    padding: 5px;
+    }
+
 .selected-gift-text {
     color: red;
     font-family: sans;
@@ -280,6 +293,7 @@ p.no-p-height {
 
 .serif {
     font-family: "Times New Roman", serif;
+    color: #ffbb33;
     }
 
 .small {
@@ -306,17 +320,9 @@ p.no-p-height {
     border: 2px solid #208020;
     }
 
-.left_col {
-    width: 75%;
-    float: left;
-    }
-
-.right_col {
-    background: #e0ffe0;
-    width: 24%;
-    height: 200%;
-    float: right;
-    padding: 5px;
+.welcome {
+    font-family: "Open Sans", arial, sans;
+    font-weight: bold;
     }
 
 #header-image {
