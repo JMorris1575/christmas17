@@ -75,11 +75,23 @@ What Needs to be Remembered
 * each conversation entry's text
 * each conversation entry's author
 
+URLs
+++++
+
+Here are the urls that should work for the Trivia app:
+
++--------------------------+-------------------------------------------------+
+| URL                      | Page(s) Addressed                               |
++==========================+=================================================+
+| /trivia/scoreboard/      | scoreboard page (scoreboard.html)               |
++--------------------------+-------------------------------------------------+
+| /trivia/question/n/      | question n's page (triv_quest.html)             |
++--------------------------+-------------------------------------------------+
+| /trivia/result/n/        | question n's results page (triv_result.html)    |
++--------------------------+-------------------------------------------------+
+
 Models
 ++++++
-
-URL and Menu Item
-+++++++++++++++++
 
 What the Views Have to Do
 +++++++++++++++++++++++++
