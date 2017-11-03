@@ -6,7 +6,6 @@ Christmas2016/db.sqlite3
 Christmas2016/c16_datadump.json
 docs/Makefile
 docs/private.rst
-docs/_build/
 docs/_templates/
 docs/make.bat
 Christmas2017/config/__pycache__/

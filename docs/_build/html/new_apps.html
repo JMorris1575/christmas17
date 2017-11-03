@@ -1,0 +1,442 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>4. New Applications &#8212; Christmas 2017 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="3. Updating the Website" href="updating.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="new-applications">
+<h1>4. New Applications<a class="headerlink" href="#new-applications" title="Permalink to this headline">¶</a></h1>
+<p>This document chronicles my attempts to add new apps to the Christmas 2017 website. I will start with the simpler one,
+the Trivia app (<a class="reference internal" href="updating.html#trivia-desc"><span class="std std-ref">see initial description</span></a>), and then perhaps I will know enough to implement the
+Story app. If other apps come to mind later I will document them here.</p>
+<div class="section" id="building-the-trivia-app">
+<h2>4.1. Building the Trivia App<a class="headerlink" href="#building-the-trivia-app" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="narrative-desription">
+<h3>4.1.1. Narrative Desription<a class="headerlink" href="#narrative-desription" title="Permalink to this headline">¶</a></h3>
+<p>Bill visits the Christmas 2017 website and clicks on the “Trivia” menu item. He is the first one to do so. The first page
+that displays tells him the rules of the game, mostly that he must answer the questions based on his own memory without
+looking them up anywhere. Then he clicks the “I will play by the rules.” button to see the first question.</p>
+<p>The question page gives him the question and a chance to give his answer. Once his answer is given he is told whether
+he is right or wrong and, if wrong, what the correct answer is. Once he has submitted his answer he cannot change it. In
+this case, Bill is right and he is given a score of 100%. This appears on the same page that tells him he’s right or
+wrong. Since this is the first day for the trivia questions, and Bill has answered the only one there is, there is a
+“Return to Scoreboard” button at the bottom which Bill clicks.  He is returned to the main trivia page and sees the
+rules again but, instead of the “I will play by the rules” button there is a message which tells him he has completed
+all of the available questions and that he can come back tomorrow for a new one.</p>
+<p>But now he notices at the right there is a scoreboard column with his name listed as scoring 100% after answering one
+question. Bill also notices a “Start the Conversation” button underneath the scoreboard. He doesn’t have anything to
+say so he ignores it and clicks on a different menu item and leaves the Trivia app.</p>
+<p>Now Janet visits the website and clicks on the “Trivia” menu item. She sees the same page Bill did giving her the rules
+and displaying the scoreboard with only Bill’s name and score listed. She notices the “Start the Conversation” button
+and clicks on it. This sends her to a page where she types “Atta boy Bill!” and clicks the “Submit” button. This sends
+her back to the Rules page where she sees her conversation starter in a box under the scoreboard saying:
+<strong>Janet says: “Atta boy Bill!”</strong> Now the button says “Add to the Conversation.”</p>
+<p>But Janet wanted to answer the trivia question and so clicks the “I will play by the rules button.” She, too, answers
+correctly. (That first question is an easy one!) Since there are still no more questions she also gets the “Return to
+Scoreboard” button. When she clicks it she sees that her name and score have been added to the scoreboard under Bill’s.
+Seeing there are no more questions she clicks on another menu item.</p>
+<p>The next day Dave comes to the Trivia page, reads the rules, decides not to add to the conversation, and agrees to play
+by the rules. He is presented with the first question, which he answers and gets right. On his answer page he sees a
+“Continue” button which sends him to the second question which, alas, he gets wrong. Coming back to the scoreboard he
+sees his name in first place in the section of those who have answered two questions.</p>
+<p>As each family member visits the Trivia section and answers the questions their score is updated and listed in a section
+corresponding to how many questions they have answered. The ones on top are the ones who have answered the most.</p>
+<p>Now Bill returns to the Trivia section and can answer the next question. He gets it right and so, when he returns to the
+scoreboard his name has moved to the top of the top section, above Dave’s.</p>
+</div>
+<div class="section" id="information-gleaned-from-narrative">
+<h3>4.1.2. Information Gleaned from Narrative<a class="headerlink" href="#information-gleaned-from-narrative" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="template-pages">
+<h4>4.1.2.1. Template Pages<a class="headerlink" href="#template-pages" title="Permalink to this headline">¶</a></h4>
+<p>I think there will be three basic pages:</p>
+<ul class="simple">
+<li>Entry page: tells the rules, displays the scoreboard,the ongoing conversation and the “Play by the Rules” button.</li>
+<li>Question page: presents the questions, supplies radio buttons for the answers and a Submit button.</li>
+<li>Results page: tells the user right or wrong, gives current score and supplies “Continue” or “Return” button.</li>
+</ul>
+</div>
+<div class="section" id="what-needs-to-be-remembered">
+<h4>4.1.2.2. What Needs to be Remembered<a class="headerlink" href="#what-needs-to-be-remembered" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>the questions</li>
+<li>the possible answers to display</li>
+<li>the correct answer</li>
+<li>each user’s answers to each question</li>
+<li>each user’s last-answered question (their question count)</li>
+<li>each user’s correct answer count</li>
+<li>each conversation entry’s text</li>
+<li>each conversation entry’s author</li>
+</ul>
+</div>
+</div>
+<div class="section" id="urls">
+<h3>4.1.3. URLs<a class="headerlink" href="#urls" title="Permalink to this headline">¶</a></h3>
+<p>Here are the urls that should work for the Trivia app:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">URL</th>
+<th class="head">Page(s) Addressed</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>/trivia/scoreboard/</td>
+<td>scoreboard page (scoreboard.html)</td>
+</tr>
+<tr class="row-odd"><td>/trivia/question/n/</td>
+<td>question n’s page (triv_quest.html)</td>
+</tr>
+<tr class="row-even"><td>/trivia/result/n/</td>
+<td>question n’s results page (triv_result.html)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="models">
+<span id="index-0"></span><h3>4.1.4. Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="initial-thoughts">
+<h4>4.1.4.1. Initial Thoughts<a class="headerlink" href="#initial-thoughts" title="Permalink to this headline">¶</a></h4>
+<p>It has been a while since I have designed a model in Django so it isn’t entirely clear to me how to start. I suppose
+kind of a top-down approach will be helpful.</p>
+<p>What do I need? A set of database models to help manage the Trivia application.</p>
+<p>What do they need to contain? At first thought they need to contain and provide access to:</p>
+<ul class="simple">
+<li>the questions with their answers and the correct answer and the index number of the question</li>
+<li>a user’s answer to each question, which ones they’ve answered correctly and the number of questions they’ve answered</li>
+<li>the conversation entries along with the identity of the user making that entry</li>
+</ul>
+<p>This suggests to me that three models might be necessary, though I know a couple of them will probably need supporting
+models:</p>
+<ul>
+<li><p class="first">a TriviaQuestion model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">index</span> <span class="n">number</span> <span class="n">of</span> <span class="n">the</span> <span class="n">question</span>
+<span class="n">The</span> <span class="n">text</span> <span class="n">of</span> <span class="n">the</span> <span class="n">question</span>
+<span class="n">A</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">choices</span> <span class="k">for</span> <span class="n">the</span> <span class="n">possible</span> <span class="n">answers</span>
+<span class="n">An</span> <span class="n">indicator</span> <span class="k">as</span> <span class="n">to</span> <span class="n">which</span> <span class="n">answer</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">one</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">a TriviaUserProgress model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">the</span> <span class="n">user</span><span class="s1">&#39;s id</span>
+<span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">questions</span> <span class="n">they</span><span class="s1">&#39;ve answered</span>
+<span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">their</span> <span class="n">responses</span> <span class="ow">and</span> <span class="n">which</span> <span class="n">ones</span> <span class="n">were</span> <span class="n">correct</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">a TriviaConversation model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">the</span> <span class="n">text</span> <span class="n">of</span> <span class="n">each</span> <span class="n">entry</span> <span class="n">to</span> <span class="n">the</span> <span class="n">conversation</span>
+<span class="n">the</span> <span class="n">identity</span> <span class="n">of</span> <span class="n">the</span> <span class="n">user</span> <span class="n">making</span> <span class="n">that</span> <span class="n">entry</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>But each model is only a table and the first two models outlined above require variable length lists which may be best
+to include in a different model. Thus there may be two other models necessary:</p>
+<ul>
+<li><p class="first">a TriviaAnswer model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">the</span> <span class="n">question</span> <span class="n">to</span> <span class="n">which</span> <span class="n">this</span> <span class="n">selection</span> <span class="n">applies</span>
+<span class="n">the</span> <span class="n">text</span> <span class="n">of</span> <span class="n">the</span> <span class="n">selection</span>
+<span class="n">whether</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">selection</span> <span class="k">for</span> <span class="n">this</span> <span class="n">question</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">a TriviaUserResponse model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">the</span> <span class="n">user</span>
+<span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">the</span> <span class="n">question</span> <span class="n">being</span> <span class="n">answered</span>
+<span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">the</span> <span class="n">user</span><span class="s1">&#39;s answer</span>
+<span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">whether</span> <span class="n">their</span> <span class="n">answer</span> <span class="n">was</span> <span class="n">correct</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>So it seems that five models may be necessary.</p>
+</div>
+<div class="section" id="models-for-the-trivia-app">
+<span id="index-1"></span><h4>4.1.4.2. Models for the Trivia App<a class="headerlink" href="#models-for-the-trivia-app" title="Permalink to this headline">¶</a></h4>
+<p>So here is my first attempt to spell out the models needed for the Trivia app:</p>
+<table border="1" class="colwidths-auto docutils" id="id1">
+<caption><span class="caption-text"><strong>TriviaQuestion Model</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>question_number</td>
+<td>IntegerField</td>
+<td>primary_key=True</td>
+<td>so that questions can be moved</td>
+</tr>
+<tr class="row-odd"><td>trivia_question_text</td>
+<td>CharField</td>
+<td>&#160;</td>
+<td>the question itself</td>
+</tr>
+<tr class="row-even"><td>tried</td>
+<td>IntegerField</td>
+<td>&#160;</td>
+<td>the number of users who have responded</td>
+</tr>
+<tr class="row-odd"><td>correct</td>
+<td>IntegerField</td>
+<td>&#160;</td>
+<td>the number of users getting it right</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id2">
+<caption><span class="caption-text"><strong>TriviaAnswerChoices Model</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>choice_number</td>
+<td>Integer</td>
+<td>primary_key=True</td>
+<td>so that responses may be moved</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>question</td>
+<td>ForeignKey</td>
+<td>‘TriviaQuestion’</td>
+<td>which question this refers to</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>choice_text</td>
+<td>CharField</td>
+<td>&#160;</td>
+<td>the possible answer</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>correct</td>
+<td>Boolean</td>
+<td>&#160;</td>
+<td>True if correct</td>
+<td>False otherwise</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id3">
+<caption><span class="caption-text"><strong>TriviaUserProgress Model</strong></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>trivia_user</td>
+<td>ForeignKey</td>
+<td>settings.AUTH_USER_MODEL</td>
+<td>marks which user</td>
+</tr>
+<tr class="row-odd"><td>answered_questions</td>
+<td>Integer</td>
+<td>&#160;</td>
+<td>tells how many questions they’ve answered</td>
+</tr>
+<tr class="row-even"><td>questions_correct</td>
+<td>Integer</td>
+<td>&#160;</td>
+<td>tells how many questions they’ve answered correctly</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id4">
+<caption><span class="caption-text"><strong>TriviaUserResponses Model</strong></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>responder</td>
+<td>ForeignKey</td>
+<td>settings.AUTH_USER_MODEL</td>
+<td>marks which user</td>
+</tr>
+<tr class="row-odd"><td>question</td>
+<td>Integer</td>
+<td>&#160;</td>
+<td>tells which question this refers to</td>
+</tr>
+<tr class="row-even"><td>user_response</td>
+<td>ForeignKey</td>
+<td>‘TriviaAnswerChoices’</td>
+<td>tells which response they gave</td>
+</tr>
+<tr class="row-odd"><td>answer_correct</td>
+<td>Boolean</td>
+<td>&#160;</td>
+<td>tells whether this answer was right or wrong</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id5">
+<caption><span class="caption-text"><strong>TriviaConversation Model</strong></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>entry</td>
+<td>CharField</td>
+<td>max_length=256</td>
+<td>the user’s addition to the conversation</td>
+</tr>
+<tr class="row-odd"><td>user</td>
+<td>ForeignKey</td>
+<td>settings.AUTH_USER_MODEL</td>
+<td>gives the author’s identity</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="what-the-views-have-to-do">
+<h3>4.1.5. What the Views Have to Do<a class="headerlink" href="#what-the-views-have-to-do" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/images/ThreeOrnaments.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="startup.html">1. Startup Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c17conversion.html">2. Converting Christmas2016 to Christmas2017</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updating.html">3. Updating the Website</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. New Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-trivia-app">4.1. Building the Trivia App</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#narrative-desription">4.1.1. Narrative Desription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#information-gleaned-from-narrative">4.1.2. Information Gleaned from Narrative</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#urls">4.1.3. URLs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#models">4.1.4. Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-the-views-have-to-do">4.1.5. What the Views Have to Do</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="updating.html" title="previous chapter">3. Updating the Website</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jim Morris.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/new_apps.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

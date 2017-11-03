@@ -1,0 +1,330 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>1. Startup Notes &#8212; Christmas 2017 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Converting Christmas2016 to Christmas2017" href="c17conversion.html" />
+    <link rel="prev" title="Christmas 2017 Documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="startup-notes">
+<h1>1. Startup Notes<a class="headerlink" href="#startup-notes" title="Permalink to this headline">¶</a></h1>
+<p><strong>Christmas 2017 Website – Started on October 20, 2017</strong></p>
+<p>This document chronicles the initial steps for developing the Christmas 2017 website. Little of the actual website will
+be discussed here. That will be in another document: <code class="docutils literal"><span class="pre">c17development.rst</span></code>.</p>
+<div class="section" id="laying-the-groundwork">
+<h2>1.1. Laying the Groundwork<a class="headerlink" href="#laying-the-groundwork" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python-and-the-virtual-environment">
+<span id="index-0"></span><h3>1.1.1. Python and the Virtual Environment<a class="headerlink" href="#python-and-the-virtual-environment" title="Permalink to this headline">¶</a></h3>
+<p>On my home computer I checked to see which version of Python was installed. It is Python 3.6 and
+I learned, by running</p>
+<p><code class="docutils literal"><span class="pre">mkvirtualenv</span> <span class="pre">c17</span></code></p>
+<p>that virtualenvwrapper was installed under Python 3.6 also.</p>
+<p>The setup on the rectory computer was the same so I created the c17 environment there as well.</p>
+</div>
+<div class="section" id="installing-django">
+<span id="index-1"></span><h3>1.1.2. Installing Django<a class="headerlink" href="#installing-django" title="Permalink to this headline">¶</a></h3>
+<p>Once in the c17 environment I installed django with:</p>
+<p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">django</span></code></p>
+<p>and it installed django-1.11.6. I did the same on the rectory computer.</p>
+</div>
+<div class="section" id="installing-sphinx">
+<span id="index-2"></span><h3>1.1.3. Installing Sphinx<a class="headerlink" href="#installing-sphinx" title="Permalink to this headline">¶</a></h3>
+<p>While in the c17 environment I did a:</p>
+<p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sphinx</span></code></p>
+<p>to install Sphinx. It installed version 1.6.4.</p>
+<p>I commanded:</p>
+<p><code class="docutils literal"><span class="pre">sphinx-quickstart</span></code></p>
+<p>to enter the Sphinx 1.6.4 quickstart utility. I used <strong>Christmas 2017</strong> as the Project name and <strong>Jim Morris</strong> as the
+Author name. I used the defaults for most of the entries except the one about <strong>todo</strong> entries and the one about
+creating a <strong>.nojekyll</strong> file to publish the document on GitHub pages.</p>
+<p>I later discovered that the <strong>todo</strong> entries do not apply to these <code class="docutils literal"><span class="pre">.rst</span></code> files but probably only <code class="docutils literal"><span class="pre">.py</span></code> files. I
+changed the setting in docs\conf.py to:</p>
+<p><code class="docutils literal"><span class="pre">todo_include_todos</span> <span class="pre">=</span> <span class="pre">False</span></code></p>
+</div>
+<div class="section" id="starting-with-pycharm">
+<span id="index-3"></span><h3>1.1.4. Starting with PyCharm<a class="headerlink" href="#starting-with-pycharm" title="Permalink to this headline">¶</a></h3>
+<p>I wanted to update this document and so I entered and updated PyCharm. I am currently running version 2017.2.3. Upon
+entering PyCharm I started a new project by clicking <code class="docutils literal"><span class="pre">File&gt;New</span> <span class="pre">Project...</span></code>. In the dialog that appeared I browsed to
+the existing Location: <code class="docutils literal"><span class="pre">C:\Users\frjam_000\Documents\MyDjangoProjects\c17Development</span></code> and browsed to
+<code class="docutils literal"><span class="pre">C:\Users\frjam_000\Envs\c17\Scripts\python.exe</span></code> to set the Interpreter. I clicked on the <code class="docutils literal"><span class="pre">Create</span></code> button and then the
+<code class="docutils literal"><span class="pre">Yes</span></code> button to let it know I wanted a project from the existing documents.</p>
+<p>I will have to do the same on my home computer when I get back there.</p>
+</div>
+<div class="section" id="setting-up-on-github">
+<span id="index-4"></span><h3>1.1.5. Setting up on GitHub<a class="headerlink" href="#setting-up-on-github" title="Permalink to this headline">¶</a></h3>
+<p>This was simple. I just signed in to my GitHub account and clicked on the New Repository button. I named the new
+repository <code class="docutils literal"><span class="pre">christmas17</span></code>, gave it a quick description <code class="docutils literal"><span class="pre">The</span> <span class="pre">family</span> <span class="pre">Christmas</span> <span class="pre">website</span> <span class="pre">for</span> <span class="pre">2017</span></code> but did not add a
+README file or do any of the other things that were suggested. When I am ready I will push the file from PyCharm.</p>
+</div>
+</div>
+<div class="section" id="setting-up-the-django-project">
+<h2>1.2. Setting up the Django Project<a class="headerlink" href="#setting-up-the-django-project" title="Permalink to this headline">¶</a></h2>
+<p>This section may be pointless. See the Cloning Option section below.</p>
+<div class="section" id="initial-thoughts">
+<h3>1.2.1. Initial Thoughts<a class="headerlink" href="#initial-thoughts" title="Permalink to this headline">¶</a></h3>
+<p>I’m thinking what I will need to do is to go to the command prompt, start the django project, then change the directory
+structure to what it was for Christmas 2016. This can be done in PyCharm along with the changes necessary within a
+couple of the python files. This is outlined in the startup notes in the Christmas 2016 documentation files.</p>
+</div>
+<div class="section" id="creating-the-django-project">
+<span id="index-5"></span><h3>1.2.2. Creating the Django Project<a class="headerlink" href="#creating-the-django-project" title="Permalink to this headline">¶</a></h3>
+<p>In a regular command prompt (not administrator), I got into the c17development directory and issued the command:</p>
+<p><code class="docutils literal"><span class="pre">django-admin</span> <span class="pre">startproject</span> <span class="pre">Christmas2017</span></code></p>
+<p>In PyCharm I used Refactor to change the inner <code class="docutils literal"><span class="pre">Christmas2017</span></code> directory name to <code class="docutils literal"><span class="pre">config</span></code>. It automatically found
+the references in <code class="docutils literal"><span class="pre">manage.py</span></code>, <code class="docutils literal"><span class="pre">settings.py</span></code>, and <code class="docutils literal"><span class="pre">wsgi.py</span></code> that needed changing but also found three lines
+in <code class="docutils literal"><span class="pre">docs/conf.py</span></code> that DIDN’T need changing. In the Refactoring Preview pane I clicked on <code class="docutils literal"><span class="pre">docs</span></code> and pressed
+<code class="docutils literal"><span class="pre">Delete</span></code>. It complained about the code changing and made me “search again” but, when I highlighted the individual
+files and clicked <code class="docutils literal"><span class="pre">Delete</span></code> for each one it did the refactoring properly.</p>
+<p>In the command prompt window I switched to the Christmas2017 directory and entered:</p>
+<p><code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">runserver</span></code></p>
+<p>Upon going to <code class="docutils literal"><span class="pre">localhost:8000</span></code> in the browser I got to the “It worked!” page. Yay!</p>
+</div>
+<div class="section" id="making-my-life-easier">
+<span id="index-6"></span><h3>1.2.3. Making My Life Easier<a class="headerlink" href="#making-my-life-easier" title="Permalink to this headline">¶</a></h3>
+<p>I remembered there was some way to simplify the command to just <code class="docutils literal"><span class="pre">manage.py</span></code> and I found a reference to it in the
+documentation for BnB notes. This command should do it:</p>
+<p><code class="docutils literal"><span class="pre">chmod</span> <span class="pre">+x</span> <span class="pre">./manage.py</span></code></p>
+<p>and it worked! I tried to learn more about the <code class="docutils literal"><span class="pre">chmod</span></code> command, specifically, what the <code class="docutils literal"><span class="pre">+x</span></code> did and why I used
+<code class="docutils literal"><span class="pre">./</span></code> in front of the <code class="docutils literal"><span class="pre">magage.py</span></code> but that information may be in the Test Driven Development book and I haven’t
+looked it up yet.</p>
+<p>Also, I want to create a c17.bat file with the proper contents to more easily get to the right directory with the
+proper environment variable set and in the proper virtual environment. Looking at <code class="docutils literal"><span class="pre">c16.bat</span></code>, I created a batch file
+named <code class="docutils literal"><span class="pre">c17.bat</span></code> as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="n">off</span>
+<span class="n">cd</span> <span class="s2">&quot;Documents\MyDjangoProjects\c17Development\Christmas2017&quot;</span>
+<span class="nb">set</span> <span class="n">DJANGO_SETTINGS_MODULE</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">dev</span>
+<span class="n">workon</span> <span class="n">c17</span>
+</pre></div>
+</div>
+<p>I used Notepad++ to create the file (copied and pasted the above) and saved it in <code class="docutils literal"><span class="pre">C:\\Users\\frjam_000</span></code> on the
+rectory computer. It worked perfectly.</p>
+<p>But now I’m wondering just what that environment variable does. I’m too tired right now to figure it all out but,
+according to the notes in last year’s <code class="docutils literal"><span class="pre">startup.rst</span></code> it may have something to do with separating development and
+production settings.</p>
+</div>
+<div class="section" id="directory-structure">
+<span id="index-7"></span><h3>1.2.4. Directory Structure<a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h3>
+<p>Here is the directory structure I established based on last year’s:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>\<span class="o">-</span><span class="n">MyDjangoProjects</span>
+ <span class="o">|-</span><span class="p">(</span><span class="n">other_projects</span><span class="p">)</span>
+ \<span class="o">-</span><span class="n">c17Development</span>
+   <span class="o">|-.</span><span class="n">gitignore</span>
+   <span class="o">|-</span><span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+   <span class="o">|-</span><span class="n">docs</span>
+   \<span class="o">-</span><span class="n">Christmas2017</span>
+     <span class="o">|-</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span>
+     <span class="o">|-</span><span class="n">templates</span>
+     \<span class="o">-</span><span class="n">config</span>
+       <span class="o">|-</span><span class="n">__init</span><span class="o">.</span><span class="n">py__</span>
+       <span class="o">|-</span><span class="n">settings</span><span class="o">.</span><span class="n">py</span>
+       <span class="o">|-</span><span class="n">urls</span><span class="o">.</span><span class="n">py</span>
+       \<span class="o">-</span><span class="n">wsgi</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="starting-version-control">
+<h3>1.2.5. Starting Version Control<a class="headerlink" href="#starting-version-control" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="changing-the-database">
+<span id="index-8"></span><h3>1.2.6. Changing the Database<a class="headerlink" href="#changing-the-database" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="cloning-option">
+<span id="index-9"></span><h2>1.3. Cloning Option<a class="headerlink" href="#cloning-option" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="introduction">
+<h3>1.3.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
+<p>It occurred to me that starting a new Django project and then copying all the files to it may not be the way to go.
+Maybe I can clone the Christmas 2016 files from GitHub and start from there.</p>
+</div>
+<div class="section" id="backing-things-up">
+<h3>1.3.2. Backing Things Up<a class="headerlink" href="#backing-things-up" title="Permalink to this headline">¶</a></h3>
+<p>I want to back up what I have done so far just in case so, outside of PyCharm to avoid it’s refactoring,
+I will rename the <code class="docutils literal"><span class="pre">Christmas2017</span></code> folder to <code class="docutils literal"><span class="pre">Christmas2017BAK</span></code> and then try to clone the <code class="docutils literal"><span class="pre">Christmas2016</span></code>
+website from GitHub.</p>
+</div>
+<div class="section" id="performing-the-clone">
+<h3>1.3.3. Performing the Clone<a class="headerlink" href="#performing-the-clone" title="Permalink to this headline">¶</a></h3>
+<p>Under the VCS menu I selected <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Version</span> <span class="pre">Control</span> <span class="pre">Integration</span></code> and selected <code class="docutils literal"><span class="pre">Git</span></code> as my version control
+system.</p>
+<p>Then I was able to select <code class="docutils literal"><span class="pre">VCS&gt;Git...&gt;Clone...</span></code> and enter</p>
+<p><code class="docutils literal"><span class="pre">Git</span> <span class="pre">Repository</span> <span class="pre">URL:</span> <span class="pre">https://github.com/JMorris1575/christmas16</span></code>
+<code class="docutils literal"><span class="pre">Parent</span> <span class="pre">Directory:</span> <span class="pre">C:\Users\frjam_000\Documents\MyDjangoProjects</span></code>
+<code class="docutils literal"><span class="pre">Directory</span> <span class="pre">Name:</span> <span class="pre">christmas16</span></code></p>
+<p>This created a new folder named <code class="docutils literal"><span class="pre">christmas16</span></code> in the <code class="docutils literal"><span class="pre">MyDjangoProjects</span></code> directory which is not what I wanted. I
+should have entered <code class="docutils literal"><span class="pre">c17Development</span></code> for the <code class="docutils literal"><span class="pre">Directory</span> <span class="pre">Name</span></code>. However, I noticed that the <code class="docutils literal"><span class="pre">christmas16</span></code> folder
+included the <code class="docutils literal"><span class="pre">docs</span></code> folder which I don’t want to overwrite. I will rename it, clone the files, delete the new <code class="docutils literal"><span class="pre">docs</span></code>
+folder, then rename the original back to <code class="docutils literal"><span class="pre">docs</span></code>. Here goes…</p>
+<p>It did not allow me to clone to the existing c17Development folder. I will rename that folder then try again…</p>
+<p>This time it worked, but upon renaming the folder PyCharm lost track of it, of course and asked me to open the newly
+cloned folder. I did this and, after having to wait for PyCharm’s lengthy indexing process, was able to drag and drop
+the <code class="docutils literal"><span class="pre">docs</span></code> folder to <code class="docutils literal"><span class="pre">c17Development</span></code> but that actually MOVED the folder instead of copying it so I will copy it
+back to <code class="docutils literal"><span class="pre">c17DevelopmentBAK</span></code> just to be safe.</p>
+<p>Done!</p>
+</div>
+<div class="section" id="testing-the-local-website">
+<span id="index-10"></span><h3>1.3.4. Testing the Local Website<a class="headerlink" href="#testing-the-local-website" title="Permalink to this headline">¶</a></h3>
+<p>Now to see if the website is working locally…</p>
+<p>It did not. At first the problem was that it couldn’t find <code class="docutils literal"><span class="pre">secrets.json</span></code> since that file was, sensibly, not in my
+GitHub repository. After copying it over from <code class="docutils literal"><span class="pre">c16Development</span></code> the new problem was that it could find “no module
+named psycopg2” which, of course, it couldn’t because I haven’t installed that module in the <code class="docutils literal"><span class="pre">c17</span></code> virtual
+environment as yet.</p>
+<p>Studying the Christmas2016 documentation:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>I got into the c16 environment and tried a migrate (manage.py migrate). It complained about an Error Loading
+psycopg2 which I should have expected. As explained in BnBNotes preliminaries.rst, I went to:
+
+``http://www.lfd.uci.edu/~gohlke/pythonlibs/#psycopg``
+
+and downloaded:
+
+``psycopg2-2.6.2-cp35-cp35m-win_amd64.whl``
+
+and copied it to the c:directory. In the c:directory I typed:
+
+``&gt; pip install psycopg2-2.6.2-cp35-cp35m-win_amd64.whl``
+
+and it installed successfully. Trying a migrate again succeeded and I could open the website at localhost:8000.
+
+[Note: the cp35 in two positions in the psycopg2 filename indicates python 35. Be sure to download the version for
+the version of python you are using.]
+</pre></div>
+</div>
+<p>I went to <code class="docutils literal"><span class="pre">http://www.lfd.uci.edu/~gohlke/pythonlibs/#psycopg</span></code> and downloaded:</p>
+<p><code class="docutils literal"><span class="pre">psycopg2-2.7.3-cp36-cp36m-win_amd64.whl</span></code></p>
+<p>this was after checking that I had an AMD processor in this computer (the rectory computer) by going to
+<code class="docutils literal"><span class="pre">Computer&gt;System</span> <span class="pre">properties</span></code>.</p>
+<p>Upon doing a:</p>
+<p><code class="docutils literal"><span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">psycopg2-2.7.3-cp36-cp36m-win_amd64.whl</span></code></p>
+<p>and the 2016 Christmas website seems to be working!</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/images/ThreeOrnaments.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Startup Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#laying-the-groundwork">1.1. Laying the Groundwork</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python-and-the-virtual-environment">1.1.1. Python and the Virtual Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-django">1.1.2. Installing Django</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-sphinx">1.1.3. Installing Sphinx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#starting-with-pycharm">1.1.4. Starting with PyCharm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-on-github">1.1.5. Setting up on GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#setting-up-the-django-project">1.2. Setting up the Django Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#initial-thoughts">1.2.1. Initial Thoughts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-the-django-project">1.2.2. Creating the Django Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-my-life-easier">1.2.3. Making My Life Easier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#directory-structure">1.2.4. Directory Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#starting-version-control">1.2.5. Starting Version Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changing-the-database">1.2.6. Changing the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cloning-option">1.3. Cloning Option</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">1.3.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#backing-things-up">1.3.2. Backing Things Up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#performing-the-clone">1.3.3. Performing the Clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testing-the-local-website">1.3.4. Testing the Local Website</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c17conversion.html">2. Converting Christmas2016 to Christmas2017</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updating.html">3. Updating the Website</a></li>
+<li class="toctree-l1"><a class="reference internal" href="new_apps.html">4. New Applications</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Christmas 2017 Documentation</a></li>
+      <li>Next: <a href="c17conversion.html" title="next chapter">2. Converting Christmas2016 to Christmas2017</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jim Morris.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/startup.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
