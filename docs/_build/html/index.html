@@ -1,0 +1,209 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Christmas 2017 Documentation &#8212; Christmas 2017 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Startup Notes" href="startup.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="christmas-2017-documentation">
+<h1>Christmas 2017 Documentation<a class="headerlink" href="#christmas-2017-documentation" title="Permalink to this headline">¶</a></h1>
+<p>These documents constitute something of a journal I made while developing the Christmas 2017 website. This, as always,
+is to simplify the process of developing Django websites in the future.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="startup.html">1. Startup Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="startup.html#laying-the-groundwork">1.1. Laying the Groundwork</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#python-and-the-virtual-environment">1.1.1. Python and the Virtual Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#installing-django">1.1.2. Installing Django</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#installing-sphinx">1.1.3. Installing Sphinx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#starting-with-pycharm">1.1.4. Starting with PyCharm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#setting-up-on-github">1.1.5. Setting up on GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="startup.html#setting-up-the-django-project">1.2. Setting up the Django Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#initial-thoughts">1.2.1. Initial Thoughts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#creating-the-django-project">1.2.2. Creating the Django Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#making-my-life-easier">1.2.3. Making My Life Easier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#directory-structure">1.2.4. Directory Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#starting-version-control">1.2.5. Starting Version Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#changing-the-database">1.2.6. Changing the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="startup.html#cloning-option">1.3. Cloning Option</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#introduction">1.3.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#backing-things-up">1.3.2. Backing Things Up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#performing-the-clone">1.3.3. Performing the Clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="startup.html#testing-the-local-website">1.3.4. Testing the Local Website</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c17conversion.html">2. Converting Christmas2016 to Christmas2017</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c17conversion.html#initial-thoughts">2.1. Initial Thoughts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="c17conversion.html#getting-up-and-running-on-the-rectory-computer">2.2. Getting Up and Running on the Rectory Computer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="c17conversion.html#refactoring-the-main-folder">2.2.1. Refactoring the Main Folder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c17conversion.html#switching-to-a-new-database">2.2.2. Switching to a New Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c17conversion.html#resetting-the-remote-to-c17development">2.2.3. Resetting the Remote to c17Development</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="c17conversion.html#getting-up-and-running-on-the-home-computer">2.3. Getting Up and Running on the Home Computer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="c17conversion.html#cloning-the-website-from-github">2.3.1. Cloning the Website from GitHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c17conversion.html#installing-sphinx-on-the-home-computer">2.3.2. Installing Sphinx on the Home Computer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c17conversion.html#creating-the-database-on-the-home-computer">2.3.3. Creating the Database on the Home Computer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="c17conversion.html#general-notes">2.4. General Notes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="c17conversion.html#transfer-notes">2.4.1. Transfer Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="updating.html">3. Updating the Website</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updating.html#initial-thoughts-and-plans">3.1. Initial Thoughts and Plans</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#plans-at-the-beginning">3.1.1. Plans at the Beginning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="updating.html#research">3.2. Research</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#fonts">3.2.1. Fonts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#html-and-css-assistance">3.2.2. Html and CSS Assistance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="updating.html#improving-the-header">3.3. Improving the Header</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#steps-to-improve-header">3.3.1. Steps to Improve Header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#choosing-fonts">3.3.2. Choosing Fonts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#header-content">3.3.3. Header Content</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#header-styling">3.3.4. Header Styling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#moving-the-memories-display">3.3.5. Moving the Memories Display</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#improving-memory-appearance">3.3.6. Improving Memory Appearance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#new-banner-image">3.3.7. New Banner Image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating.html#creating-a-separate-login-page">3.3.8. Creating a Separate Login Page</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="new_apps.html">4. New Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="new_apps.html#building-the-trivia-app">4.1. Building the Trivia App</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="new_apps.html#narrative-desription">4.1.1. Narrative Desription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="new_apps.html#information-gleaned-from-narrative">4.1.2. Information Gleaned from Narrative</a></li>
+<li class="toctree-l3"><a class="reference internal" href="new_apps.html#urls">4.1.3. URLs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="new_apps.html#models">4.1.4. Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="new_apps.html#what-the-views-have-to-do">4.1.5. What the Views Have to Do</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="#">
+    <img class="logo" src="_static/images/ThreeOrnaments.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="startup.html">1. Startup Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c17conversion.html">2. Converting Christmas2016 to Christmas2017</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updating.html">3. Updating the Website</a></li>
+<li class="toctree-l1"><a class="reference internal" href="new_apps.html">4. New Applications</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="startup.html" title="next chapter">1. Startup Notes</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jim Morris.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

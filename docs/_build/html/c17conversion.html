@@ -1,0 +1,339 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>2. Converting Christmas2016 to Christmas2017 &#8212; Christmas 2017 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Updating the Website" href="updating.html" />
+    <link rel="prev" title="1. Startup Notes" href="startup.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="converting-christmas2016-to-christmas2017">
+<h1>2. Converting Christmas2016 to Christmas2017<a class="headerlink" href="#converting-christmas2016-to-christmas2017" title="Permalink to this headline">¶</a></h1>
+<p>This document chronicles the development of the Christmas 2017 website from the point the Christmas 2016 website was
+cloned locally and gotten to work.</p>
+<div class="section" id="initial-thoughts">
+<h2>2.1. Initial Thoughts<a class="headerlink" href="#initial-thoughts" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>I can start by refactoring the folder named Christmas2016 to Christmas2017. I think I can accept the default changes
+PyCharm wants to make.</li>
+<li>I will need to create a new PostGreSQL Database for this year and probably need to copy the old one over. This will
+require some study.</li>
+<li>I want to redesign the look and feel of the website. This will test my artistic skills, such as they are, and will
+probably require some changes to the base.html, header.html and footer.html templates.</li>
+</ul>
+</div>
+<div class="section" id="getting-up-and-running-on-the-rectory-computer">
+<h2>2.2. Getting Up and Running on the Rectory Computer<a class="headerlink" href="#getting-up-and-running-on-the-rectory-computer" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="refactoring-the-main-folder">
+<h3>2.2.1. Refactoring the Main Folder<a class="headerlink" href="#refactoring-the-main-folder" title="Permalink to this headline">¶</a></h3>
+<p>Changing Christmas2016 to Christmas2017 was no problem in PyCharm after I closed any windows or programs that might be
+using it. Before that I got some obscure java script error. I may still find some things that need changing, like
+comments that refer to Christmas2016.</p>
+</div>
+<div class="section" id="switching-to-a-new-database">
+<span id="index-0"></span><h3>2.2.2. Switching to a New Database<a class="headerlink" href="#switching-to-a-new-database" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="creating-the-new-database">
+<h4>2.2.2.1. Creating the New Database<a class="headerlink" href="#creating-the-new-database" title="Permalink to this headline">¶</a></h4>
+<p>Again, checking the Christmas2016 documentation I was reminded how to create a new PostgreSQL database:</p>
+<ol class="arabic simple">
+<li>Open pgAdminIII</li>
+<li>Double-click PostgreSQL and enter the password (Dylan Selfie).</li>
+<li>Right click Databases and select New Database…</li>
+<li>Add the name (I chose c17database).</li>
+<li>Select an Owner (I selected Jim).</li>
+<li>Update the secrets.json file to refer to c17database instead of c16database.</li>
+</ol>
+<p>I tested to see if I could get into the website and found I had to do:</p>
+<p><code class="docutils literal"><span class="pre">&gt;manage.py</span> <span class="pre">migrate</span></code></p>
+<p>before I could even get to the login page. The login page, unsurprisingly, wouldn’t let me in. I don’t have any users
+in the database yet.</p>
+<p id="index-1">I did learn how to get into the admin pages though, do a:</p>
+<p><code class="docutils literal"><span class="pre">&gt;</span> <span class="pre">manage.py</span> <span class="pre">createsuperuser</span></code></p>
+<p>After creating Jim as a superuser with DylanSelfie as the password I could get into the Christmas 2017 Admin file,
+though it is still calling itself Christmas 2016 Admin. The structure was there with headings AUTHENTICATION AND
+AUTHORIZATION, GIFTS, MAIL, MEMORY, QUESTION, and STORY, but none of the tables had any entries and the QUESTION tables
+didn’t work at all for some reason.</p>
+<p>I just found out where the admin site gets its heading. It is given in the <code class="docutils literal"><span class="pre">urls.py</span></code> file in the <code class="docutils literal"><span class="pre">config</span></code> folder. I
+changed it to Christmas 2017.</p>
+<p>I wonder if there is a way to delete a superuser too.</p>
+</div>
+<div class="section" id="initial-migration">
+<span id="index-2"></span><h4>2.2.2.2. Initial Migration<a class="headerlink" href="#initial-migration" title="Permalink to this headline">¶</a></h4>
+<p>In order to get the database working (apparently there was some problem with the question app) I did a</p>
+<p><code class="docutils literal"><span class="pre">manage.py</span> <span class="pre">makemigrations</span></code></p>
+<p>It wanted to know if I had renamed response.author to response.responder, which I’m sure I did :-), and corrected some
+“non-nullable” fields to include a default. I just selected the suggested default of <code class="docutils literal"><span class="pre">timezone.now</span></code> for most of them
+and “Test Question” for the non-nullable field ‘response.’ Obviously not a great default. I hope I can change it in the
+model file later.</p>
+<p>Finally it was happy with me and said:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Migrations</span> <span class="k">for</span> <span class="s1">&#39;question&#39;</span><span class="p">:</span>
+<span class="n">question</span>\<span class="n">migrations</span>\<span class="mi">0002</span><span class="n">_auto_20171024_2115</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span> <span class="n">Change</span> <span class="n">Meta</span> <span class="n">options</span> <span class="n">on</span> <span class="n">question</span>
+<span class="o">-</span> <span class="n">Rename</span> <span class="n">field</span> <span class="n">author</span> <span class="n">on</span> <span class="n">response</span> <span class="n">to</span> <span class="n">responder</span>
+<span class="o">-</span> <span class="n">Add</span> <span class="n">field</span> <span class="n">date</span> <span class="n">to</span> <span class="n">question</span>
+<span class="o">-</span> <span class="n">Add</span> <span class="n">field</span> <span class="n">entered</span> <span class="n">to</span> <span class="n">response</span>
+<span class="o">-</span> <span class="n">Add</span> <span class="n">field</span> <span class="n">response</span> <span class="n">to</span> <span class="n">response</span>
+</pre></div>
+</div>
+<p>Then I did a <code class="docutils literal"><span class="pre">manage.py</span> <span class="pre">migrate</span></code> and got this response:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Operations</span> <span class="n">to</span> <span class="n">perform</span><span class="p">:</span>
+<span class="n">Apply</span> <span class="nb">all</span> <span class="n">migrations</span><span class="p">:</span> <span class="n">admin</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">contenttypes</span><span class="p">,</span> <span class="n">gifts</span><span class="p">,</span> <span class="n">mail</span><span class="p">,</span> <span class="n">memory</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">sessions</span><span class="p">,</span> <span class="n">story</span><span class="p">,</span> <span class="n">user</span>
+<span class="n">Running</span> <span class="n">migrations</span><span class="p">:</span>
+<span class="n">Applying</span> <span class="n">question</span><span class="o">.</span><span class="mi">0002</span><span class="n">_auto_20171024_2115</span><span class="o">...</span> <span class="n">OK</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="copying-data-to-c17database-from-c16database">
+<span id="index-3"></span><h4>2.2.2.3. Copying Data to c17Database from c16database<a class="headerlink" href="#copying-data-to-c17database-from-c16database" title="Permalink to this headline">¶</a></h4>
+<p>To copy the c16Database I used <code class="docutils literal"><span class="pre">manage.py</span> <span class="pre">dumpdata</span></code> in the c16 environment to create a bunch of files from the various
+models used by the website: to_c17_user.json, to_c17_gifts.json, to_c17_mail.json, to_c17_memory.json and
+to_c17_question.json. Then I used <code class="docutils literal"><span class="pre">manage.py</span> <span class="pre">loaddata</span> <span class="pre">&lt;fixture&gt;</span></code> in the c17 environment to read them in. (Later I
+learned how to do them as a group (<a class="reference internal" href="#loading-multiple-fixtures"><span class="std std-ref">see below</span></a>.) I still don’t know why I
+couldn’t dump them as a group.)</p>
+<p>The mail data seems to be empty but it didn’t stop me from loading it all. Now the website works locally.</p>
+</div>
+</div>
+<div class="section" id="resetting-the-remote-to-c17development">
+<span id="index-4"></span><h3>2.2.3. Resetting the Remote to c17Development<a class="headerlink" href="#resetting-the-remote-to-c17development" title="Permalink to this headline">¶</a></h3>
+<p>Because my current files were all cloned from the origin:</p>
+<p><code class="docutils literal"><span class="pre">https://github.com/JMorris1575/christmas16</span></code></p>
+<p>that repository was the remote pointed to in PyCharm. To change that I went to <code class="docutils literal"><span class="pre">VCS&gt;Git&gt;Remotes</span></code> and changed it to:</p>
+<p><code class="docutils literal"><span class="pre">origin</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">https://github.com/JMorris1575/christmas17</span></code></p>
+<p>After doing a commit and a push the files were all safely stored in the proper GitHub repository.</p>
+</div>
+</div>
+<div class="section" id="getting-up-and-running-on-the-home-computer">
+<h2>2.3. Getting Up and Running on the Home Computer<a class="headerlink" href="#getting-up-and-running-on-the-home-computer" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cloning-the-website-from-github">
+<span id="index-5"></span><h3>2.3.1. Cloning the Website from GitHub<a class="headerlink" href="#cloning-the-website-from-github" title="Permalink to this headline">¶</a></h3>
+<p>This was not a difficult process, though I had to get into a project for which I had enabled Version Control. I used
+<code class="docutils literal"><span class="pre">c16Development</span></code>. I went to <code class="docutils literal"><span class="pre">VCS</span> <span class="pre">&gt;</span> <span class="pre">Git</span> <span class="pre">&gt;</span> <span class="pre">Clone...</span></code>, put in <code class="docutils literal"><span class="pre">https://github.com/JMorris1575/christmas17</span></code> for the
+<strong>Git Repository URL</strong>, left the <strong>Parent Directory</strong> as <code class="docutils literal"><span class="pre">C:\Users\frjam\Documents\MyDjangoProjects</span></code>, and changed the
+<strong>Directory Name</strong> to <code class="docutils literal"><span class="pre">c17Development</span></code>, then clicked the <strong>Clone</strong> button.</p>
+<p>In order to write the paragraph above I had to get into the cloning dialog several times and noticed it was still set
+to the c16 settings. I went to <code class="docutils literal"><span class="pre">VCS</span> <span class="pre">&gt;</span> <span class="pre">Git</span> <span class="pre">&gt;</span> <span class="pre">Push...</span></code>, clicked on <code class="docutils literal"><span class="pre">origin</span> <span class="pre">&gt;</span> <span class="pre">Define</span> <span class="pre">Remote</span></code>, clicked <code class="docutils literal"><span class="pre">OK</span></code> and got
+an error message:</p>
+<p><code class="docutils literal"><span class="pre">Couldn't</span> <span class="pre">add</span> <span class="pre">remote:</span> <span class="pre">remote</span> <span class="pre">origin</span> <span class="pre">already</span> <span class="pre">exists.</span></code></p>
+<p>Hmm… I seem to remember going through something like this last night just before pushing the website from my
+Rectory computer. I think I had to change it in settings…</p>
+<p>Nope, nothing there. Ah! Now I remember, it was under <code class="docutils literal"><span class="pre">VCS</span> <span class="pre">&gt;</span> <span class="pre">Git</span> <span class="pre">&gt;</span> <span class="pre">Remotes...</span></code> but it was already set correctly on
+this, my home computer.</p>
+<p>But I noticed I hadn’t pushed the latest version to GitHub before leaving the Rectory Computer. I got into
+TeamViewer and mucked around with it for a while but it seems to be correct now. I had to “stash” the changes I made
+to this file before the pull would work. I may have to learn what that means. ;-)</p>
+<p>..index:: Problems; Couldn’t import Django</p>
+</div>
+<div class="section" id="installing-sphinx-on-the-home-computer">
+<h3>2.3.2. Installing Sphinx on the Home Computer<a class="headerlink" href="#installing-sphinx-on-the-home-computer" title="Permalink to this headline">¶</a></h3>
+<p>When I tried to compile these documents I discovered I had not yet installed Sphinx on this computer. I did:</p>
+<p><code class="docutils literal"><span class="pre">&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sphinx</span></code></p>
+<p>and it obediently installed Sphinx 1.6.5.</p>
+<p>Interesting. Looking at my Startup document I found I DID install sphinx last week: Sphinx 1.6.4. I wondered about that
+because I just typed <code class="docutils literal"><span class="pre">manage.py</span></code> at the command prompt in the c17 environment but it claimed it could not import
+Django. I just checked and django IS available in the c17 environment’s <code class="docutils literal"><span class="pre">Lib/site-packages</span></code> folder. Maybe it was
+because I haven’t run the <code class="docutils literal"><span class="pre">chmod</span></code> command yet. Time for a</p>
+<p><code class="docutils literal"><span class="pre">chmod</span> <span class="pre">+x</span> <span class="pre">./manage.py</span></code></p>
+<p>command…</p>
+<p>Nope! It still claims it can’t import Django. Here is the error message:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>ImportError: Couldn&#39;t import Django. Are you sure it&#39;s installed and available on your PYTHONPATH environment
+variable? Did you forget to activate a virtual environment?
+</pre></div>
+</div>
+<p>That error message, I find, is printed within <code class="docutils literal"><span class="pre">manage.py</span></code> itself. Maybe I should check the PYTHONPATH environment
+variable. But where do I find it?</p>
+<p>According to an entry on stackoverflow I can find it by entering <code class="docutils literal"><span class="pre">python</span> <span class="pre">-c</span> <span class="pre">&quot;import</span> <span class="pre">sys;</span> <span class="pre">print('\n'.join(sys.path))&quot;</span></code>
+on the command line. I did and I got:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">frjam</span>\<span class="n">Envs</span>\<span class="n">c17</span>\<span class="n">Scripts</span>\<span class="n">python36</span><span class="o">.</span><span class="n">zip</span>
+<span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">frjam</span>\<span class="n">Envs</span>\<span class="n">c17</span>\<span class="n">DLLs</span>
+<span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">frjam</span>\<span class="n">Envs</span>\<span class="n">c17</span>\<span class="n">lib</span>
+<span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">frjam</span>\<span class="n">Envs</span>\<span class="n">c17</span>\<span class="n">Scripts</span>
+<span class="n">c</span><span class="p">:</span>\<span class="n">program</span> <span class="n">files</span>\<span class="n">python36</span>\<span class="n">Lib</span>
+<span class="n">c</span><span class="p">:</span>\<span class="n">program</span> <span class="n">files</span>\<span class="n">python36</span>\<span class="n">DLLs</span>
+<span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">frjam</span>\<span class="n">Envs</span>\<span class="n">c17</span>
+<span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">frjam</span>\<span class="n">Envs</span>\<span class="n">c17</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>
+</pre></div>
+</div>
+<p>It looks to me that Django is on my PYTHONPATH. I’ll try installing Django again…</p>
+<p>That didn’t work either. First it wouldn’t let me because it was already installed, but even after I deleted the django
+directories from the <code class="docutils literal"><span class="pre">ENV\c17\site-packages</span></code> directory and re-installed django I still have the same problem.</p>
+<p>I’ve read about what <code class="docutils literal"><span class="pre">chmod</span> <span class="pre">+x</span> <span class="pre">.\manage.py</span></code> does and it changes the mode of a file, in this case the manage.py file,
+to make it executable – and it is! Otherwise I wouldn’t be getting the error message at all.</p>
+<p>I could run manage.py by typing <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span></code> and it indicated it could not find psycopg2, which is not
+surprising since I have not installed it yet on this computer. Since it looks for psycopg2 in <code class="docutils literal"><span class="pre">base.py</span></code> and I believe
+it goes through <code class="docutils literal"><span class="pre">base.py</span></code> in the <code class="docutils literal"><span class="pre">__init__.py</span></code> script as it imports Django, maybe that is the problem. It doesn’t
+seem so, though, since I have temporarily added a <code class="docutils literal"><span class="pre">print(&quot;*****************</span> <span class="pre">Hey!</span> <span class="pre">I</span> <span class="pre">got</span> <span class="pre">here!</span> <span class="pre">*****************&quot;)</span></code>
+line to that program and, though it executes when I type <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span></code> it does not run when I just type
+<code class="docutils literal"><span class="pre">manage.py</span></code>. I’ll try installing psycopg2 and see what happens…</p>
+<p>Still the same! Except <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span></code> works now that psycopg2 is installed. It must be using some other python
+when I use just manage.py. I wonder if I can find out which one. I suppose it may be the main installation of Python 3.6
+in the <code class="docutils literal"><span class="pre">C:\Programs</span></code> directory. I will try installing Django there and see what happens…</p>
+<p>I had to get into an administrator command prompt to do it, but nothing changed, even after I deactivated c17 and then
+reactivated it, even after I exited the old command window and got into a new one. Perhaps the computer is using still
+another version of Python – like the one that runs Forty Thieves.</p>
+<p>I think I have just figured it out. I installed Django in the global installation of Python 3.5 by typing:</p>
+<p><code class="docutils literal"><span class="pre">pip3.5</span> <span class="pre">install</span> <span class="pre">django</span></code></p>
+<p>Then, in the c17 environment, I got the complaint about “No module named ‘psycopg2’.” The program line it was
+complaining about came from the Python35 installation of django. So that’s the default python that .py files use
+when their chmod mode is set to allow execution. But I don’t like it using a global python for that. Rather defeats
+the purpose of having a virtual environment it seems to me if I have to install everything in the global version of
+Python.</p>
+<p id="index-6">I think I will do better with a batch file in the Christmas 2017 directory:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="n">off</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="o">%</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Let’s try that…</p>
+<p>It seems to work! The only problem is that, at the end after I do a <code class="docutils literal"><span class="pre">manage</span> <span class="pre">runserver</span></code> it asks “Terminate batch job
+(Y/N)?” I’d rather it didn’t do that but it may be a function of using Ctrl-Break to get out of the server.</p>
+<p>..index:: Database; creating on a second computer</p>
+</div>
+<div class="section" id="creating-the-database-on-the-home-computer">
+<h3>2.3.3. Creating the Database on the Home Computer<a class="headerlink" href="#creating-the-database-on-the-home-computer" title="Permalink to this headline">¶</a></h3>
+<p>Now I can try re-creating the database. Currently, starting the server and going to <code class="docutils literal"><span class="pre">localhost:8000</span></code> results, when I
+try to log in, with an:</p>
+<p><code class="docutils literal"><span class="pre">auth.user</span></code> does not exist error.</p>
+<p>It also complained that I had 19 unapplied migrations. So I got into a separate c17 environment and ran:</p>
+<p><code class="docutils literal"><span class="pre">manage</span> <span class="pre">migrate</span></code></p>
+<p>Now, when I try to get into the local website it sends me to the login page and won’t let me get off it. It knows no
+users as of yet.</p>
+<p id="loading-multiple-fixtures">Now I will try:</p>
+<p><code class="docutils literal"><span class="pre">manage.py</span> <span class="pre">loaddata</span> <span class="pre">to_c17_user.json</span> <span class="pre">to_c17_gifts.json</span> <span class="pre">to_c17_mail.json</span> <span class="pre">to_c17_memory.json</span> <span class="pre">to_c17_question.json</span></code></p>
+<p id="index-7">It worked after I added some more %n values to the <code class="docutils literal"><span class="pre">manage.bat</span></code> file. (After adding a %2 it accepted only the first
+“fixture,” so I added %2 through %9.) Now I can get into the website locally! It took almost a day but I’m finally at
+the same point on both computers. Time for a commit.</p>
+</div>
+</div>
+<div class="section" id="general-notes">
+<h2>2.4. General Notes<a class="headerlink" href="#general-notes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="transfer-notes">
+<span id="index-8"></span><h3>2.4.1. Transfer Notes<a class="headerlink" href="#transfer-notes" title="Permalink to this headline">¶</a></h3>
+<p>October 27, 2017: the git pull from what I had done at home worked fine. I wanted to remove secrets.json from PyCharm’s
+list of tracked files just in case, in spite of it being in <code class="docutils literal"><span class="pre">.gitignore</span></code>, it might end up on GitHub.</p>
+<p>Using the “Terminal” in PyCharm I tried <code class="docutils literal"><span class="pre">git</span> <span class="pre">untrack</span> <span class="pre">secrets.json</span></code> but was informed that <code class="docutils literal"><span class="pre">untrack</span></code> was not a proper
+git command. Looking at <code class="docutils literal"><span class="pre">git</span> <span class="pre">--help</span></code>, I thought the thing to use would be <code class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span> <span class="pre">secrets.json</span></code> but it needed the
+whole path name: <code class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span> <span class="pre">-f</span> <span class="pre">Christmas2017/config/settings/secrets.json</span></code> AND it turns out that it erases the whole
+file! I had to restore it through TeamViewer but now it is marked as untracked. Yay!</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/images/ThreeOrnaments.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="startup.html">1. Startup Notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Converting Christmas2016 to Christmas2017</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initial-thoughts">2.1. Initial Thoughts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-up-and-running-on-the-rectory-computer">2.2. Getting Up and Running on the Rectory Computer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#refactoring-the-main-folder">2.2.1. Refactoring the Main Folder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#switching-to-a-new-database">2.2.2. Switching to a New Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resetting-the-remote-to-c17development">2.2.3. Resetting the Remote to c17Development</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-up-and-running-on-the-home-computer">2.3. Getting Up and Running on the Home Computer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cloning-the-website-from-github">2.3.1. Cloning the Website from GitHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-sphinx-on-the-home-computer">2.3.2. Installing Sphinx on the Home Computer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-the-database-on-the-home-computer">2.3.3. Creating the Database on the Home Computer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#general-notes">2.4. General Notes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transfer-notes">2.4.1. Transfer Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="updating.html">3. Updating the Website</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="startup.html" title="previous chapter">1. Startup Notes</a></li>
+      <li>Next: <a href="updating.html" title="next chapter">3. Updating the Website</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jim Morris.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/c17conversion.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

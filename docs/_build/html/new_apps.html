@@ -1,0 +1,219 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>4. New Applications &#8212; Christmas 2017 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="3. Updating the Website" href="updating.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="new-applications">
+<h1>4. New Applications<a class="headerlink" href="#new-applications" title="Permalink to this headline">¶</a></h1>
+<p>This document chronicles my attempts to add new apps to the Christmas 2017 website. I will start with the simpler one,
+the Trivia app (<a class="reference internal" href="updating.html#trivia-desc"><span class="std std-ref">see initial description</span></a>), and then perhaps I will know enough to implement the
+Story app. If other apps come to mind later I will document them here.</p>
+<div class="section" id="building-the-trivia-app">
+<h2>4.1. Building the Trivia App<a class="headerlink" href="#building-the-trivia-app" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="narrative-desription">
+<h3>4.1.1. Narrative Desription<a class="headerlink" href="#narrative-desription" title="Permalink to this headline">¶</a></h3>
+<p>Bill visits the Christmas 2017 website and clicks on the “Trivia” menu item. He is the first one to do so. The first page
+that displays tells him the rules of the game, mostly that he must answer the questions based on his own memory without
+looking them up anywhere. Then he clicks the “I will play by the rules.” button to see the first question.</p>
+<p>The question page gives him the question and a chance to give his answer. Once his answer is given he is told whether
+he is right or wrong and, if wrong, what the correct answer is. Once he has submitted his answer he cannot change it. In
+this case, Bill is right and he is given a score of 100%. This appears on the same page that tells him he’s right or
+wrong. Since this is the first day for the trivia questions, and Bill has answered the only one there is, there is a
+“Return to Scoreboard” button at the bottom which Bill clicks.  He is returned to the main trivia page and sees the
+rules again but, instead of the “I will play by the rules” button there is a message which tells him he has completed
+all of the available questions and that he can come back tomorrow for a new one.</p>
+<p>But now he notices at the right there is a scoreboard column with his name listed as scoring 100% after answering one
+question. Bill also notices a “Start the Conversation” button underneath the scoreboard. He doesn’t have anything to
+say so he ignores it and clicks on a different menu item and leaves the Trivia app.</p>
+<p>Now Janet visits the website and clicks on the “Trivia” menu item. She sees the same page Bill did giving her the rules
+and displaying the scoreboard with only Bill’s name and score listed. She notices the “Start the Conversation” button
+and clicks on it. This sends her to a page where she types “Atta boy Bill!” and clicks the “Submit” button. This sends
+her back to the Rules page where she sees her conversation starter in a box under the scoreboard saying:
+<strong>Janet says: “Atta boy Bill!”</strong> Now the button says “Add to the Conversation.”</p>
+<p>But Janet wanted to answer the trivia question and so clicks the “I will play by the rules button.” She, too, answers
+correctly. (That first question is an easy one!) Since there are still no more questions she also gets the “Return to
+Scoreboard” button. When she clicks it she sees that her name and score have been added to the scoreboard under Bill’s.
+Seeing there are no more questions she clicks on another menu item.</p>
+<p>The next day Dave comes to the Trivia page, reads the rules, decides not to add to the conversation, and agrees to play
+by the rules. He is presented with the first question, which he answers and gets right. On his answer page he sees a
+“Continue” button which sends him to the second question which, alas, he gets wrong. Coming back to the scoreboard he
+sees his name in first place in the section of those who have answered two questions.</p>
+<p>As each family member visits the Trivia section and answers the questions their score is updated and listed in a section
+corresponding to how many questions they have answered. The ones on top are the ones who have answered the most.</p>
+<p>Now Bill returns to the Trivia section and can answer the next question. He gets it right and so, when he returns to the
+scoreboard his name has moved to the top of the top section, above Dave’s.</p>
+</div>
+<div class="section" id="information-gleaned-from-narrative">
+<h3>4.1.2. Information Gleaned from Narrative<a class="headerlink" href="#information-gleaned-from-narrative" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="template-pages">
+<h4>4.1.2.1. Template Pages<a class="headerlink" href="#template-pages" title="Permalink to this headline">¶</a></h4>
+<p>I think there will be three basic pages:</p>
+<ul class="simple">
+<li>Entry page: tells the rules, displays the scoreboard,the ongoing conversation and the “Play by the Rules” button.</li>
+<li>Question page: presents the questions, supplies radio buttons for the answers and a Submit button.</li>
+<li>Results page: tells the user right or wrong, gives current score and supplies “Continue” or “Return” button.</li>
+</ul>
+</div>
+<div class="section" id="what-needs-to-be-remembered">
+<h4>4.1.2.2. What Needs to be Remembered<a class="headerlink" href="#what-needs-to-be-remembered" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>the questions</li>
+<li>the possible answers to display</li>
+<li>the correct answer</li>
+<li>each user’s answers to each question</li>
+<li>each user’s last-answered question (their question count)</li>
+<li>each user’s correct answer count</li>
+<li>each conversation entry’s text</li>
+<li>each conversation entry’s author</li>
+</ul>
+</div>
+</div>
+<div class="section" id="urls">
+<h3>4.1.3. URLs<a class="headerlink" href="#urls" title="Permalink to this headline">¶</a></h3>
+<p>Here are the urls that should work for the Trivia app:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">URL</th>
+<th class="head">Page(s) Addressed</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>/trivia/scoreboard/</td>
+<td>scoreboard page (scoreboard.html)</td>
+</tr>
+<tr class="row-odd"><td>/trivia/question/n/</td>
+<td>question n’s page (triv_quest.html)</td>
+</tr>
+<tr class="row-even"><td>/trivia/result/n/</td>
+<td>question n’s results page (triv_result.html)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="models">
+<h3>4.1.4. Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="what-the-views-have-to-do">
+<h3>4.1.5. What the Views Have to Do<a class="headerlink" href="#what-the-views-have-to-do" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/images/ThreeOrnaments.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="startup.html">1. Startup Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c17conversion.html">2. Converting Christmas2016 to Christmas2017</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updating.html">3. Updating the Website</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. New Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-trivia-app">4.1. Building the Trivia App</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#narrative-desription">4.1.1. Narrative Desription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#information-gleaned-from-narrative">4.1.2. Information Gleaned from Narrative</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#urls">4.1.3. URLs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#models">4.1.4. Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-the-views-have-to-do">4.1.5. What the Views Have to Do</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="updating.html" title="previous chapter">3. Updating the Website</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jim Morris.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/new_apps.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
