@@ -131,7 +131,230 @@ scoreboard his name has moved to the top of the top section, above Dave’s.</p>
 </table>
 </div>
 <div class="section" id="models">
-<h3>4.1.4. Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h3>
+<span id="index-0"></span><h3>4.1.4. Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="initial-thoughts">
+<h4>4.1.4.1. Initial Thoughts<a class="headerlink" href="#initial-thoughts" title="Permalink to this headline">¶</a></h4>
+<p>It has been a while since I have designed a model in Django so it isn’t entirely clear to me how to start. I suppose
+kind of a top-down approach will be helpful.</p>
+<p>What do I need? A set of database models to help manage the Trivia application.</p>
+<p>What do they need to contain? At first thought they need to contain and provide access to:</p>
+<ul class="simple">
+<li>the questions with their answers and the correct answer and the index number of the question</li>
+<li>a user’s answer to each question, which ones they’ve answered correctly and the number of questions they’ve answered</li>
+<li>the conversation entries along with the identity of the user making that entry</li>
+</ul>
+<p>This suggests to me that three models might be necessary, though I know a couple of them will probably need supporting
+models:</p>
+<ul>
+<li><p class="first">a TriviaQuestion model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">index</span> <span class="n">number</span> <span class="n">of</span> <span class="n">the</span> <span class="n">question</span>
+<span class="n">The</span> <span class="n">text</span> <span class="n">of</span> <span class="n">the</span> <span class="n">question</span>
+<span class="n">A</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">choices</span> <span class="k">for</span> <span class="n">the</span> <span class="n">possible</span> <span class="n">answers</span>
+<span class="n">An</span> <span class="n">indicator</span> <span class="k">as</span> <span class="n">to</span> <span class="n">which</span> <span class="n">answer</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">one</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">a TriviaUserProgress model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">the</span> <span class="n">user</span><span class="s1">&#39;s id</span>
+<span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">questions</span> <span class="n">they</span><span class="s1">&#39;ve answered</span>
+<span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">their</span> <span class="n">responses</span> <span class="ow">and</span> <span class="n">which</span> <span class="n">ones</span> <span class="n">were</span> <span class="n">correct</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">a TriviaConversation model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">the</span> <span class="n">text</span> <span class="n">of</span> <span class="n">each</span> <span class="n">entry</span> <span class="n">to</span> <span class="n">the</span> <span class="n">conversation</span>
+<span class="n">the</span> <span class="n">identity</span> <span class="n">of</span> <span class="n">the</span> <span class="n">user</span> <span class="n">making</span> <span class="n">that</span> <span class="n">entry</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>But each model is only a table and the first two models outlined above require variable length lists which may be best
+to include in a different model. Thus there may be two other models necessary:</p>
+<ul>
+<li><p class="first">a TriviaAnswer model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">the</span> <span class="n">question</span> <span class="n">to</span> <span class="n">which</span> <span class="n">this</span> <span class="n">selection</span> <span class="n">applies</span>
+<span class="n">the</span> <span class="n">text</span> <span class="n">of</span> <span class="n">the</span> <span class="n">selection</span>
+<span class="n">whether</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">selection</span> <span class="k">for</span> <span class="n">this</span> <span class="n">question</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">a TriviaUserResponse model containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">the</span> <span class="n">user</span>
+<span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">the</span> <span class="n">question</span> <span class="n">being</span> <span class="n">answered</span>
+<span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">the</span> <span class="n">user</span><span class="s1">&#39;s answer</span>
+<span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">whether</span> <span class="n">their</span> <span class="n">answer</span> <span class="n">was</span> <span class="n">correct</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>So it seems that five models may be necessary.</p>
+</div>
+<div class="section" id="models-for-the-trivia-app">
+<span id="index-1"></span><h4>4.1.4.2. Models for the Trivia App<a class="headerlink" href="#models-for-the-trivia-app" title="Permalink to this headline">¶</a></h4>
+<p>So here is my first attempt to spell out the models needed for the Trivia app:</p>
+<table border="1" class="colwidths-auto docutils" id="id1">
+<caption><span class="caption-text"><strong>TriviaQuestion Model</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>question_number</td>
+<td>IntegerField</td>
+<td>primary_key=True</td>
+<td>so that questions can be moved</td>
+</tr>
+<tr class="row-odd"><td>trivia_question_text</td>
+<td>CharField</td>
+<td>&#160;</td>
+<td>the question itself</td>
+</tr>
+<tr class="row-even"><td>tried</td>
+<td>IntegerField</td>
+<td>&#160;</td>
+<td>the number of users who have responded</td>
+</tr>
+<tr class="row-odd"><td>correct</td>
+<td>IntegerField</td>
+<td>&#160;</td>
+<td>the number of users getting it right</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id2">
+<caption><span class="caption-text"><strong>TriviaAnswerChoices Model</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>choice_number</td>
+<td>Integer</td>
+<td>primary_key=True</td>
+<td>so that responses may be moved</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>question</td>
+<td>ForeignKey</td>
+<td>‘TriviaQuestion’</td>
+<td>which question this refers to</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>choice_text</td>
+<td>CharField</td>
+<td>&#160;</td>
+<td>the possible answer</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>correct</td>
+<td>Boolean</td>
+<td>&#160;</td>
+<td>True if correct</td>
+<td>False otherwise</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id3">
+<caption><span class="caption-text"><strong>TriviaUserProgress Model</strong></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>trivia_user</td>
+<td>ForeignKey</td>
+<td>settings.AUTH_USER_MODEL</td>
+<td>marks which user</td>
+</tr>
+<tr class="row-odd"><td>answered_questions</td>
+<td>Integer</td>
+<td>&#160;</td>
+<td>tells how many questions they’ve answered</td>
+</tr>
+<tr class="row-even"><td>questions_correct</td>
+<td>Integer</td>
+<td>&#160;</td>
+<td>tells how many questions they’ve answered correctly</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id4">
+<caption><span class="caption-text"><strong>TriviaUserResponses Model</strong></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>responder</td>
+<td>ForeignKey</td>
+<td>settings.AUTH_USER_MODEL</td>
+<td>marks which user</td>
+</tr>
+<tr class="row-odd"><td>question</td>
+<td>Integer</td>
+<td>&#160;</td>
+<td>tells which question this refers to</td>
+</tr>
+<tr class="row-even"><td>user_response</td>
+<td>ForeignKey</td>
+<td>‘TriviaAnswerChoices’</td>
+<td>tells which response they gave</td>
+</tr>
+<tr class="row-odd"><td>answer_correct</td>
+<td>Boolean</td>
+<td>&#160;</td>
+<td>tells whether this answer was right or wrong</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id5">
+<caption><span class="caption-text"><strong>TriviaConversation Model</strong></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field Name</th>
+<th class="head">Type</th>
+<th class="head">Parameters</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>entry</td>
+<td>CharField</td>
+<td>max_length=256</td>
+<td>the user’s addition to the conversation</td>
+</tr>
+<tr class="row-odd"><td>user</td>
+<td>ForeignKey</td>
+<td>settings.AUTH_USER_MODEL</td>
+<td>gives the author’s identity</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section" id="what-the-views-have-to-do">
 <h3>4.1.5. What the Views Have to Do<a class="headerlink" href="#what-the-views-have-to-do" title="Permalink to this headline">¶</a></h3>
@@ -204,7 +427,7 @@ scoreboard his name has moved to the top of the top section, above Dave’s.</p>
       &copy;2017, Jim Morris.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
