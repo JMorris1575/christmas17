@@ -173,7 +173,7 @@ So here is my first attempt to spell out the models needed for the Trivia app:
    choice_number, Integer, primary_key=True, so that responses may be moved
    question, ForeignKey, 'TriviaQuestion', which question this refers to
    choice_text, CharField, , the possible answer
-   correct, Boolean, , True if correct, False otherwise
+   correct, Boolean, , True if correct False otherwise
 
 |
 
