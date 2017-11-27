@@ -228,23 +228,31 @@ p.no-p-height {
     font-family: sans-serif;
     }
 
-.memory-block {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    }
-
 .memory {
     width: auto;
     margin: 0px;
     font-weight: normal;
     }
 
+.memory-block {
+    height: 6em;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    }
+
 .memory-box {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
     width: 60%;
     color: blue;
     font-family: serif;
     font-style: italic;
-    padding: 5px;
+    padding: 10px;
+    background-color: #ffffcc;
     }
 
 .name {

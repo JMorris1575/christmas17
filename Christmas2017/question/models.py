@@ -9,10 +9,10 @@ class Question(models.Model):
     date = models.DateField()
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['date']
 
     def __str__(self):
-        return self.question
+        return str(self.date) + ': ' + self.question
 
     def get_responses(self):
         return Response.objects.filter(question=self).order_by('-entered')

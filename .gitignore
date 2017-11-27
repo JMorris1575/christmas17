@@ -4,11 +4,7 @@ Christmas2016/config/settings/__pycache__/
 Christmas2016/config/settings/secrets.json
 Christmas2016/db.sqlite3
 Christmas2016/c16_datadump.json
-docs/Makefile
 docs/private.rst
 docs/_templates/
-docs/make.bat
 Christmas2017/config/__pycache__/
 Christmas2017/config/settings/__pycache__/
-Christmas2017/question/migrations/0002_auto_20171024_2115.py
-Christmas2017/question/migrations/__pycache__/0002_auto_20171024_2115.cpython-36.pyc

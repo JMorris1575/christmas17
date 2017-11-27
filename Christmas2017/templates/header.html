@@ -56,10 +56,11 @@
             <div class="memory-block">
                 <!-- Display of Current Memory -->
                 {% if display_memory %}
-                    <span class="memory-box">
-                        <span class="name">{{ display_memory.author_display }}</span>
-                        <span class="memory">{{ display_memory }}</span>
-                    </span>
+                        <div class="memory-box">
+                            <span class="name">{{ display_memory.author_display }}</span>
+                            <span class="memory">{{ display_memory }}</span>
+                        </div>
+
                 {% endif %}
             </div>
         {% endif %}
