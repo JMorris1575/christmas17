@@ -36,8 +36,12 @@
                         <a class="menu-item" href="/question/list/">Question of the Day</a>
                     </li>
                     <li class="menu-list-item left">
+                        <a class="menu-item no-underline" href="/trivia/scoreboard/">Trivia</a>
+                    </li>
+                    <li class="menu-list-item left">
                         <a class="menu-item no-underline" href="/memory/create/">Add Memory</a>
                     </li>
+
                     {% if user.userprofile.added_memories %}
                         <li class="menu-list-item left">
                             <a class="menu-item no-underline" href="/memory/edit/">Edit Memories</a>

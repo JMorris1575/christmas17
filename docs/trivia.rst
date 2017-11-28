@@ -92,3 +92,82 @@ The /trivia/question/n/ Pattern
     :widths: auto
 
     No, create the url pattern
+    No, (in terminal: Method Not Allowed (GET)); add get method to DisplayQuestion view
+    No, unexpected keyword argument 'questionNumber'; add ``question_number=None`` to get's arguments; change in urls.py
+    No, TemplateDoesNotExist; create the ``trivia_question.html`` file
+    No, it displays without referring to which question it is pretending to display; add ``q_number`` to render and html
+    Yes, go on to test /trivia/results/n/
+
+The /trivia/result/n/ Pattern
+*****************************
+
+.. csv-table::*Does entering /trivia/result/n/ result in the diplay of a fake result page for that question?*
+    :header: 'Result', 'Action to be Taken'
+    :widths: auto
+
+    No, Page not found; create the url pattern
+    No, GET method not allowed; add get() method to DisplayResult view
+    No,  TemplateDoesNotExist; create the ``trivia_result.html`` template
+    Yes, now test for authentication
+
+Preventing access by Unauthenticated Users
+++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table::*Does the system prevent an unauthenticated user from entering any page in the trivia app?*
+    :header: 'Result', 'Action to be Taken'
+    :widths: auto
+
+    No, I entered /trivia/scoreboard/ without being authenticated; add ``login_required`` to urls
+    Yes, the website is safe once again!
+
+Displaying the Header on Each Trivia Page
++++++++++++++++++++++++++++++++++++++++++
+
+.. index:: Problems; breaking the static files references
+
+Because I had made a mistake earlier in placing my .html files in a newly created trivia/static/ directory instead of
+a trivia/templates/ directory where they belong, I had done a refactor in PyCharm without thinking it through very
+carefully. Because I allowed it without looking it went and changed several references throughout the program that were
+supposed to say 'static' to 'templates'. I think I got them all, two in base.html, two in dev.py and two in prod.py.
+If things seem to go haywire later, look around for references to 'templates' that should be to 'static'.
+
+This also broke the display of the header and footer on all of the pages of the website (since it couldn't find the
+static files). I got the header back once fixing the references but I might as well add the display of memories to the
+trivia pages also.
+
+.. csv-table::**Do the Memories appear on each of the trivia pages?*
+    :header: 'Result', 'Action to be Taken'
+    :widths: auto
+
+    No, Add the context {'display_memory': utils.get_memory(),} and the import of utils to each trivia view
+    Yes, but entering something like /trivia/question/ results in a PageNotFound error.
+
+Redirecting Badly Formed trivia urls to the Scoreboard Page
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table::**Does entering /trivia/question/ or /trivia/result/ without the /n/ redirect to the scoreboard page?*
+    :header: 'Result', 'Action to be Taken'
+    :widths: auto
+
+    No, Page not found error; add url patterns to redirect to scoreboard
+    Yes, but it didn't work the way I thought. See below.
+
+In order to redirect to the scoreboard I had to use::
+
+    RedirectView.as_view(pattern_name='scoreboard'))
+
+I found this in *Django Unleashed* page 398.
+
+Adding a Trivia Menu Item to the Header
+---------------------------------------
+
+This should be easy, just add a list item and direct it to the scoreboard.
+
+.. csv-table::**Does the header include a working Trivia link after "Question of the Day"?*
+    :header: 'Result', 'Action to be Taken'
+    :widths: auto
+
+    No, add a <li> item to the header page.
+    Yes, time for bed
+
+

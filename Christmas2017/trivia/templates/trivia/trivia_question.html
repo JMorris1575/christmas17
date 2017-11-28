@@ -1,0 +1,8 @@
+{% extends parent_template|default:"trivia/base_trivia.html" %}
+{% load static %}
+
+    {{ block.super }}
+
+    {% block content %}
+        <h2>This is the Trivia Question page for Question Number: {{ q_number }}</h2>
+    {% endblock %}
