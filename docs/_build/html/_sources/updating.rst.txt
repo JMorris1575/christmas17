@@ -349,14 +349,3 @@ Unfortunately, including skeleton.css on top of my existing ``christmas17.css`` 
 the rest of the website. Most noticable was that the buttons all had the skeleton appearance and didn't fit in their
 proper places. Also, the gift list appeared to be twelve columns wide. For now I commented out the links that enabled
 the skeleton framework. To use it I would have to revamp the whole website. More than I want to do tonight.
-
-..index:: Problems; UserProfile doesn't exist
-
-Problem with the UserProfile
-----------------------------
-
-Just for fun, and to check the system, I clicked on a "Select" button and it did not work. Instead is threw an error
-saying: **UserProfile Matching Query Does Not Exist.** It seems to be there when I look at individual users in the
-admin app but I can't access it from within the program. My best guess, at the moment, as to the cause of the problem
-is that all the UserProfiles Need to be created again. Perhaps I should look into c16Development to see if there are
-any differences in the UserProfile there.

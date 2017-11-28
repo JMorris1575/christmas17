@@ -18,7 +18,7 @@ is to simplify the process of developing Django websites in the future.
    c17conversion
    updating
    new_apps
-
+   trivia
 
 
 Indices and tables
