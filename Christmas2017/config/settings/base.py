@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'mail.apps.MailConfig',
     'question.apps.QuestionConfig',
     'story.apps.StoryConfig',
+    'trivia.apps.TriviaConfig',
     'user.apps.UserConfig',
     'django.contrib.admin',
     'django.contrib.auth',

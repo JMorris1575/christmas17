@@ -199,6 +199,9 @@ labelled “Memory Block” and move it outside the &lt;header&gt;&lt;/header&gt
 <p>The most difficult part here will probably be in deciding how I want it to look. Perhaps a box with a different
 background color (pale yellow?) directly below the menu tabs stretching all the way across the screen, but always the
 same height. Have the text be left justified but centered in the box vertically. (Is this possible in html?)</p>
+<p><a class="reference internal" href="#add-skeleton"><span class="std std-ref">Later</span></a> I decided to add skeleton.css to the program since I have been learning to use it in my
+Confirmation Website. Now I will try to pretty up the Memory display using Skeleton.</p>
+<p>That didn’t work, for reasons stated below. I will try to modify the <code class="docutils literal"><span class="pre">.memory-box</span></code> class in <code class="docutils literal"><span class="pre">christmas17.css</span></code></p>
 </div>
 <div class="section" id="new-banner-image">
 <h3>3.3.7. New Banner Image<a class="headerlink" href="#new-banner-image" title="Permalink to this headline">¶</a></h3>
@@ -214,6 +217,130 @@ and then setting margins like this:</p>
 </div>
 <p>I got this from the css reference pages listed <a class="reference internal" href="#w3schools"><span class="std std-ref">above.</span></a></p>
 </div>
+</div>
+<div class="section" id="updating-the-gift-pictures">
+<h2>3.4. Updating the Gift Pictures<a class="headerlink" href="#updating-the-gift-pictures" title="Permalink to this headline">¶</a></h2>
+<p>I have simply copied and pasted the new images and their thumbnails to <code class="docutils literal"><span class="pre">gifts\static\gifts\images\</span></code>. Now I have to
+update the database to indicate that none of the gifts are chosen.</p>
+<p>Hmm… either I did that already or the local version of the database didn’t have any selected gifts.</p>
+</div>
+<div class="section" id="adding-janet-s-new-questions">
+<h2>3.5. Adding Janet’s New Questions<a class="headerlink" href="#adding-janet-s-new-questions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-new-questions">
+<h3>3.5.1. The New Questions<a class="headerlink" href="#the-new-questions" title="Permalink to this headline">¶</a></h3>
+<p>I got an e-mail from Janet today (11-26-2017) with a set of 19 questions – not all about Christmas. Here is what she
+sent:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Hi Jim
+Here are a bunch of questions to choose from or to reject.  No special order.
+1.  If you could write a letter of gratitude to your ancestors, who would you pick and what would you say?
+2.  What is your earliest childhood memory?
+3.  What is your favorite Christmas tradition?
+4.  What story do you remember being told from the childhood of your mother or father?
+5.  What was your favorite game to play outside when you were a child?
+6.  What was your favorite game to play inside when you were a child?
+7.  Tell something that you remember about a neighbor from your childhood.
+8.  What &quot;saying&quot; or advice do you remember from your childhood.
+9.  What is your favorite Christmas TV program?
+10.When should radio stations start playing Christmas music?
+11.When should Christmas decorations go up?
+12. Real tree or artificial? and why?
+13. If you could be a character in a holiday movie, who would you be and why?
+14. When you close your eyes and think of your &quot;happy place&quot;, where is it?
+15. Finish this thought, &quot;It wouldn&#39;t be Christmas without ______________&quot;.  Please exclude the obvious answer.
+16. What commercial from childhood can you say or sing from memory?
+17. What is your favorite dessert?
+18. Which celebrity would you want to have as a guest?  What would you get him or her for Christmas?
+19. If you could bring any cartoon or animated character to life, who would it be and why?
+
+
+Have fun!
+Love,
+
+Janet
+</pre></div>
+</div>
+<p>Here are my edited and adapted versions:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>1.  If you could write a letter of gratitude to one of your ancestors, who would you pick and what would you say?
+2.  What is your earliest childhood Christmas memory?
+3.  What is your favorite Christmas tradition?
+4.  What story do you remember being told from the childhood of your mother or father?
+5.  What was your favorite game to play outside when you were a child?
+6.  What was your favorite game to play inside when you were a child?
+7.  Tell something that you remember about a neighbor from your childhood.
+8.  What &quot;saying&quot; or advice do you remember from your childhood.
+9.  What is your favorite Christmas TV program?
+10. When should radio stations start playing Christmas music?
+11. When should Christmas decorations go up?
+12. Real tree or artificial? and why?
+13. If you could be a character in a holiday movie, who would you be and why?
+14. When you close your eyes and think of your &quot;happy place&quot;, where is it?
+15. Finish this thought, &quot;It wouldn&#39;t be Christmas without ______________&quot;.  Please exclude the obvious answer.
+16. What commercial from childhood can you say or sing from memory?
+17. What is your favorite dessert?
+18. Which celebrity would you want to have as a guest, and what would you get him or her for Christmas?
+19. If you could bring any cartoon or animated character to life, who would it be and why?
+</pre></div>
+</div>
+<p>Here is a list in the order in which the questions will appear:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>What commercial from childhood can you say or sing from memory?
+If you could bring any cartoon or animated character to life, who would it be and why?
+If you could write a letter of gratitude to one of your ancestors, who would you pick and what would you say?
+What story do you remember being told from the childhood of your mother or father?
+What is your favorite dessert?
+Tell something that you remember about a neighbor from your childhood.
+Which celebrity would you want to have as a guest, and what would you get him or her for Christmas?
+If you could be a character in a holiday movie, who would you be and why?
+Finish this thought, &quot;It wouldn&#39;t be Christmas without ______________&quot;.  Please exclude the obvious answer.
+What was your favorite game to play outside when you were a child?
+What was your favorite game to play inside when you were a child?
+What &quot;saying&quot; or advice do you remember from your childhood.
+What is your favorite Christmas TV program?
+When should radio stations start playing Christmas music?
+When should Christmas decorations go up?
+Real tree or artificial? and why?
+What is your earliest childhood Christmas memory?
+When you close your eyes and think of your &quot;happy place&quot;, where is it?
+What is your favorite Christmas tradition?
+</pre></div>
+</div>
+<p>I will enter them with a start date of December 5, 2017 going up to December 23, 2017.</p>
+</div>
+<div class="section" id="modifying-the-model">
+<h3>3.5.2. Modifying the Model<a class="headerlink" href="#modifying-the-model" title="Permalink to this headline">¶</a></h3>
+<p>To make the list of questions look better in the admin I modified the <code class="docutils literal"><span class="pre">__str__</span></code> function to return a string version of
+the date followed by the question. I also changed the Meta class so that they listed in earlier-to-later order. Will
+that affect the way they are displayed? First I will study the <code class="docutils literal"><span class="pre">question_list.html</span></code> file…</p>
+<p>Nothing in <code class="docutils literal"><span class="pre">question_list.html</span></code> affected the order of the display. The actual determination is in the QuestionList
+view. There, the list of questions is obtained as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Question</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">date__lte</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">())</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-date&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thus the ordering is handled by the <code class="docutils literal"><span class="pre">.order_by('-date')</span></code> function and I can leave the Meta class in the model alone.</p>
+</div>
+</div>
+<div class="section" id="adding-the-skeleton-css-framework">
+<span id="add-skeleton"></span><h2>3.6. Adding the Skeleton CSS Framework<a class="headerlink" href="#adding-the-skeleton-css-framework" title="Permalink to this headline">¶</a></h2>
+<p>Since I have been using it in developing my Confirmation Website I find skeleton.css quite easy to work with. To use it
+I need to put it, and its partner <code class="docutils literal"><span class="pre">normalize.css</span></code> into <code class="docutils literal"><span class="pre">Christmas2017/static/site/css/</span></code> along side of
+<code class="docutils literal"><span class="pre">christmas17.css</span></code>. I will also have to include the lines:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="s2">&quot;stylesheet&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/css&quot;</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;{</span><span class="si">% s</span><span class="s2">tatic &#39;css/normalize.css&#39; %}&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="s2">&quot;stylesheet&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/css&quot;</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;{</span><span class="si">% s</span><span class="s2">tatic &#39;css/skeleton.css&#39; %}&quot;</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>into <code class="docutils literal"><span class="pre">base.html</span></code> just before the line linking in <code class="docutils literal"><span class="pre">christmas17.css</span></code>.</p>
+<p>Unfortunately, including skeleton.css on top of my existing <code class="docutils literal"><span class="pre">christmas17.css</span></code> created problems with the appearance of
+the rest of the website. Most noticable was that the buttons all had the skeleton appearance and didn’t fit in their
+proper places. Also, the gift list appeared to be twelve columns wide. For now I commented out the links that enabled
+the skeleton framework. To use it I would have to revamp the whole website. More than I want to do tonight.</p>
+<p>..index:: Problems; UserProfile doesn’t exist</p>
+</div>
+<div class="section" id="problem-with-the-userprofile">
+<h2>3.7. Problem with the UserProfile<a class="headerlink" href="#problem-with-the-userprofile" title="Permalink to this headline">¶</a></h2>
+<p>Just for fun, and to check the system, I clicked on a “Select” button and it did not work. Instead is threw an error
+saying: <strong>UserProfile Matching Query Does Not Exist.</strong> It seems to be there when I look at individual users in the
+admin app but I can’t access it from within the program. My best guess, at the moment, as to the cause of the problem
+is that all the UserProfiles Need to be created again. Perhaps I should look into c16Development to see if there are
+any differences in the UserProfile there.</p>
 </div>
 </div>
 
@@ -263,6 +390,14 @@ and then setting margins like this:</p>
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-separate-login-page">3.3.8. Creating a Separate Login Page</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-the-gift-pictures">3.4. Updating the Gift Pictures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-janet-s-new-questions">3.5. Adding Janet’s New Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-new-questions">3.5.1. The New Questions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modifying-the-model">3.5.2. Modifying the Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-the-skeleton-css-framework">3.6. Adding the Skeleton CSS Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-with-the-userprofile">3.7. Problem with the UserProfile</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="new_apps.html">4. New Applications</a></li>
@@ -295,7 +430,7 @@ and then setting margins like this:</p>
       &copy;2017, Jim Morris.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

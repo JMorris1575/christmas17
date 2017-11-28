@@ -262,3 +262,9 @@ Upon doing a:
 ``> pip install psycopg2-2.7.3-cp36-cp36m-win_amd64.whl``
 
 and the 2016 Christmas website seems to be working!
+
+.. note::
+
+    You can now install psycopg2 with a simple ``pip install psycopg2``.
+
+

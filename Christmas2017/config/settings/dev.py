@@ -22,5 +22,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static', 'site'), )
+STATIC_URL = '/templates/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'templates', 'site'), )

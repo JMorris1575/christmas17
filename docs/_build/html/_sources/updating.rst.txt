@@ -205,6 +205,11 @@ The most difficult part here will probably be in deciding how I want it to look.
 background color (pale yellow?) directly below the menu tabs stretching all the way across the screen, but always the
 same height. Have the text be left justified but centered in the box vertically. (Is this possible in html?)
 
+:ref:`Later<add_skeleton>` I decided to add skeleton.css to the program since I have been learning to use it in my
+Confirmation Website. Now I will try to pretty up the Memory display using Skeleton.
+
+That didn't work, for reasons stated below. I will try to modify the ``.memory-box`` class in ``christmas17.css``
+
 New Banner Image
 ++++++++++++++++
 
@@ -221,3 +226,137 @@ and then setting margins like this::
 
 I got this from the css reference pages listed :ref:`above.<w3schools>`
 
+Updating the Gift Pictures
+--------------------------
+
+I have simply copied and pasted the new images and their thumbnails to ``gifts\static\gifts\images\``. Now I have to
+update the database to indicate that none of the gifts are chosen.
+
+Hmm... either I did that already or the local version of the database didn't have any selected gifts.
+
+Adding Janet's New Questions
+----------------------------
+
+The New Questions
++++++++++++++++++
+
+I got an e-mail from Janet today (11-26-2017) with a set of 19 questions -- not all about Christmas. Here is what she
+sent::
+
+    Hi Jim
+    Here are a bunch of questions to choose from or to reject.  No special order.
+    1.  If you could write a letter of gratitude to your ancestors, who would you pick and what would you say?
+    2.  What is your earliest childhood memory?
+    3.  What is your favorite Christmas tradition?
+    4.  What story do you remember being told from the childhood of your mother or father?
+    5.  What was your favorite game to play outside when you were a child?
+    6.  What was your favorite game to play inside when you were a child?
+    7.  Tell something that you remember about a neighbor from your childhood.
+    8.  What "saying" or advice do you remember from your childhood.
+    9.  What is your favorite Christmas TV program?
+    10.When should radio stations start playing Christmas music?
+    11.When should Christmas decorations go up?
+    12. Real tree or artificial? and why?
+    13. If you could be a character in a holiday movie, who would you be and why?
+    14. When you close your eyes and think of your "happy place", where is it?
+    15. Finish this thought, "It wouldn't be Christmas without ______________".  Please exclude the obvious answer.
+    16. What commercial from childhood can you say or sing from memory?
+    17. What is your favorite dessert?
+    18. Which celebrity would you want to have as a guest?  What would you get him or her for Christmas?
+    19. If you could bring any cartoon or animated character to life, who would it be and why?
+
+
+    Have fun!
+    Love,
+
+    Janet
+
+Here are my edited and adapted versions::
+
+    1.  If you could write a letter of gratitude to one of your ancestors, who would you pick and what would you say?
+    2.  What is your earliest childhood Christmas memory?
+    3.  What is your favorite Christmas tradition?
+    4.  What story do you remember being told from the childhood of your mother or father?
+    5.  What was your favorite game to play outside when you were a child?
+    6.  What was your favorite game to play inside when you were a child?
+    7.  Tell something that you remember about a neighbor from your childhood.
+    8.  What "saying" or advice do you remember from your childhood.
+    9.  What is your favorite Christmas TV program?
+    10. When should radio stations start playing Christmas music?
+    11. When should Christmas decorations go up?
+    12. Real tree or artificial? and why?
+    13. If you could be a character in a holiday movie, who would you be and why?
+    14. When you close your eyes and think of your "happy place", where is it?
+    15. Finish this thought, "It wouldn't be Christmas without ______________".  Please exclude the obvious answer.
+    16. What commercial from childhood can you say or sing from memory?
+    17. What is your favorite dessert?
+    18. Which celebrity would you want to have as a guest, and what would you get him or her for Christmas?
+    19. If you could bring any cartoon or animated character to life, who would it be and why?
+
+Here is a list in the order in which the questions will appear::
+
+    What commercial from childhood can you say or sing from memory?
+    If you could bring any cartoon or animated character to life, who would it be and why?
+    If you could write a letter of gratitude to one of your ancestors, who would you pick and what would you say?
+    What story do you remember being told from the childhood of your mother or father?
+    What is your favorite dessert?
+    Tell something that you remember about a neighbor from your childhood.
+    Which celebrity would you want to have as a guest, and what would you get him or her for Christmas?
+    If you could be a character in a holiday movie, who would you be and why?
+    Finish this thought, "It wouldn't be Christmas without ______________".  Please exclude the obvious answer.
+    What was your favorite game to play outside when you were a child?
+    What was your favorite game to play inside when you were a child?
+    What "saying" or advice do you remember from your childhood.
+    What is your favorite Christmas TV program?
+    When should radio stations start playing Christmas music?
+    When should Christmas decorations go up?
+    Real tree or artificial? and why?
+    What is your earliest childhood Christmas memory?
+    When you close your eyes and think of your "happy place", where is it?
+    What is your favorite Christmas tradition?
+
+I will enter them with a start date of December 5, 2017 going up to December 23, 2017.
+
+Modifying the Model
++++++++++++++++++++
+
+To make the list of questions look better in the admin I modified the ``__str__`` function to return a string version of
+the date followed by the question. I also changed the Meta class so that they listed in earlier-to-later order. Will
+that affect the way they are displayed? First I will study the ``question_list.html`` file...
+
+Nothing in ``question_list.html`` affected the order of the display. The actual determination is in the QuestionList
+view. There, the list of questions is obtained as follows::
+
+    Question.objects.filter(date__lte=datetime.date.today()).order_by('-date')
+
+Thus the ordering is handled by the ``.order_by('-date')`` function and I can leave the Meta class in the model alone.
+
+.. _add_skeleton:
+
+Adding the Skeleton CSS Framework
+---------------------------------
+
+Since I have been using it in developing my Confirmation Website I find skeleton.css quite easy to work with. To use it
+I need to put it, and its partner ``normalize.css`` into ``Christmas2017/static/site/css/`` along side of
+``christmas17.css``. I will also have to include the lines::
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">
+
+into ``base.html`` just before the line linking in ``christmas17.css``.
+
+Unfortunately, including skeleton.css on top of my existing ``christmas17.css`` created problems with the appearance of
+the rest of the website. Most noticable was that the buttons all had the skeleton appearance and didn't fit in their
+proper places. Also, the gift list appeared to be twelve columns wide. For now I commented out the links that enabled
+the skeleton framework. To use it I would have to revamp the whole website. More than I want to do tonight.
+
+..index:: Problems; UserProfile doesn't exist
+
+Problem with the UserProfile
+----------------------------
+
+Just for fun, and to check the system, I clicked on a "Select" button and it did not work. Instead is threw an error
+saying: **UserProfile Matching Query Does Not Exist.** It seems to be there when I look at individual users in the
+admin app but I can't access it from within the program. My best guess, at the moment, as to the cause of the problem
+is that all the UserProfiles Need to be created again. Perhaps I should look into c16Development to see if there are
+any differences in the UserProfile there.

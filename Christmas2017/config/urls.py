@@ -28,6 +28,7 @@ urlpatterns = [
                 namespace='dj-auth')),
     url(r'^story/', include('story.urls')),
     url(r'^question/', include('question.urls')),
+    url(r'^trivia/', include('trivia.urls')),
 ]
 
 admin.site.site_header = 'Christmas 2017 Admin'
