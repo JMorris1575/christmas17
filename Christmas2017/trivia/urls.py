@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^scoreboard/$',
         Scoreboard.as_view(),
         name='scoreboard'),
+
     ]
