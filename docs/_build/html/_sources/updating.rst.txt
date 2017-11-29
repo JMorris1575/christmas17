@@ -349,3 +349,38 @@ Unfortunately, including skeleton.css on top of my existing ``christmas17.css`` 
 the rest of the website. Most noticable was that the buttons all had the skeleton appearance and didn't fit in their
 proper places. Also, the gift list appeared to be twelve columns wide. For now I commented out the links that enabled
 the skeleton framework. To use it I would have to revamp the whole website. More than I want to do tonight.
+
+.. index:: Problems; user profile model
+
+Fixing the UserProfile Model
+----------------------------
+
+I tried to click the Select button for a gift but got strange errors about UserProfile not existing. It seemed to be
+showing in ``/admin`` so I couldn't figure it out. Eventually I investigated by means of
+``python manage.py dumpdata user.UserProfile`` and found only one object in the c17Development version of the database
+but several elements in the c16Development version's database. I don't think I knew to copy it when I
+:ref:`created<copy_database>` the c17Development database. Once I created a ``to_c17_profile.json`` file in c16 I could
+use ``loaddata`` in c17 to copy it to the database. Then selecting gifts and adding memories worked again.
+
+.. index:: Problems; git
+
+Problems Understanding Git
+--------------------------
+
+The paragraph above had to be recreated from memory because I managed to delete the original. What happened was that I
+tried to do a commit and couldn't because of something about the ``docs/_build/doctrees/`` files which I didn't want in
+Git anyway. Not knowing how to get them out of Git in PyCharm, and foolishly believing I could just experiment without
+harming anything, I tried a VCS.Git.Revert... and somehow included some of the \*.rst files in the revert. I'm guessing
+that the revert replaced the selected \*.rst files with earlier versions and, since I hadn't gotten Commit to work, I
+lost what I had added here, and probably in other files.
+
+I believe the correct way to remove files from Git without removing them from the file system is::
+
+    git rm --cached <filename>
+
+but I would check this out before using it. For one thing, you may be able to do several files at once -- which I think
+I may have done through::
+
+    git rm --cached ../docs/_build/doctrees/*.*
+
+but I'm not sure.

@@ -1,0 +1,228 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>5. The Trivia App &#8212; Christmas 2017 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="4. New Applications" href="new_apps.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-trivia-app">
+<span id="trivia-app-document"></span><h1>5. The Trivia App<a class="headerlink" href="#the-trivia-app" title="Permalink to this headline">¶</a></h1>
+<p>I have decided to document the creation of the trivia app here instead of in the <code class="docutils literal"><span class="pre">new_apps.rst</span></code> document. It should
+make for shorter, more manageable documents.</p>
+<div class="section" id="initial-thoughts">
+<h2>5.1. Initial Thoughts<a class="headerlink" href="#initial-thoughts" title="Permalink to this headline">¶</a></h2>
+<p>To build the trivia app I’m thinking I will have to:</p>
+<ol class="arabic simple">
+<li>Use <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">startapp</span> <span class="pre">trivia</span></code> to create the app</li>
+<li>Include a line saying <code class="docutils literal"><span class="pre">'trivia.apps.TriviaConfig'</span></code> in the <code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code> setting in <code class="docutils literal"><span class="pre">base.py</span></code></li>
+<li>Settle on a URL scheme for navigating the pages of the app</li>
+<li>Implement the URL scheme in <code class="docutils literal"><span class="pre">trivia.urls.py</span></code></li>
+<li>Update <code class="docutils literal"><span class="pre">config.urls.py</span></code> to include the trivia urls</li>
+<li>Add a menu item in the header to direct the users to the trivia pages</li>
+<li>Decide on the models needed to implement the app</li>
+<li>Create the models needed in <code class="docutils literal"><span class="pre">trivia.models.py</span></code></li>
+<li>Implement the views needed in <code class="docutils literal"><span class="pre">trivia.views.py</span></code></li>
+<li>Implement the templates needed in <code class="docutils literal"><span class="pre">trivia.templates</span></code></li>
+<li>Make the templates look good</li>
+</ol>
+<p>The first two steps are easy. I have just completed them. The others I have rearranged so that I can take a TDD approach
+to building the new app.</p>
+</div>
+<div class="section" id="the-trivia-url-patterns">
+<h2>5.2. The Trivia URL Patterns<a class="headerlink" href="#the-trivia-url-patterns" title="Permalink to this headline">¶</a></h2>
+<p>Looking over the <code class="docutils literal"><span class="pre">new_apps.rst</span></code> file I see my first idea for the url patterns:</p>
+<table border="1" class="colwidths-auto docutils" id="id1">
+<caption><span class="caption-text"><strong>URLS for the trivia app</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">‘URL’</th>
+<th class="head">‘Page(s) Addressed’</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>/trivia/scoreboard/</td>
+<td>the scoreboard page (scoreboard.html)</td>
+</tr>
+<tr class="row-odd"><td>/trivia/question/n/</td>
+<td>question n’s page (trivia_question.html)</td>
+</tr>
+<tr class="row-even"><td>/trivia/result/n/</td>
+<td>question n’s results page (trivia_result.html)</td>
+</tr>
+</tbody>
+</table>
+<p>Something tells me I am going to need more but this will do for a start. Here are the url patterns to be tried in
+<code class="docutils literal"><span class="pre">trivia.urls.py</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span>
+        <span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span>
+        <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/trivia/scoreboard/&#39;</span><span class="p">)),</span>
+        <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^scoreboard/$&#39;</span><span class="p">,</span>
+            <span class="n">Scoreboard</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;scoreboard&#39;</span><span class="p">),</span>
+        <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^question/(?P&lt;questionNumber&gt;[0-9]+)/$&#39;</span><span class="p">,</span>
+            <span class="n">DisplayQuestion</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;display_question&#39;</span><span class="p">),</span>
+        <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^result/(?P&lt;questionNumber&gt;[0-9]+)/$&#39;</span><span class="p">,</span>
+            <span class="n">DisplayResult</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;display_result&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>I will try to implement them one at a time, stub in the views, and create place-holder html files.</p>
+<div class="section" id="building-and-testing-the-url-patterns">
+<h3>5.2.1. Building and Testing the URL Patterns<a class="headerlink" href="#building-and-testing-the-url-patterns" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="the-trivia-and-trivia-scoreboard-patterns">
+<h4>5.2.1.1. The /trivia/ and /trivia/scoreboard/ Patterns<a class="headerlink" href="#the-trivia-and-trivia-scoreboard-patterns" title="Permalink to this headline">¶</a></h4>
+<p>For now I will test the patterns simply by entering them in the address line. Here is a test to see if entering
+<code class="docutils literal"><span class="pre">/trivia/</span></code> redirects to <code class="docutils literal"><span class="pre">/trivia/scoreboard/</span></code></p>
+</div>
+<div class="section" id="the-trivia-question-n-pattern">
+<h4>5.2.1.2. The /trivia/question/n/ Pattern<a class="headerlink" href="#the-trivia-question-n-pattern" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="the-trivia-result-n-pattern">
+<h4>5.2.1.3. The /trivia/result/n/ Pattern<a class="headerlink" href="#the-trivia-result-n-pattern" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="preventing-access-by-unauthenticated-users">
+<h3>5.2.2. Preventing access by Unauthenticated Users<a class="headerlink" href="#preventing-access-by-unauthenticated-users" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="displaying-the-header-on-each-trivia-page">
+<h3>5.2.3. Displaying the Header on Each Trivia Page<a class="headerlink" href="#displaying-the-header-on-each-trivia-page" title="Permalink to this headline">¶</a></h3>
+<p id="index-0">Because I had made a mistake earlier in placing my .html files in a newly created trivia/static/ directory instead of
+a trivia/templates/ directory where they belong, I had done a refactor in PyCharm without thinking it through very
+carefully. Because I allowed it without looking it went and changed several references throughout the program that were
+supposed to say ‘static’ to ‘templates’. I think I got them all, two in base.html, two in dev.py and two in prod.py.
+If things seem to go haywire later, look around for references to ‘templates’ that should be to ‘static’.</p>
+<p>This also broke the display of the header and footer on all of the pages of the website (since it couldn’t find the
+static files). I got the header back once fixing the references but I might as well add the display of memories to the
+trivia pages also.</p>
+</div>
+<div class="section" id="redirecting-badly-formed-trivia-urls-to-the-scoreboard-page">
+<h3>5.2.4. Redirecting Badly Formed trivia urls to the Scoreboard Page<a class="headerlink" href="#redirecting-badly-formed-trivia-urls-to-the-scoreboard-page" title="Permalink to this headline">¶</a></h3>
+<p>In order to redirect to the scoreboard I had to use:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">pattern_name</span><span class="o">=</span><span class="s1">&#39;scoreboard&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>I found this in <em>Django Unleashed</em> page 398.</p>
+</div>
+</div>
+<div class="section" id="adding-a-trivia-menu-item-to-the-header">
+<h2>5.3. Adding a Trivia Menu Item to the Header<a class="headerlink" href="#adding-a-trivia-menu-item-to-the-header" title="Permalink to this headline">¶</a></h2>
+<p>This should be easy, just add a list item and direct it to the scoreboard.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/images/ThreeOrnaments.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="startup.html">1. Startup Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c17conversion.html">2. Converting Christmas2016 to Christmas2017</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updating.html">3. Updating the Website</a></li>
+<li class="toctree-l1"><a class="reference internal" href="new_apps.html">4. New Applications</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. The Trivia App</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initial-thoughts">5.1. Initial Thoughts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-trivia-url-patterns">5.2. The Trivia URL Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#building-and-testing-the-url-patterns">5.2.1. Building and Testing the URL Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#preventing-access-by-unauthenticated-users">5.2.2. Preventing access by Unauthenticated Users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#displaying-the-header-on-each-trivia-page">5.2.3. Displaying the Header on Each Trivia Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redirecting-badly-formed-trivia-urls-to-the-scoreboard-page">5.2.4. Redirecting Badly Formed trivia urls to the Scoreboard Page</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-trivia-menu-item-to-the-header">5.3. Adding a Trivia Menu Item to the Header</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="new_apps.html" title="previous chapter">4. New Applications</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jim Morris.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/trivia.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

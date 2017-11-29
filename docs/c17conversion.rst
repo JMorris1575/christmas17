@@ -104,6 +104,8 @@ Then I did a ``manage.py migrate`` and got this response::
 
 .. index:: Database; copying data
 
+.. _copy_database:
+
 Copying Data to c17Database from c16database
 ********************************************
 

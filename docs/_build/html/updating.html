@@ -333,6 +333,34 @@ the rest of the website. Most noticable was that the buttons all had the skeleto
 proper places. Also, the gift list appeared to be twelve columns wide. For now I commented out the links that enabled
 the skeleton framework. To use it I would have to revamp the whole website. More than I want to do tonight.</p>
 </div>
+<div class="section" id="fixing-the-userprofile-model">
+<span id="index-9"></span><h2>3.7. Fixing the UserProfile Model<a class="headerlink" href="#fixing-the-userprofile-model" title="Permalink to this headline">¶</a></h2>
+<p>I tried to click the Select button for a gift but got strange errors about UserProfile not existing. It seemed to be
+showing in <code class="docutils literal"><span class="pre">/admin</span></code> so I couldn’t figure it out. Eventually I investigated by means of
+<code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">dumpdata</span> <span class="pre">user.UserProfile</span></code> and found only one object in the c17Development version of the database
+but several elements in the c16Development version’s database. I don’t think I knew to copy it when I
+<a class="reference internal" href="c17conversion.html#copy-database"><span class="std std-ref">created</span></a> the c17Development database. Once I created a <code class="docutils literal"><span class="pre">to_c17_profile.json</span></code> file in c16 I could
+use <code class="docutils literal"><span class="pre">loaddata</span></code> in c17 to copy it to the database. Then selecting gifts and adding memories worked again.</p>
+</div>
+<div class="section" id="problems-understanding-git">
+<span id="index-10"></span><h2>3.8. Problems Understanding Git<a class="headerlink" href="#problems-understanding-git" title="Permalink to this headline">¶</a></h2>
+<p>The paragraph above had to be recreated from memory because I managed to delete the original. What happened was that I
+tried to do a commit and couldn’t because of something about the <code class="docutils literal"><span class="pre">docs/_build/doctrees/</span></code> files which I didn’t want in
+Git anyway. Not knowing how to get them out of Git in PyCharm, and foolishly believing I could just experiment without
+harming anything, I tried a VCS.Git.Revert… and somehow included some of the *.rst files in the revert. I’m guessing
+that the revert replaced the selected *.rst files with earlier versions and, since I hadn’t gotten Commit to work, I
+lost what I had added here, and probably in other files.</p>
+<p>I believe the correct way to remove files from Git without removing them from the file system is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">rm</span> <span class="o">--</span><span class="n">cached</span> <span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>but I would check this out before using it. For one thing, you may be able to do several files at once – which I think
+I may have done through:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">rm</span> <span class="o">--</span><span class="n">cached</span> <span class="o">../</span><span class="n">docs</span><span class="o">/</span><span class="n">_build</span><span class="o">/</span><span class="n">doctrees</span><span class="o">/*.*</span>
+</pre></div>
+</div>
+<p>but I’m not sure.</p>
+</div>
 </div>
 
 
@@ -388,9 +416,12 @@ the skeleton framework. To use it I would have to revamp the whole website. More
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-the-skeleton-css-framework">3.6. Adding the Skeleton CSS Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fixing-the-userprofile-model">3.7. Fixing the UserProfile Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problems-understanding-git">3.8. Problems Understanding Git</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="new_apps.html">4. New Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trivia.html">5. The Trivia App</a></li>
 </ul>
 
 <div class="relations">
