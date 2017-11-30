@@ -7,6 +7,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
     gift_selected = models.ForeignKey(Gift, null=True, blank=True)
     added_memories = models.BooleanField(default=False)
+    trivia_questions_attempted = models.IntegerField()
+    trivia_answers_correct = models.IntegerField()
 
     def __str__(self):
         return 'Profile for ' + self.user.get_full_name()

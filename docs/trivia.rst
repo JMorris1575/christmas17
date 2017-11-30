@@ -190,5 +190,98 @@ Working on the Models
 ---------------------
 
 Now that the URLs are working it is time to start working on the models. I have already designed, or at least partially
-designed the models :ref:`here<trivia_model_design>`. That seems like as good a starting point as any.
+designed the models :ref:`here<trivia_model_design>`. That seems like as good a starting point as any, except that the
+fields of the "TriviaUserProgress" model should probably just be added to the UserProfile Model.
 
+Creating the Trivia Models
+++++++++++++++++++++++++++
+
+Here are the trivia models as I created them::
+
+    from django.db import models
+    from django.conf import settings
+
+    # Create your models here.
+
+    class TriviaQuestion(models.Model):
+        number = models.IntegerField(unique=True)
+        text = models.TextField()
+        attempted = models.IntegerField()
+        correct = models.IntegerField()
+
+        def __str__(self):
+            return self.text
+
+        class Meta:
+            ordering = ['number']
+
+
+    class TriviaChoices(models.Model):
+        question = models.ForeignKey(TriviaQuestion)
+        number = models.IntegerField()
+        text = models.CharField(max_length=60)
+        correct = models.BooleanField(default=False)
+
+        def __str__(self):
+            return self.text
+
+        class Meta:
+            unique_together = ('question', 'number')
+            ordering = ['number']
+
+
+    class TriviaUserResponses(models.Model):
+        user = models.ForeignKey(settings.AUTH_USER_MODEL)
+        question = models.ForeignKey(TriviaQuestion)
+        response = models.ForeignKey(TriviaChoices)
+
+        def __str__(self):
+            text = self.user.get_name() + "'s response to question " + str(self.question.number) + ": " + self.response
+            return text
+
+        class Meta:
+            ordering = ['question.number']
+
+
+    class TriviaConversation(models.Model):
+        user = models.ForeignKey(settings.AUTH_USER_MODEL)
+        entry = models.CharField(max_length=300)
+
+        def __str__(self):
+            return self.user.get_name() + ': ' + self.entry
+
+I also modified the UserProfile model as follows::
+
+    class UserProfile(models.Model):
+        user = models.OneToOneField(settings.AUTH_USER_MODEL)
+        gift_selected = models.ForeignKey(Gift, null=True, blank=True)
+        added_memories = models.BooleanField(default=False)
+        trivia_questions_attempted = models.IntegerField()
+        trivia_answers_correct = models.IntegerField()
+
+        def __str__(self):
+            return 'Profile for ' + self.user.get_full_name()
+
+        def get_name(self):
+            name = self.user.first_name
+            if name == 'Brian':
+                name += ' ' + self.user.last_name
+            return name
+
+
+Finally, the trivia.admin.py program had to have some additions to it::
+
+    from django.contrib import admin
+    from .models import TriviaQuestion, TriviaChoices, TriviaUserResponses, TriviaConversation
+
+    # Register your models here.
+
+    admin.site.register(TriviaQuestion)
+    admin.site.register(TriviaChoices)
+    admin.site.register(TriviaUserResponses)
+    admin.site.register(TriviaConversation)
+
+I will do a commit here before trying to use these models.
+
+Using the Trivia Models
+***********************
