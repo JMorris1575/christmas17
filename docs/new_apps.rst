@@ -150,6 +150,8 @@ So it seems that five models may be necessary.
 
 .. index:: Sphinx; adding empty lines
 
+.. _trivia_model_design:
+
 Models for the Trivia App
 *************************
 

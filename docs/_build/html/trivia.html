@@ -66,10 +66,10 @@ to building the new app.</p>
 <h2>5.2. The Trivia URL Patterns<a class="headerlink" href="#the-trivia-url-patterns" title="Permalink to this headline">¶</a></h2>
 <p>Looking over the <code class="docutils literal"><span class="pre">new_apps.rst</span></code> file I see my first idea for the url patterns:</p>
 <table border="1" class="colwidths-auto docutils" id="id1">
-<caption><span class="caption-text"><strong>URLS for the trivia app</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-text"><strong>URLs for the trivia app</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">‘URL’</th>
-<th class="head">‘Page(s) Addressed’</th>
+<tr class="row-odd"><th class="head">URL</th>
+<th class="head">Page(s) Addressed</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -109,16 +109,120 @@ to building the new app.</p>
 <h4>5.2.1.1. The /trivia/ and /trivia/scoreboard/ Patterns<a class="headerlink" href="#the-trivia-and-trivia-scoreboard-patterns" title="Permalink to this headline">¶</a></h4>
 <p>For now I will test the patterns simply by entering them in the address line. Here is a test to see if entering
 <code class="docutils literal"><span class="pre">/trivia/</span></code> redirects to <code class="docutils literal"><span class="pre">/trivia/scoreboard/</span></code></p>
+<table border="1" class="colwidths-auto docutils" id="id2">
+<caption><span class="caption-text"><strong>Does entering /trivia/ in the address line redirect to /trivia/scoreboard/?</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>include the trivia urls in <code class="docutils literal"><span class="pre">config/urls.py</span></code></td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>proceed to test <code class="docutils literal"><span class="pre">/trivia/scoreboard/</span></code></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id3">
+<caption><span class="caption-text"><strong>Does entering ``/trivia/scoreboard/`` in the address line display a fake scoreboard page?</strong></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>create a <code class="docutils literal"><span class="pre">get</span></code> method in the <code class="docutils literal"><span class="pre">Scoreboard</span></code> class</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>TemplateDoesNotExist error; create the <code class="docutils literal"><span class="pre">scoreboard.html</span></code> file along with <code class="docutils literal"><span class="pre">base_trivia.html</span></code></td>
+</tr>
+<tr class="row-even"><td>Yes</td>
+<td>once I got the details right - like putting the html files in <code class="docutils literal"><span class="pre">templates</span></code> rather than <code class="docutils literal"><span class="pre">static</span></code></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="the-trivia-question-n-pattern">
 <h4>5.2.1.2. The /trivia/question/n/ Pattern<a class="headerlink" href="#the-trivia-question-n-pattern" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="colwidths-auto docutils" id="id4">
+<caption><span class="caption-text"><strong>Does entering /trivia/question/n/ result in the diplay of a fake question page for that question?</strong></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>create the url pattern</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>(in terminal: Method Not Allowed (GET)); add get method to DisplayQuestion view</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>unexpected keyword argument ‘questionNumber’; add <code class="docutils literal"><span class="pre">question_number=None</span></code> to get’s arguments; change in urls.py</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>TemplateDoesNotExist; create the <code class="docutils literal"><span class="pre">trivia_question.html</span></code> file</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>it displays without referring to which question it is pretending to display; add <code class="docutils literal"><span class="pre">q_number</span></code> to render and html</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>go on to test /trivia/results/n/</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="the-trivia-result-n-pattern">
 <h4>5.2.1.3. The /trivia/result/n/ Pattern<a class="headerlink" href="#the-trivia-result-n-pattern" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="colwidths-auto docutils" id="id5">
+<caption><span class="caption-text"><strong>Does entering /trivia/result/n/ result in the diplay of a fake result page for that question?</strong></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>Page not found; create the url pattern</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>GET method not allowed; add get() method to DisplayResult view</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>TemplateDoesNotExist; create the <code class="docutils literal"><span class="pre">trivia_result.html</span></code> template</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>now test for authentication</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section" id="preventing-access-by-unauthenticated-users">
 <h3>5.2.2. Preventing access by Unauthenticated Users<a class="headerlink" href="#preventing-access-by-unauthenticated-users" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="colwidths-auto docutils" id="id6">
+<caption><span class="caption-text"><strong>Does the system prevent an unauthenticated user from entering any page in the trivia app?</strong></span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>I entered /trivia/scoreboard/ without being authenticated; add <code class="docutils literal"><span class="pre">login_required</span></code> to urls</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>the website is safe once again!</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="displaying-the-header-on-each-trivia-page">
 <h3>5.2.3. Displaying the Header on Each Trivia Page<a class="headerlink" href="#displaying-the-header-on-each-trivia-page" title="Permalink to this headline">¶</a></h3>
@@ -130,9 +234,41 @@ If things seem to go haywire later, look around for references to ‘templates�
 <p>This also broke the display of the header and footer on all of the pages of the website (since it couldn’t find the
 static files). I got the header back once fixing the references but I might as well add the display of memories to the
 trivia pages also.</p>
+<table border="1" class="colwidths-auto docutils" id="id7">
+<caption><span class="caption-text"><strong>Do the Memories appear on each of the trivia pages?</strong></span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>Add the context {‘display_memory’: utils.get_memory()} and the import of utils to each trivia view</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>but entering something like /trivia/question/ results in a PageNotFound error.</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="redirecting-badly-formed-trivia-urls-to-the-scoreboard-page">
 <h3>5.2.4. Redirecting Badly Formed trivia urls to the Scoreboard Page<a class="headerlink" href="#redirecting-badly-formed-trivia-urls-to-the-scoreboard-page" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="colwidths-auto docutils" id="id8">
+<caption><span class="caption-text"><strong>Does entering /trivia/question/ or /trivia/result/ without the /n/ redirect to the scoreboard page?</strong></span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>Page not found error; add url patterns to redirect to scoreboard</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>but it didn’t work the way I thought. See below.</td>
+</tr>
+</tbody>
+</table>
 <p>In order to redirect to the scoreboard I had to use:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">pattern_name</span><span class="o">=</span><span class="s1">&#39;scoreboard&#39;</span><span class="p">))</span>
 </pre></div>
@@ -143,6 +279,22 @@ trivia pages also.</p>
 <div class="section" id="adding-a-trivia-menu-item-to-the-header">
 <h2>5.3. Adding a Trivia Menu Item to the Header<a class="headerlink" href="#adding-a-trivia-menu-item-to-the-header" title="Permalink to this headline">¶</a></h2>
 <p>This should be easy, just add a list item and direct it to the scoreboard.</p>
+<table border="1" class="colwidths-auto docutils" id="id9">
+<caption><span class="caption-text"><strong>Does the header include a working Trivia link after “Question of the Day”?</strong></span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>add a &lt;li&gt; item to the header page.</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>time for bed</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -213,7 +365,7 @@ trivia pages also.</p>
       &copy;2017, Jim Morris.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

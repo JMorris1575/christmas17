@@ -20,6 +20,7 @@ class QuestionList(View):
                        })
 
 
+@class_login_required
 class CreateResponse(View):
     template_name = 'question/response_create.html'
 
@@ -44,6 +45,7 @@ class CreateResponse(View):
         return redirect('question_list')
 
 
+@class_login_required
 class EditResponse(View):
     template_name = 'question/response_edit.html'
 
@@ -75,6 +77,7 @@ class EditResponse(View):
             raise PermissionDenied
 
 
+@class_login_required
 class DeleteResponse(View):
     template_name = 'question/response_delete.html'
 
