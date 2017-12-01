@@ -350,8 +350,13 @@ Game Rules
     No, Write them into scoreboard.html
     Yes, I also centered it
 
+The Question Page
++++++++++++++++++
+
+Here are the steps to producing a functioning Question Page
+
 Question Button
-+++++++++++++++
+***************
 
 .. csv-table:: **Does a question button (First Question or Next Question) appear on the scoreboard page?**
     :header: Result, Action to be Taken
@@ -360,7 +365,7 @@ Question Button
     No, write it into scoreboard.html directing it to a ``next_trivia_question`` url (:ref:`See below.<question_button>`)
     No, modify UserProfile model to include a get_next_trivia function and use it in template
     No, It is not a button; enclose a <button> element within the <a> tag.
-    No, "Next Question" not "First Question"; change 'if' statement to user.userprofile.trivia_questions_attempted==0
+    No, 'Next Question' not 'First Question' - change 'if' statement to user.userprofile.trivia_questions_attempted==0
 
 |
 
@@ -394,7 +399,7 @@ Here was my first attempt at creating a class to center buttons::
 
 
 Displaying the Trivia Question Page
-+++++++++++++++++++++++++++++++++++
+***********************************
 
 .. csv-table:: **Does clicking on the 'First Question' get the user to the first question page?**
     :header: Result, Action to be Taken
@@ -435,7 +440,7 @@ After a lot of trial and error, this is what I found to work::
 Currently, however, it only displays the stubbed in ``trivia_question.html`` page.
 
 Displaying Questions on the Question Page
-+++++++++++++++++++++++++++++++++++++++++
+*****************************************
 
 .. csv-table:: **Does the question page display the corresponding question?**
     :header: Result, Action to be Taken
@@ -470,7 +475,7 @@ Here is the somewhat improved version of ``trivia_question.html``::
     {% endblock %}
 
 Displaying Possible Responses on the Question Page
-++++++++++++++++++++++++++++++++++++++++++++++++++
+**************************************************
 
 .. csv-table:: **Do the possible responses to a question display with the corresponding question?**
     :header: Result, Action to be Taken
@@ -480,7 +485,7 @@ Displaying Possible Responses on the Question Page
     Yes, now make them into radio buttons
 
 Displaying Possible Responses as Radio Buttons
-++++++++++++++++++++++++++++++++++++++++++++++
+**********************************************
 
 .. csv-table:: **Do the possible responses display as radio buttons?**
     :header: Result, Action to be Taken
@@ -505,4 +510,40 @@ Here is the new index method added to the TriviaChoices model::
 
     def index(self):
         return ' ' + chr(64 + self.number) + ') '
+
+Creating a Trivia Question Form with a working Submit Button
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: **Does a Submit Button appear under the Question and its possible responses?**
+    :header: Result, Action to be Taken
+    :widths: auto
+
+    No, Create a form with all the necessary id and value attributes in the input tags
+    No, since I set value='response' the button says 'response'; change value to 'Submit'
+    Yes, now get it to work
+
+|
+
+.. csv-table:: **Does clicking the Submit Button send the user to the result page?**
+    :header: Result, Action to be Taken
+    :widths: auto
+
+    No, got a 'Forbidden' error because I forgot the {{ csrf.token }} in the form; insert the token
+    No, got the same error; change code to {% csrf.token %}
+    No, got a SyntaxError; change code to {% csrf_token %}
+    No, got a blank page; set form action to {% url 'display_result' %}
+    No, got a NoReverseMatch because arguments not found; add in the question number
+    No, blank page; add a post method to the :ref:`DisplayResult view<disp_result_view>`
+    Yes, but only the stub result page
+
+.. _disp_result_view:
+
+        def post(self, request, question_number=None, choice=None):
+            question = TriviaQuestion.objects.get(number=question_number)
+            return render(request, self.template_name, {'display_memory': utils.get_memory(),
+                                                        'question': question,
+                                                        'choice': choice})
+
+
+
 

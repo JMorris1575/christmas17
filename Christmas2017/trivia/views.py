@@ -32,3 +32,9 @@ class DisplayResult(View):
     def get(self, request, question_number=None):
         return render(request, self.template_name, {'display_memory': utils.get_memory(),
                                                     'q_number': question_number})
+
+    def post(self, request, question_number=None, choice=None):
+        question = TriviaQuestion.objects.get(number=question_number)
+        return render(request, self.template_name, {'display_memory': utils.get_memory(),
+                                                    'question': question,
+                                                    'choice': choice})

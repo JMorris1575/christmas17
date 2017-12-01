@@ -4,14 +4,20 @@
     {{ block.super }}
 
     {% block content %}
-        <h2>Question Number: {{ question.number }}</h2>
-        <p>
-            {{ question }}
-        </p>
-        {% for choice in choices %}
+        <form action="{% url 'display_result' question.number %}" method="post">
+            {% csrf_token %}
+            <h2>Question Number: {{ question.number }}</h2>
             <p>
-                <input type="radio" name="choice" value={{ choice.number }}>{{ choice.index }}{{ choice }}</input>
+                {{ question }}
             </p>
-        {% endfor %}
+            {% for choice in choices %}
+                <p>
+                    <input type="radio" name="choice" value={{ choice.number }}>{{ choice.index }}{{ choice }}</input>
+                </p>
+            {% endfor %}
+            <p>
+                <input type="submit" value="Submit" name="trivia_submit"/>
+            </p>
+        </form>
 
     {% endblock %}
