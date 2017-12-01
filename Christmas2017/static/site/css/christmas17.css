@@ -331,6 +331,14 @@ p.no-p-height {
     width: 70%;
     }
 
+.trivia-question {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Times New Roman", serif;
+    color: #208020;
+    }
+
 .unselected-gift-text {
     color: #208020;
     font-family: sans;
