@@ -4,5 +4,31 @@
     {{ block.super }}
 
     {% block content %}
-        <h2>This is the Scoreboard page.</h2>
+        <div class="row">
+            <h1 class="heading center-text">Christmas Trivia Game</h1>
+        </div>
+        <div class="row">
+            <div class="info">
+                <p>Welcome to the 2017 Christmas Trivia Game. Here are the rules:</p>
+                <p>1. Questions must be answered in order.</p>
+                <p>2. Questions may only be answered once.</p>
+                <p>
+                    3. Players must answer questions from their own knowledge without getting information
+                    from the internet or elsewhere.
+                </p>
+            </div>
+        </div>
+        {% if user.userprofile.trivia_questions_attempted == 0 %}
+            <p class="center-button">
+                <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                    <button>First Question</button>
+                </a>
+            </p>
+        {% else %}
+            <p class="center-button">
+                <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                    <button>Next Question</button>
+                </a>
+            </p>
+        {% endif %}
     {% endblock %}

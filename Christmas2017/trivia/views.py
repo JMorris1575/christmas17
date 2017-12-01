@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import View
 
+from .models import TriviaQuestion, TriviaChoices
+
 import utils
 
 
@@ -17,8 +19,11 @@ class DisplayQuestion(View):
     template_name = 'trivia/trivia_question.html'
 
     def get(self, request, question_number=None):
+        question = TriviaQuestion.objects.get(number=question_number)
+        choices = TriviaChoices.objects.filter(question=question.pk)
         return render(request, self.template_name, {'display_memory': utils.get_memory(),
-                                                    'q_number': question_number})
+                                                    'question': question,
+                                                    'choices': choices})
 
 
 class DisplayResult(View):

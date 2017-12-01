@@ -6,8 +6,8 @@ from django.conf import settings
 class TriviaQuestion(models.Model):
     number = models.IntegerField(unique=True)
     text = models.TextField()
-    attempted = models.IntegerField()
-    correct = models.IntegerField()
+    attempted = models.IntegerField(default=0)
+    correct = models.IntegerField(default=0)
 
     def __str__(self):
         return self.text
@@ -27,7 +27,10 @@ class TriviaChoices(models.Model):
     
     class Meta:
         unique_together = ('question', 'number')
-        ordering = ['number']
+        ordering = ['question', 'number']
+
+    def index(self):
+        return ' ' + chr(64 + self.number) + ') '
 
 
 class TriviaUserResponses(models.Model):
@@ -40,7 +43,7 @@ class TriviaUserResponses(models.Model):
         return text
     
     class Meta:
-        ordering = ['question.number']
+        ordering = ['question']
         
 
 class TriviaConversation(models.Model):

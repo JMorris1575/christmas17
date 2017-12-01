@@ -4,5 +4,14 @@
     {{ block.super }}
 
     {% block content %}
-        <h2>This is the Trivia Question page for Question Number: {{ q_number }}</h2>
+        <h2>Question Number: {{ question.number }}</h2>
+        <p>
+            {{ question }}
+        </p>
+        {% for choice in choices %}
+            <p>
+                <input type="radio" name="choice" value={{ choice.number }}>{{ choice.index }}{{ choice }}</input>
+            </p>
+        {% endfor %}
+
     {% endblock %}

@@ -240,7 +240,7 @@ Here are the trivia models as I created them::
             return text
 
         class Meta:
-            ordering = ['question.number']
+            ordering = ['question']
 
 
     class TriviaConversation(models.Model):
@@ -283,5 +283,226 @@ Finally, the trivia.admin.py program had to have some additions to it::
 
 I will do a commit here before trying to use these models.
 
-Using the Trivia Models
-***********************
+Migrations with the New Trivia Models
+*************************************
+
+First I will need to do a makemigrations and a migrate... I got an error::
+
+    ERRORS:
+    trivia.TriviaUserResponses: (models.E015) 'ordering' refers to the non-existent field 'question.number'.
+
+so I guess I can't do it that way, but I suppose with TriviaQuestion already being ordered by number I can just use::
+
+    class Meta:
+        ordering = ['number']
+
+in the TriviaUserResponses model.
+
+Tried to do a **makemigrations** again and this time got a non-nullable field: ``trivia_answers_correct`` in my
+UserProfile updates. I will set the default of both of the new fields to zero (0).
+
+This time **makemigrations** worked and I added both of the new migration files to Git. Running **migrate** worked
+without any problems.
+
+Entering Data into the Trivia Models
+************************************
+
+I haven't actually decided on a set of trivia questions yet so, except for the first question, for development I will
+add a bunch of fake questions and choices to the models through the admin app.
+
+When I entered the first question it complained that I hadn't entered anything for ``attempted`` or ``correct``. I will
+supply defaults, do another **makemigrations** and another **migrate**. This was done with no problems.
+
+While entering the data into the TriviaChoice model I decided to modify the ordering of that model. That line now
+contains ``ordering = ['question', 'number']``
+
+Entering the data this way is quite painful. Either the ``/admin`` app allows two related models to have data entered at
+the same time or I can work on a page to create questions and their possible choices.
+
+Building the Trivia App
+-----------------------
+
+With the models in place I can start building the app, step by step, using my modified version of Test Driven
+Development (TDD). Here is an initial plan -- which will probably not be adhered to very closely:
+
+#. Have the game rules appear on the scoreboard page.
+#. Have a 'First Question'/'Next Question' button appear on the scoreboard page.
+#. Clicking the 'First Question' button sends them to the first question page which identifies itself as such.
+#. The question page displays the question.
+#. The question page displays the possible answers with radio buttons next to each.
+#. The question page displays a working 'Submit' button
+#. Clicking the submit button sends the user to the results page.
+#. The results page informs them of whether their answer was correct
+#. The results page displays the user's statistice: questions answered, number correct, percentage correct
+#. The results page displays a 'Next' button which sends the user to the next question
+#. Entering the url for later questions still sends the user to the next question in line for them
+#. The scoreboard page displays participating user scores
+#. The scoreboar page displays participating user scores in descending sequence
+#. The scoreboard page displays participating user scores in groups depending on the number of questions completed.
+
+Game Rules
+++++++++++
+
+.. csv-table:: **Do the game rules appear on the scoreboard page?**
+    :header: Result, Action to be Taken
+    :widths: auto
+
+    No, Write them into scoreboard.html
+    Yes, I also centered it
+
+Question Button
++++++++++++++++
+
+.. csv-table:: **Does a question button (First Question or Next Question) appear on the scoreboard page?**
+    :header: Result, Action to be Taken
+    :widths: auto
+
+    No, write it into scoreboard.html directing it to a ``next_trivia_question`` url (:ref:`See below.<question_button>`)
+    No, modify UserProfile model to include a get_next_trivia function and use it in template
+    No, It is not a button; enclose a <button> element within the <a> tag.
+    No, "Next Question" not "First Question"; change 'if' statement to user.userprofile.trivia_questions_attempted==0
+
+|
+
+.. csv-table:: **Is the question button centered horizontally on the screen?**
+    :header: Result, Action to be Taken
+    :widths: auto
+
+    No, create a ``center-button`` css class and use it in ``scoreboard.html`` (:ref:`See below<ctr_btn_class>`.)
+    No, put the button in some sort of outer wrapper: <p> or <div> and center that
+    Yes, I chose the <p> element; my css needs a LOT of work!
+
+.. _question_button:
+
+Here is the initial html for the question button::
+
+    {% if user.trivia_questions_attempted == 0 %}
+        <a type="button" href="{% url 'next_page' %}">First Question</a>
+    {% else %}
+        <a type="button" href="{% url 'next_page' %}">Next Question</a>
+    {% endif %}
+
+.. _ctr_btn_class:
+
+Here was my first attempt at creating a class to center buttons::
+
+    .center-button {
+        width: 150px;
+        margin-left: auto;
+        margin-right: auto;
+        }
+
+
+Displaying the Trivia Question Page
++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: **Does clicking on the 'First Question' get the user to the first question page?**
+    :header: Result, Action to be Taken
+    :widths: auto
+
+    No, it reloads scoreboard; edit the ``get_next_trivia`` function in user.models.py (:ref:`See below<gt_nxt_trv>`.)
+    No, still reloads scoreboard; edit ``scoreboard.html`` to say ``href="user.userprofile.get_next_trivia"``
+    No, Page not found looking for ``trivia/scoreboard/1``; create the appropriate {% url ... %} tag
+    Yes, it took a while to find the :ref:`appropriate<new_next_ques_btn>` tag but it works now
+
+.. _gt_nxt_trv:
+
+Originally, I had self.user.trivia_questions_attempted, but that was silly! Here is the final form::
+
+        def get_next_trivia(self):
+            next_ques = self.trivia_questions_attempted + 1
+            print('next_ques = ', next_ques)
+            return next_ques
+
+.. _new_next_ques_btn:
+
+After a lot of trial and error, this is what I found to work::
+
+    {% if user.userprofile.trivia_questions_attempted == 0 %}
+        <p class="center-button">
+            <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                <button>First Question</button>
+            </a>
+        </p>
+    {% else %}
+        <p class="center-button">
+            <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                <button>Next Question</button>
+            </a>
+        </p>
+    {% endif %}
+
+Currently, however, it only displays the stubbed in ``trivia_question.html`` page.
+
+Displaying Questions on the Question Page
++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: **Does the question page display the corresponding question?**
+    :header: Result, Action to be Taken
+    :widths: auto
+
+    No, only stub; update :ref:`DisplayQuestion<disp_ques_view>` view and :ref:`trivia_question.html<new_trv_ques_html>`
+    Yes, worked (almost) the first time
+
+.. _disp_ques_view:
+
+Here is the first attempt at updating DisplayQuestion::
+
+    class DisplayResult(View):
+        template_name = 'trivia/trivia_result.html'
+
+        def get(self, request, question_number=None):
+            question = TriviaQuestion.objects.get(number=question_number)
+            return render(request, self.template_name, {'display_memory': utils.get_memory(),
+                                                        'question': question})
+
+I also had to import TriviaQuestion of course.
+
+.. _new_trv_ques_html:
+
+Here is the somewhat improved version of ``trivia_question.html``::
+
+    {% block content %}
+        <h2>Question Number: {{ question.number }}</h2>
+        <p>
+            {{ question }}
+        </p>
+    {% endblock %}
+
+Displaying Possible Responses on the Question Page
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: **Do the possible responses to a question display with the corresponding question?**
+    :header: Result, Action to be Taken
+    :widths: auto
+
+    No, adjust DisplayView to send the possible choices in the context and loop through them in ``trivia_question.html``
+    Yes, now make them into radio buttons
+
+Displaying Possible Responses as Radio Buttons
+++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: **Do the possible responses display as radio buttons?**
+    :header: Result, Action to be Taken
+    :widths: auto
+
+    No, Change them to <input type="radio">
+    Yes, after some :ref:`experimentation<expt>` and adding a :ref:`method<choice_index>` to the TriviaChoices model
+
+.. _expt:
+
+Here is the html currently displaying the possible responses to the trivia questions::
+
+    {% for choice in choices %}
+        <p>
+            <input type="radio" name="choice" value={{ choice.number }}>{{ choice.index }}{{ choice }}</input>
+        </p>
+    {% endfor %}
+
+.. _choice_index:
+
+Here is the new index method added to the TriviaChoices model::
+
+    def index(self):
+        return ' ' + chr(64 + self.number) + ') '
+

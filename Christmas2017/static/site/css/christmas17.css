@@ -78,6 +78,16 @@ p.no-p-height {
     align: center;
     }
 
+.center-button {
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+.center-text {
+    text-align: center;
+    }
+
 .comment {
     font-family: sans;
     font-size: small;
@@ -202,8 +212,8 @@ p.no-p-height {
 
 .heading {
     color: #208020;
-    font-family: Alpine;
-    font-size: 150%;
+    font-family: serif;
+    font-size: 200%;
     font-style: italic;
     margin-top: 0px;
     }
@@ -211,21 +221,6 @@ p.no-p-height {
 .instructions {
     color: #208020;
     font-family: arial sans-serif;
-    }
-
-.menu {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    overflow: auto;
-    }
-
-.menu-list-item {
-    list-style-type: none;
-    margin-right: 20px;
-    padding: 5px;
-    font-size: 110%;
-    font-weight: bold;
-    font-family: sans-serif;
     }
 
 .memory {
@@ -253,6 +248,21 @@ p.no-p-height {
     font-style: italic;
     padding: 10px;
     background-color: #ffffcc;
+    }
+
+.menu {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    overflow: auto;
+    }
+
+.menu-list-item {
+    list-style-type: none;
+    margin-right: 20px;
+    padding: 5px;
+    font-size: 110%;
+    font-weight: bold;
+    font-family: sans-serif;
     }
 
 .name {
@@ -286,6 +296,10 @@ p.no-p-height {
     height: 200%;
     float: right;
     padding: 5px;
+    }
+
+.row {
+    width: auto;
     }
 
 .selected-gift-text {
