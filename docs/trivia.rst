@@ -332,8 +332,10 @@ Development (TDD). Here is an initial plan -- which will probably not be adhered
 #. The question page displays the possible answers with radio buttons next to each.
 #. The question page displays a working 'Submit' button
 #. Clicking the submit button sends the user to the results page.
+#. Clicking the submit button records the users response to this question
+#. Clicking the submit button updates the user's statistics in UserProfile
 #. The results page informs them of whether their answer was correct
-#. The results page displays the user's statistice: questions answered, number correct, percentage correct
+#. The results page displays the user's statistics: questions answered, number correct, percentage correct
 #. The results page displays a 'Next' button which sends the user to the next question
 #. Entering the url for later questions still sends the user to the next question in line for them
 #. The scoreboard page displays participating user scores
@@ -538,12 +540,71 @@ Creating a Trivia Question Form with a working Submit Button
 
 .. _disp_result_view:
 
-        def post(self, request, question_number=None, choice=None):
-            question = TriviaQuestion.objects.get(number=question_number)
-            return render(request, self.template_name, {'display_memory': utils.get_memory(),
-                                                        'question': question,
-                                                        'choice': choice})
+Here is the initial form of the ``post`` function I added::
 
+    def post(self, request, question_number=None, choice=None):
+        question = TriviaQuestion.objects.get(number=question_number)
+        return render(request, self.template_name, {'display_memory': utils.get_memory(),
+                                                    'question': question,
+                                                    'choice': choice})
+
+.. index:: Methods; passing form data through POST
+
+The ``post`` function above was not working. When I modified the result page stub to report on the user's choice it
+always reported that they had chosen None. As written above the function presumes that the choice information is coming
+in through the url but it is actually in the ``request.POST`` data. Here is a way to access it::
+
+    def post(self, request, question_number=None):
+        choice = request.POST['choice']
+        question = TriviaQuestion.objects.get(number=question_number)
+        return render(request, self.template_name, {'display_memory': utils.get_memory(),
+                                                    'question': question,
+                                                    'choice': choice})
+
+Working on the Results Page
++++++++++++++++++++++++++++
+
+This will be a several step process:
+
+#. The results page informs them of whether their answer was correct
+#. The results page displays the user's statistics: questions answered, number correct, percentage correct
+#. The results page displays a 'Next' button which sends the user to the next question
+
+Changing the Name of TriviaUserResponses
+****************************************
+
+In anticipation of what I will have to do in the next section, I noticed I had used the plural form when each entry is
+just a singular response, so I changed the model's name to ``TriviaUserResponse``.  It complained at me when I tried to
+do a ``makemigrations`` because ``admin.py`` couldn't import TriviaUserResponses any more.  I changed the import and the
+registration in ``admin.py`` and then both ``makemigrations`` and ``migrate`` worked properly.
+
+Recording Results
+*****************
+
+It seemed more proper to make sure all the data gets saved to the database before displaying it so I decided to tend to
+that before worrying about displaying it on the results page. First, saving the user's answers to the current question:
+
+.. csv-table:: **Does the DisplayResult view record the user's response?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, database is not changed at all, add lines to DisplayResult's post method to update the database
+    No, complained that 'User' object has no attribute 'get_name', call for user.userprofle.get_name in models
+    No, TypeError in __str__ for TriviaUserResponse, call for str(self.response)
+    Yes, Jim's response to question 1: 32 displayed in ``admin``
+
+
+Result Page: Response Correctness
+*********************************
+
+It seems this will require changes in the DisplayResult view since that seems like the best place to do the evaluation.
+
+
+.. csv-table:: **Does the Result page tell the user if their answer was right or wrong?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, only indicates their choice, change the view and trivia_result.html to display correctness
 
 
 

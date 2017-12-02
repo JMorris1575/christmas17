@@ -33,13 +33,14 @@ class TriviaChoices(models.Model):
         return ' ' + chr(64 + self.number) + ') '
 
 
-class TriviaUserResponses(models.Model):
+class TriviaUserResponse(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     question = models.ForeignKey(TriviaQuestion)
     response = models.ForeignKey(TriviaChoices)
 
     def __str__(self):
-        text = self.user.get_name() + "'s response to question " + str(self.question.number) + ": " + self.response
+        text = self.user.userprofile.get_name() + "'s response to question " + \
+               str(self.question.number) + ": " + str(self.response)
         return text
     
     class Meta:
@@ -51,4 +52,4 @@ class TriviaConversation(models.Model):
     entry = models.CharField(max_length=300)
     
     def __str__(self):
-        return self.user.get_name() + ': ' + self.entry
+        return self.user.userprofile.get_name() + ': ' + self.entry

@@ -5,5 +5,12 @@
 
     {% block content %}
         <h2>This is the Trivia Result page for Question Number: {{ question.number }}</h2>
-        <h3>Your choice was {{ choice }}</h3>
+        <h3>Your chose {{ choice.index }}{{ choice }}</h3>
+        <h3>
+            {% if choice.correct %}
+                You are right!
+            {% else %}
+                Sorry, that's not correct. The correct answer is {{ choice.index }}{{ choice }}.
+            {% endif %}
+        </h3>
     {% endblock %}
