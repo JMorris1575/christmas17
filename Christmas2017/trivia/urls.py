@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import RedirectView
 from django.urls import reverse
-from .views import (Scoreboard, DisplayQuestion, DisplayResult, )
+from .views import (Scoreboard, DisplayQuestion, DisplayResult, EndOfQuestions)
 
 urlpatterns = [
     url(r'^$',
@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^result/(?P<question_number>[0-9]+)/$',
         login_required(DisplayResult.as_view()),
         name='display_result'),
+    url(r'^no_more_questions/$', login_required(EndOfQuestions.as_view()), name='end_of_questions'),
 ]

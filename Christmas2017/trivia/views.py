@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import View
 
 from .models import TriviaQuestion, TriviaChoices, TriviaUserResponse
@@ -19,6 +20,11 @@ class DisplayQuestion(View):
     template_name = 'trivia/trivia_question.html'
 
     def get(self, request, question_number=None):
+        if int(question_number) > request.user.userprofile.get_next_trivia():    # prevents going beyond the next question
+            question_number = request.user.userprofile.get_next_trivia()
+            return redirect('/trivia/question/' + str(question_number) + '/')
+        if int(question_number) > len(TriviaQuestion.objects.all()):
+            return redirect(reverse('end_of_questions'))
         question = TriviaQuestion.objects.get(number=question_number)
         choices = TriviaChoices.objects.filter(question=question.pk)
         return render(request, self.template_name, {'display_memory': utils.get_memory(),
@@ -51,3 +57,11 @@ class DisplayResult(View):
                                                     'question': question,
                                                     'choice': choice,
                                                     'correct_choice': correct_choice})
+
+
+class EndOfQuestions(View):
+    template_name = 'trivia/end_of_ques.html'
+
+    def get(self, request):
+        return render(request, self.template_name, {'display_memory': utils.get_memory(),})
+

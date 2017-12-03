@@ -21,7 +21,6 @@ class UserProfile(models.Model):
 
     def get_next_trivia(self):
         next_ques = self.trivia_questions_attempted + 1
-        print('next_ques = ', next_ques)
         return next_ques
 
 

@@ -620,6 +620,21 @@ that before worrying about displaying it on the results page. First, saving the 
     No, it displays the user's choice as the correct answer, get correct answer in the view and send it to template
     Yes, it was quite easy to do
 
+Result Page: Response Correctness
+*********************************
+
+This section doesn't belong here exactly. It's in a more or less logical place but it wasn't done at this point in the
+development process.  It was at the end of the file getting pushed along by my progress and I just decided to copy/paste
+it here.
+
+
+.. csv-table:: **Does the Result page tell the user if their answer was right or wrong?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, only indicates their choice, change the view and trivia_result.html to display correctness
+    Yes,,
+
 Adding a Next Question Button to the Results Page
 *************************************************
 
@@ -630,28 +645,38 @@ Adding a Next Question Button to the Results Page
     No, to get the next question I go back to the scoreboard page, add a next question button as in ``scoreboard.html``
     Yes, it worked right away
 
+Improving the Trivia Pages
+--------------------------
+
+Preventing Cheating
++++++++++++++++++++
+
+I can't prevent all forms of cheating but at least I can prevent the users from getting into a question that is ahead
+of where they are by typing in the appropriate url.
+
+.. csv-table:: **Is the user prevented from getting questions out of sequence by using the url in the address line?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, it goes right to that question page, check in DisplayQuestionview and go to the next question instead
+    Yes, once I redirected to '/trivia/question/' + str(question_number) + '/'
+
+|
+
+.. csv-table:: **Does the system prevent going beyond the last question?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, displays an error page, edit DisplayQuestion view to redirect to end_of_ques.html and add url pattern
+    Yes, see the code
+
 .. note::
 
     Still needed:
-    * a means for preventing them from getting to questions beyond what they properly can
-    * a graceful means of handling question requests beyond the ones that exist
     * better looking question and results pages
 
 
 
-
-
-Result Page: Response Correctness
-*********************************
-
-It seems this will require changes in the DisplayResult view since that seems like the best place to do the evaluation.
-
-
-.. csv-table:: **Does the Result page tell the user if their answer was right or wrong?**
-    :header: Success?, Result, Action to be Taken
-    :widths: auto
-
-    No, only indicates their choice, change the view and trivia_result.html to display correctness
 
 
 
