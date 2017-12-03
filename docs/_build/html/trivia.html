@@ -23,6 +23,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6. Notes" href="notes.html" />
     <link rel="prev" title="4. New Applications" href="new_apps.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -441,8 +442,10 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
 <li>The question page displays the possible answers with radio buttons next to each.</li>
 <li>The question page displays a working ‘Submit’ button</li>
 <li>Clicking the submit button sends the user to the results page.</li>
+<li>Clicking the submit button records the users response to this question</li>
+<li>Clicking the submit button updates the user’s statistics in UserProfile</li>
 <li>The results page informs them of whether their answer was correct</li>
-<li>The results page displays the user’s statistice: questions answered, number correct, percentage correct</li>
+<li>The results page displays the user’s statistics: questions answered, number correct, percentage correct</li>
 <li>The results page displays a ‘Next’ button which sends the user to the next question</li>
 <li>Entering the url for later questions still sends the user to the next question in line for them</li>
 <li>The scoreboard page displays participating user scores</li>
@@ -468,8 +471,11 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
 </tbody>
 </table>
 </div>
+<div class="section" id="the-question-page">
+<h3>5.6.2. The Question Page<a class="headerlink" href="#the-question-page" title="Permalink to this headline">¶</a></h3>
+<p>Here are the steps to producing a functioning Question Page</p>
 <div class="section" id="question-button">
-<h3>5.6.2. Question Button<a class="headerlink" href="#question-button" title="Permalink to this headline">¶</a></h3>
+<h4>5.6.2.1. Question Button<a class="headerlink" href="#question-button" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="colwidths-auto docutils" id="id12">
 <caption><span class="caption-text"><strong>Does a question button (First Question or Next Question) appear on the scoreboard page?</strong></span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
@@ -532,7 +538,7 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
 </div>
 </div>
 <div class="section" id="displaying-the-trivia-question-page">
-<h3>5.6.3. Displaying the Trivia Question Page<a class="headerlink" href="#displaying-the-trivia-question-page" title="Permalink to this headline">¶</a></h3>
+<h4>5.6.2.2. Displaying the Trivia Question Page<a class="headerlink" href="#displaying-the-trivia-question-page" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="colwidths-auto docutils" id="id14">
 <caption><span class="caption-text"><strong>Does clicking on the ‘First Question’ get the user to the first question page?</strong></span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
@@ -581,7 +587,7 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
 <p>Currently, however, it only displays the stubbed in <code class="docutils literal"><span class="pre">trivia_question.html</span></code> page.</p>
 </div>
 <div class="section" id="displaying-questions-on-the-question-page">
-<h3>5.6.4. Displaying Questions on the Question Page<a class="headerlink" href="#displaying-questions-on-the-question-page" title="Permalink to this headline">¶</a></h3>
+<h4>5.6.2.3. Displaying Questions on the Question Page<a class="headerlink" href="#displaying-questions-on-the-question-page" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="colwidths-auto docutils" id="id15">
 <caption><span class="caption-text"><strong>Does the question page display the corresponding question?</strong></span><a class="headerlink" href="#id15" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
@@ -620,7 +626,7 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
 </div>
 </div>
 <div class="section" id="displaying-possible-responses-on-the-question-page">
-<h3>5.6.5. Displaying Possible Responses on the Question Page<a class="headerlink" href="#displaying-possible-responses-on-the-question-page" title="Permalink to this headline">¶</a></h3>
+<h4>5.6.2.4. Displaying Possible Responses on the Question Page<a class="headerlink" href="#displaying-possible-responses-on-the-question-page" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="colwidths-auto docutils" id="id16">
 <caption><span class="caption-text"><strong>Do the possible responses to a question display with the corresponding question?</strong></span><a class="headerlink" href="#id16" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
@@ -639,7 +645,7 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
 </table>
 </div>
 <div class="section" id="displaying-possible-responses-as-radio-buttons">
-<h3>5.6.6. Displaying Possible Responses as Radio Buttons<a class="headerlink" href="#displaying-possible-responses-as-radio-buttons" title="Permalink to this headline">¶</a></h3>
+<h4>5.6.2.5. Displaying Possible Responses as Radio Buttons<a class="headerlink" href="#displaying-possible-responses-as-radio-buttons" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="colwidths-auto docutils" id="id17">
 <caption><span class="caption-text"><strong>Do the possible responses display as radio buttons?</strong></span><a class="headerlink" href="#id17" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
@@ -668,6 +674,252 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">chr</span><span class="p">(</span><span class="mi">64</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;) &#39;</span>
 </pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="creating-a-trivia-question-form-with-a-working-submit-button">
+<h3>5.6.3. Creating a Trivia Question Form with a working Submit Button<a class="headerlink" href="#creating-a-trivia-question-form-with-a-working-submit-button" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="colwidths-auto docutils" id="id18">
+<caption><span class="caption-text"><strong>Does a Submit Button appear under the Question and its possible responses?</strong></span><a class="headerlink" href="#id18" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>Create a form with all the necessary id and value attributes in the input tags</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>since I set value=’response’ the button says ‘response’; change value to ‘Submit’</td>
+</tr>
+<tr class="row-even"><td>Yes</td>
+<td>now get it to work</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id19">
+<caption><span class="caption-text"><strong>Does clicking the Submit Button send the user to the result page?</strong></span><a class="headerlink" href="#id19" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>got a ‘Forbidden’ error because I forgot the {{ csrf.token }} in the form; insert the token</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>got the same error; change code to {% csrf.token %}</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>got a SyntaxError; change code to {% csrf_token %}</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>got a blank page; set form action to {% url ‘display_result’ %}</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>got a NoReverseMatch because arguments not found; add in the question number</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>blank page; add a post method to the <a class="reference internal" href="#disp-result-view"><span class="std std-ref">DisplayResult view</span></a></td>
+</tr>
+<tr class="row-even"><td>Yes</td>
+<td>but only the stub result page</td>
+</tr>
+</tbody>
+</table>
+<p id="disp-result-view">Here is the initial form of the <code class="docutils literal"><span class="pre">post</span></code> function I added:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">question_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">choice</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">TriviaQuestion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="n">question_number</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;display_memory&#39;</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_memory</span><span class="p">(),</span>
+                                                <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="n">question</span><span class="p">,</span>
+                                                <span class="s1">&#39;choice&#39;</span><span class="p">:</span> <span class="n">choice</span><span class="p">})</span>
+</pre></div>
+</div>
+<p id="index-1">The <code class="docutils literal"><span class="pre">post</span></code> function above was not working. When I modified the result page stub to report on the user’s choice it
+always reported that they had chosen None. As written above the function presumes that the choice information is coming
+in through the url but it is actually in the <code class="docutils literal"><span class="pre">request.POST</span></code> data. Here is a way to access it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">question_number</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">choice</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;choice&#39;</span><span class="p">]</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">TriviaQuestion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="n">question_number</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;display_memory&#39;</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_memory</span><span class="p">(),</span>
+                                                <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="n">question</span><span class="p">,</span>
+                                                <span class="s1">&#39;choice&#39;</span><span class="p">:</span> <span class="n">choice</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="working-on-the-results-page">
+<h3>5.6.4. Working on the Results Page<a class="headerlink" href="#working-on-the-results-page" title="Permalink to this headline">¶</a></h3>
+<p>This will be a several step process:</p>
+<ol class="arabic simple">
+<li>The results page informs them of whether their answer was correct</li>
+<li>The results page displays the user’s statistics: questions answered, number correct, percentage correct</li>
+<li>The results page displays a ‘Next’ button which sends the user to the next question</li>
+</ol>
+<div class="section" id="changing-the-name-of-triviauserresponses">
+<h4>5.6.4.1. Changing the Name of TriviaUserResponses<a class="headerlink" href="#changing-the-name-of-triviauserresponses" title="Permalink to this headline">¶</a></h4>
+<p>In anticipation of what I will have to do in the next section, I noticed I had used the plural form when each entry is
+just a singular response, so I changed the model’s name to <code class="docutils literal"><span class="pre">TriviaUserResponse</span></code>.  It complained at me when I tried to
+do a <code class="docutils literal"><span class="pre">makemigrations</span></code> because <code class="docutils literal"><span class="pre">admin.py</span></code> couldn’t import TriviaUserResponses any more.  I changed the import and the
+registration in <code class="docutils literal"><span class="pre">admin.py</span></code> and then both <code class="docutils literal"><span class="pre">makemigrations</span></code> and <code class="docutils literal"><span class="pre">migrate</span></code> worked properly.</p>
+</div>
+<div class="section" id="recording-results">
+<h4>5.6.4.2. Recording Results<a class="headerlink" href="#recording-results" title="Permalink to this headline">¶</a></h4>
+<p>It seemed more proper to make sure all the data gets saved to the database before displaying it so I decided to tend to
+that before worrying about displaying it on the results page. First, saving the user’s answers to the current question:</p>
+<table border="1" class="colwidths-auto docutils" id="id20">
+<caption><span class="caption-text"><strong>Does the DisplayResult view record the user’s response?</strong></span><a class="headerlink" href="#id20" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Success?</th>
+<th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>database is not changed at all</td>
+<td>add lines to DisplayResult’s post method to update the database</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>complained that ‘User’ object has no attribute ‘get_name’</td>
+<td>call for user.userprofle.get_name in models</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>TypeError in __str__ for TriviaUserResponse</td>
+<td>call for str(self.response)</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>Jim’s response to question 1: 32 displayed in <code class="docutils literal"><span class="pre">admin</span></code></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id21">
+<caption><span class="caption-text"><strong>Does the DisplayResult view record update the trivia information in UserProfile?</strong></span><a class="headerlink" href="#id21" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Success?</th>
+<th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>no changes are recorded there</td>
+<td>add code to DisplayResult’s post method to handle this</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>no changes made</td>
+<td>create a user profile in the view</td>
+<td>modify it</td>
+<td>then save it back to the database</td>
+</tr>
+<tr class="row-even"><td>Yes</td>
+<td>changes are made in the user profile</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id22">
+<caption><span class="caption-text"><strong>Does the button on the scoreboard page now say ‘Next Question’ instead of ‘First Question’?</strong></span><a class="headerlink" href="#id22" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Success?</th>
+<th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Yes</td>
+<td>&#160;</td>
+<td>nothing I have to do</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id23">
+<caption><span class="caption-text"><strong>Does the result page display the real correct answer?</strong></span><a class="headerlink" href="#id23" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Success?</th>
+<th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>it displays the user’s choice as the correct answer</td>
+<td>get correct answer in the view and send it to template</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>it was quite easy to do</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="adding-a-next-question-button-to-the-results-page">
+<h4>5.6.4.3. Adding a Next Question Button to the Results Page<a class="headerlink" href="#adding-a-next-question-button-to-the-results-page" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="colwidths-auto docutils" id="id24">
+<caption><span class="caption-text"><strong>Does a working ‘Next Question’ appear on the Results page?</strong></span><a class="headerlink" href="#id24" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Success?</th>
+<th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>to get the next question I go back to the scoreboard page</td>
+<td>add a next question button as in <code class="docutils literal"><span class="pre">scoreboard.html</span></code></td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>it worked right away</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Still needed:
+* a means for preventing them from getting to questions beyond what they properly can
+* a graceful means of handling question requests beyond the ones that exist
+* better looking question and results pages</p>
+</div>
+</div>
+<div class="section" id="result-page-response-correctness">
+<h4>5.6.4.4. Result Page: Response Correctness<a class="headerlink" href="#result-page-response-correctness" title="Permalink to this headline">¶</a></h4>
+<p>It seems this will require changes in the DisplayResult view since that seems like the best place to do the evaluation.</p>
+<table border="1" class="colwidths-auto docutils" id="id25">
+<caption><span class="caption-text"><strong>Does the Result page tell the user if their answer was right or wrong?</strong></span><a class="headerlink" href="#id25" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Success?</th>
+<th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>only indicates their choice</td>
+<td>change the view and trivia_result.html to display correctness</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -717,15 +969,14 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#building-the-trivia-app">5.6. Building the Trivia App</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#game-rules">5.6.1. Game Rules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#question-button">5.6.2. Question Button</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#displaying-the-trivia-question-page">5.6.3. Displaying the Trivia Question Page</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#displaying-questions-on-the-question-page">5.6.4. Displaying Questions on the Question Page</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#displaying-possible-responses-on-the-question-page">5.6.5. Displaying Possible Responses on the Question Page</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#displaying-possible-responses-as-radio-buttons">5.6.6. Displaying Possible Responses as Radio Buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-question-page">5.6.2. The Question Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-trivia-question-form-with-a-working-submit-button">5.6.3. Creating a Trivia Question Form with a working Submit Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-on-the-results-page">5.6.4. Working on the Results Page</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">6. Notes</a></li>
 </ul>
 
 <div class="relations">
@@ -733,6 +984,7 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="new_apps.html" title="previous chapter">4. New Applications</a></li>
+      <li>Next: <a href="notes.html" title="next chapter">6. Notes</a></li>
   </ul></li>
 </ul>
 </div>
@@ -754,7 +1006,7 @@ Development (TDD). Here is an initial plan – which will probably not be adhere
       &copy;2017, Jim Morris.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

@@ -19,6 +19,7 @@ is to simplify the process of developing Django websites in the future.
    updating
    new_apps
    trivia
+   notes
 
 
 Indices and tables

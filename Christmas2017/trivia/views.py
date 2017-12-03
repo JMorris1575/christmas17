@@ -37,9 +37,17 @@ class DisplayResult(View):
         choice_index = request.POST['choice']
         question = TriviaQuestion.objects.get(number=question_number)
         choice = TriviaChoices.objects.filter(question=question).get(number=choice_index)
+        correct_choice = TriviaChoices.objects.filter(question=question).get(correct=True)
+        print('correct_choice.index = ', correct_choice.index())
         user_response = TriviaUserResponse(user=request.user, question=question, response=choice)
         user_response.save()
+        profile = request.user.userprofile
+        profile.trivia_questions_attempted += 1
+        if choice.correct:
+            profile.trivia_answers_correct += 1
+        profile.save()
 
         return render(request, self.template_name, {'display_memory': utils.get_memory(),
                                                     'question': question,
-                                                    'choice': choice})
+                                                    'choice': choice,
+                                                    'correct_choice': correct_choice})

@@ -10,7 +10,13 @@
             {% if choice.correct %}
                 You are right!
             {% else %}
-                Sorry, that's not correct. The correct answer is {{ choice.index }}{{ choice }}.
+                Sorry, that's not correct. The correct answer is {{ correct_choice.index }}{{ correct_choice }}.
             {% endif %}
         </h3>
+        <p class="center-button">
+            <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                <button>Next Question</button>
+            </a>
+        </p>
+
     {% endblock %}

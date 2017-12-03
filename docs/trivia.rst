@@ -593,6 +593,53 @@ that before worrying about displaying it on the results page. First, saving the 
     No, TypeError in __str__ for TriviaUserResponse, call for str(self.response)
     Yes, Jim's response to question 1: 32 displayed in ``admin``
 
+|
+
+.. csv-table:: **Does the DisplayResult view record update the trivia information in UserProfile?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, no changes are recorded there, add code to DisplayResult's post method to handle this
+    No, no changes made, create a user profile in the view, modify it, then save it back to the database
+    Yes, changes are made in the user profile
+
+|
+
+.. csv-table:: **Does the button on the scoreboard page now say 'Next Question' instead of 'First Question'?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    Yes, , nothing I have to do
+
+|
+
+.. csv-table:: **Does the result page display the real correct answer?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, it displays the user's choice as the correct answer, get correct answer in the view and send it to template
+    Yes, it was quite easy to do
+
+Adding a Next Question Button to the Results Page
+*************************************************
+
+.. csv-table:: **Does a working 'Next Question' appear on the Results page?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, to get the next question I go back to the scoreboard page, add a next question button as in ``scoreboard.html``
+    Yes, it worked right away
+
+.. note::
+
+    Still needed:
+    * a means for preventing them from getting to questions beyond what they properly can
+    * a graceful means of handling question requests beyond the ones that exist
+    * better looking question and results pages
+
+
+
+
 
 Result Page: Response Correctness
 *********************************

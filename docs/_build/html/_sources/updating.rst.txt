@@ -384,3 +384,16 @@ I may have done through::
     git rm --cached ../docs/_build/doctrees/*.*
 
 but I'm not sure.
+
+Inserting New Gifts
+-------------------
+
+I got three new gifts for the youngest crowd. After the gift list and images were already in place I traded out gifts 8,
+12, and 13 for the new ones. This required that I take and process new images, using GIMP to fake the new numbers on the
+old gifts 8, 12, and 13. Then I copied the new gifts and their thumbnails along with the old gifts with their new
+numbers to ``gifts/static/images/``. Now I have to update the gift descriptions in the database as well as adding new
+gifts 32, 33 and 34.
+
+I was able to do that without difficulty and, since I have made other changes to the database, it should copy over to
+my home computer with the next all.json file.
+
