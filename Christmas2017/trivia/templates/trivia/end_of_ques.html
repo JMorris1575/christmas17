@@ -4,17 +4,19 @@
     {{ block.super }}
 
     {% block content %}
-        <h2>
-            There are currently no more questions to answer. Try back again later.
-        </h2>
-        <h3>
-            So far you have gotten {{ user.userprofile.trivia_answers_correct }} correct
-            out of a total of {{ user.userprofile.trivia_questions_attempted }}.
-        </h3>
-        <p class="center-button">
-            <a href="{% url 'gift_list' %}">
-                <button>Return to Main Page</button>
-            </a>
-        </p>
+        <div class="trivia">
+            <h2>
+                There are currently no more questions to answer. Try back again later.
+            </h2>
+            <h3>
+                So far you have gotten {{ user.userprofile.trivia_answers_correct }} correct
+                out of a total of {{ user.userprofile.trivia_questions_attempted }}.
+            </h3>
+            <p class="center-button">
+                <a href="{% url 'gift_list' %}">
+                    <button>Return to Main Page</button>
+                </a>
+            </p>
+        </div>
 
     {% endblock %}

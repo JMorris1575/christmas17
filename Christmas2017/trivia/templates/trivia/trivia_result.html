@@ -4,19 +4,26 @@
     {{ block.super }}
 
     {% block content %}
-        <h2>This is the Trivia Result page for Question Number: {{ question.number }}</h2>
-        <h3>Your chose {{ choice.index }}{{ choice }}</h3>
-        <h3>
-            {% if choice.correct %}
-                You are right!
-            {% else %}
-                Sorry, that's not correct. The correct answer is {{ correct_choice.index }}{{ correct_choice }}.
-            {% endif %}
-        </h3>
-        <p class="center-button">
-            <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
-                <button>Next Question</button>
-            </a>
-        </p>
+        <div class="trivia">
+            <h2>{{ question }}</h2>
+            <h3>Your chose  {{ choice.index }}{{ choice }}</h3>
+            <h3>
+                {% if choice.correct %}
+                    You are right!
+                {% else %}
+                    Sorry, that isn't correct. The correct answer is {{ correct_choice.index }}{{ correct_choice }}.
+                {% endif %}
+            </h3>
+            <h4>
+                Out of {{ user.userprofile.trivia_questions_attempted }} questions attempted so far, you have gotten
+                {{ user.userprofile.trivia_answers_correct }} of them right. That gives you a score of
+                {{ user.userprofile.score }}.
+            </h4>
+            <p class="center-button">
+                <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                    <button>Next Question</button>
+                </a>
+            </p>
+        </div>
 
     {% endblock %}

@@ -23,4 +23,7 @@ class UserProfile(models.Model):
         next_ques = self.trivia_questions_attempted + 1
         return next_ques
 
+    def score(self):
+        return '{:.1%}'.format(self.trivia_answers_correct / self.trivia_questions_attempted)
+
 

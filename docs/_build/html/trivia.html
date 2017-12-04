@@ -873,10 +873,35 @@ that before worrying about displaying it on the results page. First, saving the 
 </tbody>
 </table>
 </div>
-<div class="section" id="adding-a-next-question-button-to-the-results-page">
-<h4>5.6.4.3. Adding a Next Question Button to the Results Page<a class="headerlink" href="#adding-a-next-question-button-to-the-results-page" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="result-page-response-correctness">
+<h4>5.6.4.3. Result Page: Response Correctness<a class="headerlink" href="#result-page-response-correctness" title="Permalink to this headline">¶</a></h4>
+<p>This section doesn’t belong here exactly. It’s in a more or less logical place but it wasn’t done at this point in the
+development process.  It was at the end of the file getting pushed along by my progress and I just decided to copy/paste
+it here.</p>
 <table border="1" class="colwidths-auto docutils" id="id24">
-<caption><span class="caption-text"><strong>Does a working ‘Next Question’ appear on the Results page?</strong></span><a class="headerlink" href="#id24" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-text"><strong>Does the Result page tell the user if their answer was right or wrong?</strong></span><a class="headerlink" href="#id24" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Success?</th>
+<th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>only indicates their choice</td>
+<td>change the view and trivia_result.html to display correctness</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="adding-a-next-question-button-to-the-results-page">
+<h4>5.6.4.4. Adding a Next Question Button to the Results Page<a class="headerlink" href="#adding-a-next-question-button-to-the-results-page" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="colwidths-auto docutils" id="id25">
+<caption><span class="caption-text"><strong>Does a working ‘Next Question’ appear on the Results page?</strong></span><a class="headerlink" href="#id25" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Success?</th>
 <th class="head">Result</th>
@@ -894,19 +919,17 @@ that before worrying about displaying it on the results page. First, saving the 
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Still needed:
-* a means for preventing them from getting to questions beyond what they properly can
-* a graceful means of handling question requests beyond the ones that exist
-* better looking question and results pages</p>
 </div>
 </div>
-<div class="section" id="result-page-response-correctness">
-<h4>5.6.4.4. Result Page: Response Correctness<a class="headerlink" href="#result-page-response-correctness" title="Permalink to this headline">¶</a></h4>
-<p>It seems this will require changes in the DisplayResult view since that seems like the best place to do the evaluation.</p>
-<table border="1" class="colwidths-auto docutils" id="id25">
-<caption><span class="caption-text"><strong>Does the Result page tell the user if their answer was right or wrong?</strong></span><a class="headerlink" href="#id25" title="Permalink to this table">¶</a></caption>
+</div>
+<div class="section" id="improving-the-trivia-pages">
+<h2>5.7. Improving the Trivia Pages<a class="headerlink" href="#improving-the-trivia-pages" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="preventing-cheating">
+<h3>5.7.1. Preventing Cheating<a class="headerlink" href="#preventing-cheating" title="Permalink to this headline">¶</a></h3>
+<p>I can’t prevent all forms of cheating but at least I can prevent the users from getting into a question that is ahead
+of where they are by typing in the appropriate url.</p>
+<table border="1" class="colwidths-auto docutils" id="id26">
+<caption><span class="caption-text"><strong>Is the user prevented from getting questions out of sequence by using the url in the address line?</strong></span><a class="headerlink" href="#id26" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Success?</th>
 <th class="head">Result</th>
@@ -915,11 +938,60 @@ that before worrying about displaying it on the results page. First, saving the 
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>No</td>
-<td>only indicates their choice</td>
-<td>change the view and trivia_result.html to display correctness</td>
+<td>it goes right to that question page</td>
+<td>check in DisplayQuestionview and go to the next question instead</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>once I redirected to ‘/trivia/question/’ + str(question_number) + ‘/’</td>
+<td>&#160;</td>
 </tr>
 </tbody>
 </table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id27">
+<caption><span class="caption-text"><strong>Does the system prevent going beyond the last question?</strong></span><a class="headerlink" href="#id27" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Success?</th>
+<th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>displays an error page</td>
+<td>edit DisplayQuestion view to redirect to end_of_ques.html and add url pattern</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>see the code</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="colwidths-auto docutils" id="id28">
+<caption><span class="caption-text"><strong>Does the system prevent a user from going back to change their answer to an earlier question?</strong></span><a class="headerlink" href="#id28" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Success?</th>
+<th class="head">Result</th>
+<th class="head">Action to be Taken</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>counts new attempt and; if right; correct answers; allows many repeats</td>
+<td>add code to DisplayResults post method</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Still needed:
+* prevent the user from going back to change their answer to an earlier question
+* better looking question and results pages</p>
 </div>
 </div>
 </div>
@@ -972,6 +1044,10 @@ that before worrying about displaying it on the results page. First, saving the 
 <li class="toctree-l3"><a class="reference internal" href="#the-question-page">5.6.2. The Question Page</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-trivia-question-form-with-a-working-submit-button">5.6.3. Creating a Trivia Question Form with a working Submit Button</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#working-on-the-results-page">5.6.4. Working on the Results Page</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#improving-the-trivia-pages">5.7. Improving the Trivia Pages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#preventing-cheating">5.7.1. Preventing Cheating</a></li>
 </ul>
 </li>
 </ul>

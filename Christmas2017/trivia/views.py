@@ -40,6 +40,8 @@ class DisplayResult(View):
                                                     'q_number': question_number})
 
     def post(self, request, question_number=None):
+        if int(question_number) < request.user.userprofile.get_next_trivia():
+            return redirect(reverse('already_answered'))
         choice_index = request.POST['choice']
         question = TriviaQuestion.objects.get(number=question_number)
         choice = TriviaChoices.objects.filter(question=question).get(number=choice_index)
@@ -65,3 +67,9 @@ class EndOfQuestions(View):
     def get(self, request):
         return render(request, self.template_name, {'display_memory': utils.get_memory(),})
 
+
+class AlreadyAnswered(View):
+    template_name = 'trivia/already_answered.html'
+
+    def get(self, request):
+        return render(request, self.template_name, {'display_memory': utils.get_memory(),})

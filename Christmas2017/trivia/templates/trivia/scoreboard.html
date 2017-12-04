@@ -4,20 +4,18 @@
     {{ block.super }}
 
     {% block content %}
-        <div class="row">
+        <div class="trivia">
             <h1 class="heading center-text">Christmas Trivia Game</h1>
-        </div>
-        <div class="row">
-            <div class="info">
-                <p>Welcome to the 2017 Christmas Trivia Game. Here are the rules:</p>
-                <p>1. Questions must be answered in order.</p>
-                <p>2. Questions may only be answered once.</p>
-                <p>
-                    3. Players must answer questions from their own knowledge without getting information
-                    from the internet or elsewhere.
-                </p>
-            </div>
-        </div>
+            <p>Here are the rules:</p>
+            <p>1. Questions must be answered in order.</p>
+            <p>2. Questions may only be answered once. You may see your previous answers, but you may not change
+            them.</p>
+            <p>
+                3. Players must answer questions from their own knowledge without getting information
+                from the internet or elsewhere. The website enforces the previous two rules. For this one you're on the
+                honor system.
+            </p>
+        </div><br>
         {% if user.userprofile.trivia_questions_attempted == 0 %}
             <p class="center-button">
                 <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
@@ -31,4 +29,10 @@
                 </a>
             </p>
         {% endif %}
+        <div class="trivia">
+            <h2 class=" heading-2 center-text">
+                Rank According to Questions Answered
+            </h2>
+
+        </div>
     {% endblock %}
