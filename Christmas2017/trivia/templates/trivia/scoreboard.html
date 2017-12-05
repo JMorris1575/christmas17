@@ -15,24 +15,27 @@
                 from the internet or elsewhere. The website enforces the previous two rules. For this one you're on the
                 honor system.
             </p>
+            {% if user.userprofile.trivia_questions_attempted == 0 %}
+                <p class="center-button">
+                    <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                        <button>First Question</button>
+                    </a>
+                </p>
+            {% else %}
+                <p class="center-button">
+                    <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                        <button>Next Question</button>
+                    </a>
+                </p>
+            {% endif %}
         </div><br>
-        {% if user.userprofile.trivia_questions_attempted == 0 %}
-            <p class="center-button">
-                <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
-                    <button>First Question</button>
-                </a>
-            </p>
-        {% else %}
-            <p class="center-button">
-                <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
-                    <button>Next Question</button>
-                </a>
-            </p>
-        {% endif %}
         <div class="trivia">
             <h2 class=" heading-2 center-text">
                 Rank According to Questions Answered
             </h2>
+            {% for stat in stats|dictsortreversed:'attempts' %}
+                <p>{{ stat.name }} - {{ stat.attempts }} - {{ stat.correct }} - {{ stat.percent }}</p>
+            {% endfor %}
 
         </div>
     {% endblock %}

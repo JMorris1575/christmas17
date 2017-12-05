@@ -677,12 +677,11 @@ of where they are by typing in the appropriate url.
     :widths: auto
 
     No, counts new attempt and; if right; correct answers; allows many repeats, add code to DisplayResults post method
-
+    Yes, ,
 
 .. note::
 
     Still needed:
-    * prevent the user from going back to change their answer to an earlier question
     * better looking question and results pages
 
 

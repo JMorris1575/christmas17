@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.views.generic import View
 
 from .models import TriviaQuestion, TriviaChoices, TriviaUserResponse
+from django.contrib.auth.models import User
+from user.models import UserProfile
 
 import utils
 
@@ -14,7 +16,27 @@ class Scoreboard(View):
     template_name = 'trivia/scoreboard.html'
 
     def get(self, request):
-        return render(request, self.template_name, {'display_memory': utils.get_memory(),})
+        stats = self.stats()
+        return render(request, self.template_name, {'display_memory': utils.get_memory(),
+                                                    'stats':stats})
+
+    def stats(self):
+        users = UserProfile.objects.all()
+        stats = []
+        for user in users:
+            attempts = user.trivia_questions_attempted
+            correct = user.trivia_answers_correct
+            if attempts != 0:
+                percent = '{:.1%}'.format(correct/attempts)
+            else:
+                percent = '0.0%'
+            name = user.get_name()
+            if attempts > 0:
+                stats.append( {'attempts':attempts, 'correct':correct, 'percent':percent, 'name':name} )
+        print(stats)
+        return stats
+
+
 
 class DisplayQuestion(View):
     template_name = 'trivia/trivia_question.html'
@@ -46,7 +68,6 @@ class DisplayResult(View):
         question = TriviaQuestion.objects.get(number=question_number)
         choice = TriviaChoices.objects.filter(question=question).get(number=choice_index)
         correct_choice = TriviaChoices.objects.filter(question=question).get(correct=True)
-        print('correct_choice.index = ', correct_choice.index())
         user_response = TriviaUserResponse(user=request.user, question=question, response=choice)
         user_response.save()
         profile = request.user.userprofile
