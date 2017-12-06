@@ -4,38 +4,51 @@
     {{ block.super }}
 
     {% block content %}
-        <div class="trivia">
-            <h1 class="heading center-text">Christmas Trivia Game</h1>
-            <p>Here are the rules:</p>
-            <p>1. Questions must be answered in order.</p>
-            <p>2. Questions may only be answered once. You may see your previous answers, but you may not change
-            them.</p>
-            <p>
-                3. Players must answer questions from their own knowledge without getting information
-                from the internet or elsewhere. The website enforces the previous two rules. For this one you're on the
-                honor system.
-            </p>
-            {% if user.userprofile.trivia_questions_attempted == 0 %}
-                <p class="center-button">
-                    <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
-                        <button>First Question</button>
-                    </a>
-                </p>
-            {% else %}
-                <p class="center-button">
-                    <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
-                        <button>Next Question</button>
-                    </a>
-                </p>
-            {% endif %}
-        </div><br>
-        <div class="trivia">
-            <h2 class=" heading-2 center-text">
-                Rank According to Questions Answered
-            </h2>
-            {% for stat in stats|dictsortreversed:'attempts' %}
-                <p>{{ stat.name }} - {{ stat.attempts }} - {{ stat.correct }} - {{ stat.percent }}</p>
-            {% endfor %}
 
-        </div>
+            <div class="trivia width-60">
+                <h1 class="heading center-text">Christmas Trivia Game</h1>
+                <p>Here are the rules:</p>
+                <p>1. Questions must be answered in order.</p>
+                <p>2. Questions may only be answered once. You may see your previous answers, but you may not change
+                them.</p>
+                <p>
+                    3. Players must answer questions from their own knowledge without getting information
+                    from the internet or elsewhere. The website should enforce the previous two rules. Here, you're on
+                    the honor system.
+                </p>
+                {% if user.userprofile.trivia_questions_attempted == 0 %}
+                    <p class="center-button">
+                        <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                            <button>First Question</button>
+                        </a>
+                    </p>
+                {% else %}
+                    <p class="center-button">
+                        <a class="center-button" href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                            <button>Next Question</button>
+                        </a>
+                    </p>
+                {% endif %}
+            </div>
+            <br>
+            <div class="trivia width-20">
+                <h2 class=" heading-2 center-text">
+                    Player Rankings
+                </h2>
+                {% if stats %}
+                    {% for stat in stats %}
+                        {% if stat.type == "heading" %}
+                            <p class="trivia-header center-text">{{ stat.value }}</p>
+                        {% else %}
+                            <p class="trivia-stat center-text">
+                                {{ stat.value.name }}:  {{ stat.value.percent }}
+                            </p>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p class="trivia-header center-text">No rankings yet available.</p>
+                {% endif %}
+
+            </div>
+
     {% endblock %}

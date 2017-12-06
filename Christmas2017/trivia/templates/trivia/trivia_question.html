@@ -4,7 +4,7 @@
     {{ block.super }}
 
     {% block content %}
-        <div class="trivia">
+        <div class="trivia width-40">
             <form action="{% url 'display_result' question.number %}" method="post">
                 {% csrf_token %}
                 <h2>Question Number: {{ question.number }}</h2>

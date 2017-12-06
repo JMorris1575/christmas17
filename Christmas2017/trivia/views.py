@@ -6,6 +6,8 @@ from .models import TriviaQuestion, TriviaChoices, TriviaUserResponse
 from django.contrib.auth.models import User
 from user.models import UserProfile
 
+from operator import itemgetter
+
 import utils
 
 
@@ -22,7 +24,7 @@ class Scoreboard(View):
 
     def stats(self):
         users = UserProfile.objects.all()
-        stats = []
+        temp = []
         for user in users:
             attempts = user.trivia_questions_attempted
             correct = user.trivia_answers_correct
@@ -32,8 +34,19 @@ class Scoreboard(View):
                 percent = '0.0%'
             name = user.get_name()
             if attempts > 0:
-                stats.append( {'attempts':attempts, 'correct':correct, 'percent':percent, 'name':name} )
-        print(stats)
+                temp.append( {'attempts':attempts, 'correct':correct, 'percent':percent, 'name':name} )
+        temp_sorted = sorted(temp, key = itemgetter('attempts', 'correct'), reverse=True)
+        stats = []
+        attempt_group = -1
+        for stat in temp_sorted:
+            if stat['attempts'] == attempt_group:
+                stats.append(dict(type='stat', value=stat))
+            else:
+                print('Got here')
+                attempt_group = stat['attempts']
+                stats.append(dict(type='heading', value='Players attempting ' + str(attempt_group) + ' questions:'))
+                stats.append(dict(type='stat', value=stat))
+        print('stats = ',stats)
         return stats
 
 
