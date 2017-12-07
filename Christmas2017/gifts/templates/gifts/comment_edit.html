@@ -5,12 +5,16 @@
 
     {{ block.super }}
 
-    <div class="info">
-        <p>
-            You can edit or delete comments you have added here. Scroll down to the entry box, if necessary, edit your
-            comment and the 'Save' button or click the Delete... button to delete this comment.  Clicking the image or
-            the 'Main Page' button cancels the operation and returns to the main page.
-        </p>
+    <div class="border-outer">
+        <div class="border-middle">
+            <div class="info">
+                <p>
+                    You can edit or delete comments you have added here. Scroll down to the entry box, if necessary, edit your
+                    comment and the 'Save' button or click the Delete... button to delete this comment.  Clicking the image or
+                    the 'Main Page' button cancels the operation and returns to the main page.
+                </p>
+            </div>
+        </div>
     </div>
 
     <a class="form-left" href="/gift/list/" title="Click here to return to the main page.">
@@ -21,15 +25,15 @@
         <p class="instructions form-left"><label for="comment">Edit your comment below:</label></p>
         <p><textarea id="comment" name="comment_text" rows="3" cols="40">{{ comment.comment }}</textarea></p>
         <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
-        <p><button class="button" type="submit">Save</button></p>
+        <p><button class="my-button" type="submit">Save</button></p>
     </form>
 
     <form class="form-left" action="/gift/{{ gift.gift_number }}/comment/{{ comment.pk }}/delete/" method="get">
-        <p><button class="button" type="submit">Delete</button></p>
+        <p><button class="my-button" type="submit">Delete</button></p>
     </form>
 
     <a class="form-left" href="/gift/list/">
-        <button class="button">Cancel</button>
+        <button class="my-button">Cancel</button>
     </a>
 
 

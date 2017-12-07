@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'question.apps.QuestionConfig',
     'story.apps.StoryConfig',
     'trivia.apps.TriviaConfig',
+    'under_construction.apps.UnderConstructionConfig',
     'user.apps.UserConfig',
     'django.contrib.admin',
     'django.contrib.auth',

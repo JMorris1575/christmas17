@@ -5,12 +5,16 @@
 
     {{ block.super }}
 
-    <div class="info">
-        <p>
-            You can add a new comment about {{ gift }} here.  Scroll down to the entry box, if necessary, type in your
-            comment, then click the 'Save Comment' button.  Click the image or the 'Cancel' button to return to the
-            main page.  You can click on the "(edit)" link at the end of any comment you made to edit (or delete) it.
-        </p>
+    <div class="border-outer">
+        <div class="border-middle">
+            <div class="info">
+                <p>
+                    You can add a new comment about {{ gift }} here.  Scroll down to the entry box, if necessary, type in your
+                    comment, then click the 'Save Comment' button.  Click the image or the 'Cancel' button to return to the
+                    main page.  You can click on the "(edit)" link at the end of any comment you made to edit (or delete) it.
+                </p>
+            </div>
+        </div>
     </div>
 
     <a class="form-left" href="/gift/list/" title="Click here to return to the main page.">
@@ -28,11 +32,11 @@
     <form class="form-left" action="/gift/{{ gift.gift_number }}/comment/" method="post">{% csrf_token %}
         <p class="instructions"><label for="comment">Enter a new comment below:</label></p>
         <p><textarea id="comment" name="comment_text" rows="3" cols="40"></textarea></p>
-        <p><button class="button" type="submit">Save</button></p>
+        <p><button class="my-button" type="submit">Save</button></p>
     </form>
 
     <a class="form-left" href="/gift/list/">
-        <button class="button">Cancel</button>
+        <button class="my-button">Cancel</button>
     </a>
 
 {% endblock %}

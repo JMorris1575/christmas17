@@ -22,15 +22,15 @@
     <form class="form-left green" action="{% url 'edit_response' question.pk response.pk %}" method="post">{% csrf_token %}
         <p><label for="response">Edit your response below:</label></p>
         <p><textarea id="response" name="response_text" rows="3" cols="40">{{ response.response }}</textarea></p>
-        <p><button class="button" type="submit">Save</button></p>
+        <p><button class="my-button" type="submit">Save</button></p>
     </form>
 
     <form class="form-left" action="{% url 'delete_response' question.pk response.pk %}" method="get">
-        <p><button class="button" type="submit">Delete</button></p>
+        <p><button class="my-button" type="submit">Delete</button></p>
     </form>
 
     <a class="form-left" href="{% url 'question_list' %}">
-        <button class="button">Cancel</button>
+        <button class="my-button">Cancel</button>
     </a>
 
 {% endblock %}

@@ -5,21 +5,25 @@
 
     {{ block.super }}
 
-    <div class="info">
-        <p>
-            You can edit the entry you have made into the Memory database here. Make the changes you wish to make in the
-            entry box below then click "Save."  Click "Cancel" to return to the main page.
-        </p>
+    <div class="border-outer">
+        <div class="border-middle">
+            <div class="info">
+                <p>
+                    You can edit the entry you have made into the Memory database here. Make the changes you wish to make in the
+                    entry box below then click "Save."  Click "Cancel" to return to the main page.
+                </p>
+            </div>
+        </div>
     </div>
 
     <form class="form-left" action="/memory/{{ memory.pk }}/edit/" method="post">{% csrf_token %}
         <p class="instructions"><label for="memory_edit">Edit your comment below:</label></p>
         <p><textarea id="memory_edit" name="memory_text" rows="3" cols="40">{{ memory.post }}</textarea></p>
-        <p><button class="button" type="submit">Save</button></p>
+        <p><button class="my-button" type="submit">Save</button></p>
     </form>
 
     <a class="form-left" href="/memory/edit/">
-        <button class="button">Cancel</button>
+        <button class="my-button">Cancel</button>
     </a>
 
 

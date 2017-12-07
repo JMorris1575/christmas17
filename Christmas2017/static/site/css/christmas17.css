@@ -72,14 +72,18 @@ p.no-p-height {
     color: blue;
     }
 
-.button {
-    width: 125px;
-    margin-bottom: 5px;
-    align: center;
+.border-outer {
+    margin: 20px auto 20px auto;
+    width: 60%;
+    border: 3px solid #cc0000;
+    }
+
+.border-middle {
+    border: 2px solid #ffbb33;
     }
 
 .center-button {
-    width: 150px;
+    width: 125px;
     margin-left: auto;
     margin-right: auto;
     }
@@ -89,7 +93,7 @@ p.no-p-height {
     }
 
 .comment {
-    font-family: sans;
+    font-family: sans-serif;
     font-size: small;
     color: blue;
     margin-top: 0px;
@@ -125,7 +129,7 @@ p.no-p-height {
     }
 
 .description {
-    font-family: sans;
+    font-family: sans-serif;
     font-size: medium;
     color: #208020;
     margin-top: 0px;
@@ -144,13 +148,27 @@ p.no-p-height {
     color: #208020;
     }
 
+.heading {
+    color: #208020;
+    font-family: serif;
+    font-size: 200%;
+    font-style: italic;
+    margin-top: 0px;
+    }
+
+.heading-2 {
+    color: #cc0000;
+    font-size: 150%;
+    font-style: italic;
+    margin-top: 0px;
+    }
+
 .info {
-    margin: 20px auto 20px auto;
+    margin: 0px auto 0px auto;
     padding: 10px;
     height: auto, 150px;
-    width : 60%;
-    border: 2px solid green;
-    background-color: #f0f0f0;
+    border: 3px solid #cc0000;
+    background-color: white;
     color: #208020;
     font-family: serif;
     font-size: 110%;
@@ -161,6 +179,11 @@ p.no-p-height {
 .info p {
     margin-top: 0px;
     margin-bottom: 0px;
+    }
+
+.instructions {
+    color: #208020;
+    font-family: arial sans-serif;
     }
 
 .large {
@@ -210,26 +233,6 @@ p.no-p-height {
     width: 100px;
     }
 
-.heading {
-    color: #208020;
-    font-family: serif;
-    font-size: 200%;
-    font-style: italic;
-    margin-top: 0px;
-    }
-
-.heading-2 {
-    color: #cc0000;
-    font-size: 150%;
-    font-style: italic;
-    margin-top: 0px;
-    }
-
-.instructions {
-    color: #208020;
-    font-family: arial sans-serif;
-    }
-
 .memory {
     width: auto;
     margin: 0px;
@@ -272,6 +275,14 @@ p.no-p-height {
     font-family: sans-serif;
     }
 
+.my-button {
+    width: 125px;
+    height: 30px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    align: center;
+    }
+
 .name {
     font-family: serif;
     font-weight: bold;
@@ -311,7 +322,7 @@ p.no-p-height {
 
 .selected-gift-text {
     color: red;
-    font-family: sans;
+    font-family: sans-serif;
     margin: 5px;
     text-align: center;
     }
@@ -364,7 +375,7 @@ p.no-p-height {
 
 .unselected-gift-text {
     color: #208020;
-    font-family: sans;
+    font-family: sans-serif;
     margin: 5px;
     text-align: center;
     }
@@ -374,7 +385,7 @@ p.no-p-height {
     }
 
 .welcome {
-    font-family: "Open Sans", arial, sans;
+    font-family: "Open Sans", arial, sans-serif;
     font-weight: bold;
     }
 

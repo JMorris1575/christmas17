@@ -12,11 +12,11 @@
     <h3 class="form-left blue">{{ comment.comment }}</h3>
 
     <form class="form-left" action="/gift/{{ gift.gift_number }}/comment/{{ comment.pk }}/delete/" method="post">{% csrf_token %}
-        <p><button class="button" type="submit">Yes</button></p>
+        <p><button class="my-button" type="submit">Yes</button></p>
     </form>
 
     <form class="form-left" action="/gift/list/" method="get">
-        <p><button class="button" type="submit">No</button></p>
+        <p><button class="my-button" type="submit">No</button></p>
     </form>
 
 {% endblock %}

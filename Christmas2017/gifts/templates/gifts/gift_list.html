@@ -5,28 +5,27 @@
 
     {% block content %}
 
-    <div class="info">
-        <p>
-            Merry Christmas to all of you and a special welcome to Craig's friend Abby.
-        </p><br>
-        <p>
-            On this page, select a gift for yourself based on my obvious clues. You can change your mind up until I
-            give or send it to you. You may comment on each gift too, perhaps giving a guess as to what it might be.
-        </p><br>
-        <p>
-            To share Christmas memories, click on 'Add Memory' and type it in. It will appear at random in the memories
-            appearing on every page.
-        </p><br>
-        <p>
-            Janet has again provided questions for the Question of the Day section. New questions will appear each day
-            until December 23rd. Give your answers and see those of others. It's a good way to get to know one another
-            all over again.
-        </p><br>
-        <p>
-            Here's a new activity: Christmas Trivia. Compete for the highest ranking. (All in good fun of course.)  Be
-            sure to follow the rules, though. No fair looking up the answers! This was completed at the last minute so
-            let me know if you discover any problems with it. Activate it by clicking the 'Trivia' link.
-        </p>
+    <div class="border-outer">
+        <div class="border-middle">
+            <div class="info">
+                <p>
+                    Merry Christmas to all of you and a special welcome to Craig's friend Abby!
+                </p><br>
+                <p>
+                    On this page you should select a gift for yourself based on my obvious clues. Change your mind, if
+                    you like, up until I give or send it to you. Comment on the gifts too, perhaps giving a guess as to
+                    what they might be.
+                </p><br>
+                <p>
+                    Click on the various choices above to see what else you can do here. The 'Trivia' section is new
+                    this year, and I completed it at the last minute.  Let me know if you have any problems with it.
+                </p><br>
+                    Click 'Trivia' to participate in this new activity.  Compete for the highest ranking. (All in good
+                    fun of course.)  Be sure to follow the rules though, no fair looking up the answers! This was
+                    completed at the last minute--let me know if you discover any problems with it.
+                </p>
+            </div>
+        </div>
     </div>
 
     <div class="line-red"></div>
@@ -79,24 +78,24 @@
                     {% if gift.receiver == user %}
                         <form action="/gift/change_mind/" method="post">{% csrf_token %}
                             <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
-                            <button class="button" type="submit">Changed My Mind</button>
+                            <button class="my-button" type="submit">Changed My Mind</button>
                         </form>
                     {% else %}
-                        <button class="button" type="submit" disabled>Select</button>
+                        <button class="my-button" type="submit" disabled>Select</button>
                     {% endif %}
                 {% else %}
                     {% if not user.userprofile.gift_selected %}
                     <form action="/gift/select/" method="post">{% csrf_token %}
                             <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
-                            <button class="button" type="submit">Select</button>
+                            <button class="my-button" type="submit">Select</button>
                         </form>
                     {% else %}
-                        <button class="button" type="submit" disabled>Select</button>
+                        <button class="my-button" type="submit" disabled>Select</button>
                     {% endif %}
                 {% endif %}
-                <form class="button" action="/gift/{{ gift.gift_number }}/comment/" method="get">
+                <form class="my-button" action="/gift/{{ gift.gift_number }}/comment/" method="get">
                     <input type="hidden" name="giftNumber" value="{{ gift.gift_number }}" />
-                    <button class="button" type="submit">Add Comment</button>
+                    <button class="my-button" type="submit">Add Comment</button>
                 </form>
             </span>
         </div>

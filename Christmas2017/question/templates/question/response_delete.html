@@ -13,11 +13,11 @@
     <h3 class="form-left response">{{ response }}</h3>
 
     <form class="form-left" action="{% url 'delete_response' question.pk response.pk %}" method="post">{% csrf_token %}
-        <p><button class="button" type="submit">Yes</button></p>
+        <p><button class="my-button" type="submit">Yes</button></p>
     </form>
 
     <form class="form-left" action="{% url 'question_list' %}" method="get">
-        <p><button class="button" type="submit">No</button></p>
+        <p><button class="my-button" type="submit">No</button></p>
     </form>
 
 {% endblock %}

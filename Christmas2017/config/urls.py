@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^story/', include('story.urls')),
     url(r'^question/', include('question.urls')),
     url(r'^trivia/', include('trivia.urls')),
+    url(r'under_construction/', include('under_construction.urls'))
 ]
 
 admin.site.site_header = 'Christmas 2017 Admin'

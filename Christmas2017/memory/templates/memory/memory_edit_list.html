@@ -6,12 +6,17 @@
     {{ block.super }}
 
     <div class="content">
-        <div class="info">
-            <p>Here is a list of the memories you have added. You can edit or delete an entry by clicking, you
-                guessed it, the 'Edit' or 'Delete' button next to each one. If everything is as you like it, you can
-                return to the main page by clicking "Gifts" above.
-            </p>
+        <div class="border-outer">
+            <div class="border-middle">
+                <div class="info">
+                    <p>Here is a list of the memories you have added. You can edit or delete an entry by clicking, you
+                        guessed it, the 'Edit' or 'Delete' button next to each one. If everything is as you like it, you can
+                        return to the main page by clicking "Gifts" above.
+                    </p>
+                </div>
+            </div>
         </div>
+
         <div class="line-red"></div>
         {% for memory in user_memories %}
             <div class="container">
@@ -24,10 +29,10 @@
                 <!-- Right Column: Buttons to edit or delete this memory -->
                 <span class="right-col">
                     <form action="/memory/{{ memory.pk }}/edit/" method="get">
-                        <button class="button" type="submit">Edit</button>
+                        <button class="my-button" type="submit">Edit</button>
                     </form>
-                    <form class="button" action="/memory/{{ memory.pk }}/delete/" method="get">
-                        <button class="button" type="submit">Delete</button>
+                    <form class="my-button" action="/memory/{{ memory.pk }}/delete/" method="get">
+                        <button class="my-button" type="submit">Delete</button>
                     </form>
                 </span>
             </div>

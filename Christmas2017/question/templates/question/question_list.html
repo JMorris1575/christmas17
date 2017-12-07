@@ -5,14 +5,17 @@
 
     {% block content %}
 
-    <div class="info">
-        <p>
-            Janet has provided ten conversational questions for us to answer. A new question will appear every day until
-            December 23. The questions that have appeared so far are displayed below. You can respond to any of the
-            questions that have appeared so far, or edit your previous responses. Respond by clicking on the
-            "Respond" or "Add Response" button below. After you have responded you can edit (or delete) your response by
-            clicking on the (Edit...) link that will appear at the end of each of your responses.
-        </p>
+    <div class="border-outer">
+        <div class="border-middle">
+            <div class="info">
+                <p>
+                    Janet has again provided several conversational questions for us to answer and see the responses of
+                    others. It's a good way to get to know one another all over again.. A new question will appear every
+                    day until December 23. The questions that have appeared so far are displayed below. You can edit (or
+                    delete) one of your responses by clicking on the (Edit...) link that appears at the end.
+                </p>
+            </div>
+        </div>
     </div>
 
     <div class="line-red"></div>
@@ -39,11 +42,11 @@
             <span class="right-col">
                 {% if user in question.get_responders %}
                     <a href="{% url 'create_response' question.pk %}">
-                        <button class="button" type="button">Add Response</button>
+                        <button class="my-button" type="button">Add Response</button>
                     </a>
                 {% else %}
                     <a href="{% url 'create_response' question.pk %}">
-                        <button class="button" type="button">Respond</button>
+                        <button class="my-button" type="button">Respond</button>
                     </a>
                 {% endif %}
             </span>

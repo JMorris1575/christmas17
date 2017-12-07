@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>
+            {% block title %}
+                Christmas 2017
+            {% endblock %}
+        </title>
+
+        <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Open+Sans" rel="stylesheet">
+
+        <!-- comment out skeleton for now
+        <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">
+        -->
+        <link href="{% static 'css/christmas17.css' %}" rel="stylesheet">
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--[if IE]><script
+            src="http://html5shiv.googlecode.com/svn/trunk/html5.js"-->
+
+        {% block head %}{% endblock %}
+
+    </head>
+
+    <body>
+
+        <header>
+            <div class="header-container">
+                <!-- logo image -->
+                <img class="left" id="header-image" src="{% static 'images/ThreeOrnaments02-alpha.png' %}"
+                         alt="Image of Christmas Ornaments">
+
+                <!-- Christmas Banner -->
+                <div class="banner">
+                    <div class="compact">
+                        <!-- Website Name -->
+                        <span class="large">Christmas 2017</span>
+                        <span class="right welcome">Merry Christmas!</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="info">
+            <h1 class="center-text">It's almost ready!</h1>
+            <h2 class="center-text">Keep checking here for this year's family Christmas Website</h2>
+        </div>
+
+    </body>
+
+</html>
