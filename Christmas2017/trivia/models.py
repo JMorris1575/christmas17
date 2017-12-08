@@ -16,10 +16,10 @@ class TriviaQuestion(models.Model):
         ordering = ['number']
 
 
-class TriviaChoices(models.Model):
+class TriviaChoice(models.Model):
     question = models.ForeignKey(TriviaQuestion)
     number = models.IntegerField()
-    text = models.CharField(max_length=60)
+    text = models.CharField(max_length=255)
     correct = models.BooleanField(default=False)
 
     def __str__(self):
@@ -36,7 +36,7 @@ class TriviaChoices(models.Model):
 class TriviaUserResponse(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     question = models.ForeignKey(TriviaQuestion)
-    response = models.ForeignKey(TriviaChoices)
+    response = models.ForeignKey(TriviaChoice)
 
     def __str__(self):
         text = self.user.userprofile.get_name() + "'s response to question " + \

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View
 
-from .models import TriviaQuestion, TriviaChoices, TriviaUserResponse
+from .models import TriviaQuestion, TriviaChoice, TriviaUserResponse
 from django.contrib.auth.models import User
 from user.models import UserProfile
 
@@ -61,7 +61,7 @@ class DisplayQuestion(View):
         if int(question_number) > len(TriviaQuestion.objects.all()):
             return redirect(reverse('end_of_questions'))
         question = TriviaQuestion.objects.get(number=question_number)
-        choices = TriviaChoices.objects.filter(question=question.pk)
+        choices = TriviaChoice.objects.filter(question=question.pk)
         return render(request, self.template_name, {'display_memory': utils.get_memory(),
                                                     'question': question,
                                                     'choices': choices})
@@ -79,8 +79,8 @@ class DisplayResult(View):
             return redirect(reverse('already_answered'))
         choice_index = request.POST['choice']
         question = TriviaQuestion.objects.get(number=question_number)
-        choice = TriviaChoices.objects.filter(question=question).get(number=choice_index)
-        correct_choice = TriviaChoices.objects.filter(question=question).get(correct=True)
+        choice = TriviaChoice.objects.filter(question=question).get(number=choice_index)
+        correct_choice = TriviaChoice.objects.filter(question=question).get(correct=True)
         user_response = TriviaUserResponse(user=request.user, question=question, response=choice)
         user_response.save()
         profile = request.user.userprofile

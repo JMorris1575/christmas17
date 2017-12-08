@@ -224,18 +224,146 @@ case any family members try to get into the site before it's ready.  Through ssh
 
     copy it all over to myproject
 
-Copying the Files
------------------
+I never succeeded in doing this. I was too sloppy and I didn't want to waste any further time on it. I think perhaps I
+should create a separate django project for this, or maybe an app I can include in any django project I build. Think
+about it later!
 
+Connecting to the Mailbox
+-------------------------
 
+Before I can get the website up and running I will need to connect my new c17 website to my old mailbox.
 
-Editing Control Files
----------------------
+Ah! Lo and behold, looking at https://my.webfaction.com/domains I find that my mailboxes are associated with the
+domain ``christmas.jmorris.webfactional.com`` rather than being associated with the website itself. I don't think I have
+to do anything to connect to the mailbox!
 
-Getting the Database Up To Date
--------------------------------
+Moving the Website to WebFaction
+--------------------------------
+
+According to the WebFaction documentation at https://docs.webfaction.com/software/django I need to:
+
+#. Open an SSH session to my account. (jmorris@web506.webfaction.com)
+#. Get into the directory of the django_app (christmas17)
+#. Enter ``rm -rf ./myproject`` and press Enter.
+#. Use FileZilla to copy most\* of the files in Christmas2017 to ``webapps.christmas17``
+#. Edit ``webapps.christmas17.apache2/conf/httpd.conf`` changing ``myproject`` to ``Christmas2017``
+#. Also change WSGIScriptAlias to refer to ``Christmas2017`` and ``Christmas2017/config``
+
+\* The files I left out were the outdated .json files I've been using to synchronize the databases on each of my
+computers, but I did include the latest one:  ``all-2017-12-07.json`` which has everything currently in my local
+database.
+
+I think I have already edited ``prod.py`` to configure Django to connect to the c17database but the ENGINE given in the
+documentation was::
+
+    'django.db.backends.postgresql_psycopg2'
+
+rather than just::
+
+    'django.db.backends.postgresql'
+
+I changed the setting to include ``_psycopg2`` but if it doesn't work I can always go back.
+
+I think I have set INSTALLED_APPS, STATIC_FILES_DIRS, and STATIC_ROOT appropriately, and I think I am ready to send
+e-mail messages.
+
+So the last things to do are to use ssh to send the following commands::
+
+    python3.6 manage.py migrate
+    python3.6 manage.py collectstatic
+
+then restart apache with::
+
+    ../apache2/bin/restart
+
+I couldn't run the migrate command at first. It kept giving me an error about
+``no pg_hba.conf entry for host "127.0.0.1", user "Jim", database "c17database", SSL off``
+
+I finally figured out that it was because I was still using ``from .dev import *`` in config's ``__init__.py`` file. I
+commented that line, and uncommented ``from .prod import *`` and the migrate worked.
+
+I ran ``collectstatic`` and it acted like it was working, but nothing seemed to move. Maybe I need to restart FileZilla.
+Nope, that didn't seem to do anything.
+
+Ah, well, somehow they are there. I'm not sure if this was it, but when I clicked the upper pane in FileZilla's Remote
+site: window, everything updated.
+
+Getting the Online Database Up To Date
+--------------------------------------
+
+Using ssh, and in the ``websites/christmas17/Christmas2017`` directory, give the command to update the database::
+
+    python3.6 manage.py loaddata all-2017-12-07.json
+
+and hope that it works.
+
+It didn't. Gave me some kind of complaint about userprofile already existing. I couldn't log into the website, or get
+into the admin until I created a superuser:
+
+username: jmorris
+e-mail: frjamesmorris@gmail.com
+password: DylanSelfie
+
+Now I can get into the admin and I see that there are NO entries in any of the database models. Maybe try the
+``loaddata all-2012-12-07.json`` again...
+
+Nope, I got the same problem:  ``DETAIL: Key (app_label, model)=(user, userprofile) already exists.``
+
+I may have to dump and load the information for each and every app in Christmas2017. Just to check, I'll start with
+the user app.
+
+Same problem with the user app. (user, userprofile) already exists. I may have to re-enter the entire user database --
+ugh!!!
+
+I finally got it to work by dumping and loading auth and then dumping and loading just my models by means of the
+following commands::
+
+    In PyCharm (the local files):
+
+    python manage.py dumpdata auth > auth.json
+    python manage.py dumpdata gifts mail memory question story trivia > mine-2017-12-07.json
+
+    I used FileZilla to copy auth.json and mine-2017-12-07.json to the remote location on WebFaction.com and then,
+    in ssh:
+
+    python3.6 manage.py loaddata auth.json
+    python3.6 manage.py loaddata mine-2017-12-07.json
+
+    I didn't do all this in exactly this order. There were some failed attempts too.
 
 Testing the Website
 -------------------
+
+Go to ``christmas.jmorris.webfactional.com`` and look around to see if everything is working. If so, send out the
+invitation e-mail.
+
+I could login as JIM (I think... it was held over from my logging into the admin.) I could also login as Abby and see
+the gift_list page. Clicking on the Question of the Day link seemed to work fine.
+
+Clicking on **Trivia** however, failed. As it tried to get to ``/trivia/scoreboard/`` it threw a server error. The
+notification in my e-mail said::
+
+    Internal Server Error: /trivia/scoreboard/
+
+    NoReverseMatch at /trivia/scoreboard/
+    Reverse for 'display_question' with arguments '('',)' not found. 1 pattern(s) tried: ['trivia/question/(?P<question_number>[0-9]+)/$']
+
+I'm guessing the problem is either in the url configuration or in the ``scoreboard.html`` page itself. I will look
+there first.
+
+What I saw there was a couple of lines containing::
+
+    <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+
+If user.userprofile does not exist, that would explain the problem.
+
+I accidentally discovered that I can create userprofile for each user in the admin. This may not be the easiest way but
+going to each User, scrolling down to the User Profile section, faking an entry (I used Added memories), then clicking
+save. Seems to create the userprofile for that user. I had to remember to change the entry back to its original form of
+course.
+
+In the process I noticed that no one was credited with adding any memories. Not surprising since userprofile had not
+existed before. I listed all the memory contributers and then set the 'Added memory' flag correctly.
+
 
 
