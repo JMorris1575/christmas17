@@ -288,6 +288,9 @@ Nope, that didn't seem to do anything.
 Ah, well, somehow they are there. I'm not sure if this was it, but when I clicked the upper pane in FileZilla's Remote
 site: window, everything updated.
 
+
+.. index:: Problem; Key(app_label, model)=([myapp], [mymodel]) already exists.
+
 Getting the Online Database Up To Date
 --------------------------------------
 

@@ -6,13 +6,17 @@
 
 {% block content %}
     {{ block.super }}
-    <div class="info">
-        <p>
-            Hmm...  The browser couldn't find the page you were looking for.  If you typed it into the address bar try
-            to make sure everything is spelled correctly.  If you got here by clicking on something on one of the other
-            pages tell me what it was and I can try to fix it.  You can go back to the main page by clicking the button
-            below.
-        </p>
+    <div class="border-outer">
+        <div class="border-middle">
+            <div class="info">
+                <p>
+                    Hmm...  The browser couldn't find the page you were looking for.  If you typed it into the address
+                    bar try to make sure everything is spelled correctly.  If you got here by clicking on something on
+                    one of the other pages tell me what it was and I can try to fix it.  You can go back to the main
+                    page by clicking the button below.
+                </p>
+            </div>
+        </div>
     </div>
 
     <a href="/">

@@ -6,12 +6,17 @@
 
 {% block content %}
     {{ block.super }}
-    <div class="info">
-        <p>
-            Uh, oh!  A server error occurred.  That means I did something I shouldn't have.  I think the system
-            automatically sends me a notification that this occurred but it would help if you told me what you were
-            trying to do when this happened.  You can go back to the main page by clicking the button below.
-        </p>
+    <div class="border-outer">
+        <div class="border-middle">
+            <div class="info">
+                <p>
+                    Uh, oh!  A server error occurred.  That means I did something I shouldn't have.  I think the system
+                    automatically sends me a notification that this occurred but it would help if you told me what you
+                    were trying to do when this happened.  You can go back to the main page by clicking the button
+                    below.
+                </p>
+            </div>
+        </div>
     </div>
 
     <a href="/">

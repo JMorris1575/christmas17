@@ -6,9 +6,13 @@
 
 {% block content %}
     {{ block.super }}
-    <div class="info">
-        <p>I'm sorry, either the username or the password you entered is incorrect. Both the username and the password
-            are case sensitive. If you are sure you are using the correct username and password that I sent you, send
-            me an e-mail and I'll see if I can fix whatever went wrong.</p>
+    <div class="border-outer">
+        <div class="border-middle">
+            <div class="info">
+                <p>I'm sorry, either the username or the password you entered is incorrect. Both the username and the password
+                    are case sensitive. If you are sure you are using the correct username and password that I sent you, send
+                    me an e-mail and I'll see if I can fix whatever went wrong.</p>
+            </div>
+        </div>
     </div>
 {% endblock %}

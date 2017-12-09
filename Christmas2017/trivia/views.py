@@ -107,3 +107,10 @@ class AlreadyAnswered(View):
 
     def get(self, request):
         return render(request, self.template_name, {'display_memory': utils.get_memory(),})
+
+
+class ComposeTrivia(View):
+    template_name = 'trivia/trivia_compose.html'
+
+    def get(self, request):
+        return render(request, self.template_name, {'display_memory': utils.get_memory(),})

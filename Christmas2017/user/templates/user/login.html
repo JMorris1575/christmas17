@@ -6,11 +6,15 @@
 
 {% block content %}
     {{ block.super }}
-    <div class="info">
-        <p>
-            Merry Christmas!  Login to our family Christmas page by entering the username and password you received
-            in the invitation e-mail into the boxes below.  Press 'Enter' or click 'Login' to enter the website.
-        </p>
+    <div class="border-outer">
+        <div class="border-middle">
+            <div class="info">
+                <p>
+                    Merry Christmas!  Login to our family Christmas page by entering the username and password you received
+                    in the invitation e-mail into the boxes below.  Press 'Enter' or click 'Login' to enter the website.
+                </p>
+            </div>
+        </div>
     </div>
     <form action="{% url 'dj-auth:login' %}" method="post">
         {% csrf_token %}

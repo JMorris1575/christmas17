@@ -20,6 +20,7 @@ is to simplify the process of developing Django websites in the future.
    new_apps
    trivia
    deployment
+   growth-and-maintenance
    notes
 
 
