@@ -46,7 +46,6 @@ class Scoreboard(View):
                 attempt_group = stat['attempts']
                 stats.append(dict(type='heading', value='Players attempting ' + str(attempt_group) + ' questions:'))
                 stats.append(dict(type='stat', value=stat))
-        print('stats = ',stats)
         return stats
 
 
@@ -55,7 +54,8 @@ class DisplayQuestion(View):
     template_name = 'trivia/trivia_question.html'
 
     def get(self, request, question_number=None):
-        if int(question_number) > request.user.userprofile.get_next_trivia():    # prevents going beyond the next question
+        print('request.GET = ', request.GET)
+        if int(question_number) > request.user.userprofile.get_next_trivia():  # prevents going beyond the next question
             question_number = request.user.userprofile.get_next_trivia()
             return redirect('/trivia/question/' + str(question_number) + '/')
         if int(question_number) > len(TriviaQuestion.objects.all()):
@@ -77,7 +77,11 @@ class DisplayResult(View):
     def post(self, request, question_number=None):
         if int(question_number) < request.user.userprofile.get_next_trivia():
             return redirect(reverse('already_answered'))
-        choice_index = request.POST['choice']
+        try:
+            choice_index = request.POST['choice']
+        except:
+            return render(request, '/trivia/question/'+str(question_number)+'/',
+                          {'error': 'You must choose one of the responses.'})
         question = TriviaQuestion.objects.get(number=question_number)
         choice = TriviaChoice.objects.filter(question=question).get(number=choice_index)
         correct_choice = TriviaChoice.objects.filter(question=question).get(correct=True)
@@ -111,6 +115,13 @@ class AlreadyAnswered(View):
 
 class ComposeTrivia(View):
     template_name = 'trivia/trivia_compose.html'
+
+    def get(self, request):
+        return render(request, self.template_name, {'display_memory': utils.get_memory(),})
+
+
+class TemporarilyClosed(View):
+    template_name = 'trivia/temporarily_closed.html'
 
     def get(self, request):
         return render(request, self.template_name, {'display_memory': utils.get_memory(),})

@@ -1,0 +1,21 @@
+{% extends parent_template|default:"trivia/base_trivia.html" %}
+{% load static %}
+
+    {{ block.super }}
+
+    {% block content %}
+        <div class="border-outer">
+            <div class="border-middle">
+                <div class="info">
+                    <p>
+                        I'm sorry, you can't play the Christmas Trivia game right now because I'm on adding or
+                        editing some questions.
+                    </p><br>
+                    <p>
+                        Try back again in a few minutes and I should be done with whatever I'm doing. Meanwhile, visit
+                        another part of the website by clicking one of the links above.
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

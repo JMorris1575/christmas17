@@ -4,6 +4,15 @@
     {{ block.super }}
 
     {% block content %}
+        <div class="error-display">
+            <p>
+                There's a bug here I don't yet know how to fix. If a player clicks on the Submit button without making a
+                choice for their answer, the system will have a hissy fit and send that unsuspecting player to the
+                Server Error page. What SHOULD happen is that the player gets a nice, polite, reminder to select one of
+                the answers before clicking Submit but, until I figure out how to do that, just make sure you do pick
+                an answer before clicking Submit. :-)
+            </p>
+        </div>
         <div class="trivia width-40">
             <form action="{% url 'display_result' question.number %}" method="post">
                 {% csrf_token %}

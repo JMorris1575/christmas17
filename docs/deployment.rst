@@ -10,7 +10,7 @@ Initial Notes
 Christmas2016
 -------------
 
-The Christmas2016 website is located at:  :ref:`christmas.jmorris.webfactional.com`. I want to keep that url so I will
+The Christmas2016 website is located at:  http://christmas.jmorris.webfactional.com . I want to keep that url so I will
 have to figure out how to do that. Also, I would like to keep the Christmas2016 website working and intact, at least while
 deploying Christmas2017, for comparison purposes.
 

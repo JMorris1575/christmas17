@@ -135,6 +135,17 @@ p.no-p-height {
     margin-top: 0px;
     }
 
+.error-display {
+    border: 3px solid red;
+    width: 60%;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    color: red;
+    font-weight: bold;
+    }
+
 .full-width {
     width: auto;
     }

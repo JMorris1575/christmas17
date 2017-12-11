@@ -126,12 +126,29 @@ Creating the Link in the Header
 
     No, just the stub, add a button
 
+Filling Out the Compose Page
+++++++++++++++++++++++++++++
 
-.. trivia_urls_corrected::
+I'm thinking the page should list all of the available questions so that they can be selected for editing, each one
+having a selection box next to it, and an "Edit Selected Question" button at the bottom of the list to send me to an
+edit filled out with the current form of the question and its choices. There should also be an "Add Question(s)" button
+near the top which would send me to a blank edit page.
+
+Looking ahead, I can see that there might be a need on the editing page to add choices, or choose how many choices that
+question will have. Further, like the admin app, it would be good to make it possible to either save a question and quit
+or save a question and add another.
+
+Finally, I might want to add a boolean field called "published" to the Question model with a default of False so that
+the non-published questions in the database do not appear or affect any counts on line.
+
+Come to think of it, I need to make sure the computation of percentage is being done correctly, dividing by the number
+of questions a user has attempted rather than the total number of questions. [
+
+.. _trivia_urls_corrected:
 
  The corrected version of the trivia URLs is below:
 
- .. csv-table:: **Updated URLs for the trivia app**
+.. csv-table:: **Updated URLs for the trivia app**
     :header: URL, Page(s) Addressed
     :widths: auto
 
@@ -142,3 +159,81 @@ Creating the Link in the Header
     /trivia/compose/, a page for the administrator to add new questions or edit previous questions (trivia_compose.html)
     /trivia/edit/n/, question n's edit page (trivia_compose.html)
     /trivia/delete/n/, question n's delete confirmation page (trivia_delete.html)
+
+
+Catching Submits with no Choices Selected
+=========================================
+
+While working on the compose page above, it occurred to me that users might accidentally, or on purpose, click the
+Submit button on a question_display page without actually making any choices. What should happen in such cases is that
+the page will redisplay and inform them they must select a choice before submitting the page.
+
+I think I can do this by modifying both the DisplayResult view and the trivia_question.html template. That probably
+means I also have to modify the DisplayQuestion view.
+
+Currently, when I try to submit an unanswered question form, it generates a MultiValueDictKeyError at /trivia/result/n/.
+Let's see if the DisplayResult view receives any errors from the dictionary named ``errors``. (See *Django Unleashed*,
+pp. 213-216) I will insert a print statement at the beginning of the ``post`` method::
+
+    print('errors = ', request.POST.errors)
+
+It complained that 'QueryDict' object has no attribute 'errors'.
+
+Perhaps I can catch the error in the post method of the DisplayResult view. I modified the code to include::
+
+    if request.POST.choice:
+        choice_index = request.POST['choice']
+    else:
+        return redirect(reverse('display_question'))
+
+It still gives me ``AttributeError: 'QueryDict' object has no attribute 'choice'`` so I will try a try...except
+approach::
+
+    try:
+        choice_index = request.POST['choice']
+    except AttributeError:
+        return redirect(reverse('display_question'))
+
+``AttributeError`` was recognized, but in this case a ``MultiValueDictKeyError`` was thrown. Since that error was not
+recognized (PyCharm had a wavy red line under it) I decided to use a blank ``except:`` as follows::
+
+    try:
+        choice_index = request.POST['choice']
+    except:
+        return redirect(reverse('display_question'))
+
+Now I got a NoReverseMatch. Not knowing how to supply the ``question_number`` to ``reverse`` I decided to supply the url
+more directly::
+
+    try:
+        choice_index = request.POST['choice']
+    except:
+        return redirect('/trivia/question/' + str(question_number) + '/')
+
+That works, but doesn't display any error message. Various things I tried to get an error message at least delivered to
+the template did not work. I will check the django tutorial to see if they covered this.
+
+Temporarily Closed Page for Trivia App
+======================================
+
+I decided, while I'm working on something better, to add a page to the trivia app to let people who try to enter it
+know that I'm adding questions and that they should try back in a few minutes. Here is the url pattern::
+
+    url(r'temporarily_closed/', TemporarilyClosed.as_view, name='temporarily_closed'),
+
+Then, when I am adding questions and responses, I can replace the header with a version that links the Trivia menu item
+to ``temporarily_closed``. That will not help when people enter the urls directly but, hopefully, nobody does that. I
+still need to work on a method for doing it within the website itself.
+
+But, when it came down to using it, I realized I might be cutting somebody off in the middle of their work. I don't
+know what would happen in such a case. I decided to add the questions and corresponding choices locally and then
+transfer them by a dumpdata/loaddata sequence. The dumpdata command was::
+
+    python manage.py dumpdata trivia.TriviaQuestion trivia.TriviaChoice > trivia_update_2017_12_10.json
+
+That, and the corresponding::
+
+    python3.6 manage.py loaddata trivia_update_2017_12_10.json
+
+worked like a charm. Now see if the Player Rankings work out the way they are supposed to.
+

@@ -27,7 +27,7 @@ To build the trivia app I'm thinking I will have to:
 The first two steps are easy. I have just completed them. The others I have rearranged so that I can take a TDD approach
 to building the new app.
 
-.. orig_trivia_urls:
+.. _orig_trivia_urls:
 
 The Trivia URL Patterns
 -----------------------
