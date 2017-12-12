@@ -53,8 +53,7 @@ class Scoreboard(View):
 class DisplayQuestion(View):
     template_name = 'trivia/trivia_question.html'
 
-    def get(self, request, question_number=None):
-        print('request.GET = ', request.GET)
+    def get(self, request, question_number=None, error_message=None):
         if int(question_number) > request.user.userprofile.get_next_trivia():  # prevents going beyond the next question
             question_number = request.user.userprofile.get_next_trivia()
             return redirect('/trivia/question/' + str(question_number) + '/')
@@ -64,7 +63,8 @@ class DisplayQuestion(View):
         choices = TriviaChoice.objects.filter(question=question.pk)
         return render(request, self.template_name, {'display_memory': utils.get_memory(),
                                                     'question': question,
-                                                    'choices': choices})
+                                                    'choices': choices,
+                                                    'error_message':error_message})
 
 
 class DisplayResult(View):
@@ -78,10 +78,15 @@ class DisplayResult(View):
         if int(question_number) < request.user.userprofile.get_next_trivia():
             return redirect(reverse('already_answered'))
         try:
+            print('************ Got into the try')
             choice_index = request.POST['choice']
-        except:
-            return render(request, '/trivia/question/'+str(question_number)+'/',
-                          {'error': 'You must choose one of the responses.'})
+        except (KeyError, TriviaChoice.DoesNotExist):
+            print('*************** Got into the except')
+
+            return redirect(reverse('display_question', args=(question_number,),), permanent=True,
+                            display_memory=utils.get_memory(),
+                            error_message='You must choose one of the responses below.')
+        print('*************** Got past the try/except')
         question = TriviaQuestion.objects.get(number=question_number)
         choice = TriviaChoice.objects.filter(question=question).get(number=choice_index)
         correct_choice = TriviaChoice.objects.filter(question=question).get(correct=True)

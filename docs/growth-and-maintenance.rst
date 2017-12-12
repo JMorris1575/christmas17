@@ -213,6 +213,52 @@ more directly::
 That works, but doesn't display any error message. Various things I tried to get an error message at least delivered to
 the template did not work. I will check the django tutorial to see if they covered this.
 
+Yes, they did cover this in Tutorial 4. They set up their try/except sequence as follows::
+
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST'choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(request, 'polls/detail.html', {
+            'question': question,
+            'error_message': "You didn't select a choice.",
+        })
+
+So I will try the following::
+
+    try:
+        choice_index = request.POST['choice']
+    except (KeyError, Choice.DoesNotExist):
+        return render(request, 'trivia/question', {'question_number': question_number,
+            'error_message': 'You need to select one of the following choices.'}
+        )
+
+Perhaps question_number gets into the url by means of the context dictionary but I don't remember knowing that before.
+
+I will also have to modify ``trivia_question.html`` to do something with the ``error_message``.
+
+I may also want to try ``return render(request, reverse('display_question'), {'question_number'.... }) to see if that
+works.
+
+No, none of that works. What is coming closest so far is::
+
+    try:
+        print('************ Got into the try')
+        choice_index = request.POST['choice']
+    except (KeyError, TriviaChoice.DoesNotExist):
+        print('*************** Got into the except')
+
+        return redirect(reverse('display_question', args=(question_number,),), permanent=True,
+                        display_memory=utils.get_memory(),
+                        error_message='You must choose one of the responses below.')
+
+but the error_message just isn't getting sent to the template for some reason. The display_memory seems to make it, but
+not the error_message. Strange.
+
+I did notice, however, that the Django tutorial used a function-based view called vote. Perhaps that's what I need to do
+instead of going directly to DisplayResult.
+
+
 Temporarily Closed Page for Trivia App
 ======================================
 
