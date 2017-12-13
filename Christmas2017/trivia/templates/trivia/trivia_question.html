@@ -4,34 +4,28 @@
     {{ block.super }}
 
     {% block content %}
-        <div class="error-display">
-            <p>
-                There's a bug here I don't yet know how to fix. If a player clicks on the Submit button without making a
-                choice for their answer, the system will have a hissy fit and send that unsuspecting player to the
-                Server Error page. What SHOULD happen is that the player gets a nice, polite, reminder to select one of
-                the answers before clicking Submit but, until I figure out how to do that, just make sure you do pick
-                an answer before clicking Submit. :-)
-            </p>
-        </div>
         <div class="trivia width-40">
-            <form action="{% url 'display_result' question.number %}" method="post">
+            <form action="{% url 'trivia_submit' question.number %}" method="post">
                 {% csrf_token %}
                 <h2>Question Number: {{ question.number }}</h2>
                 <p>
                     {{ question }}
                 </p>
-                <p>error_message = {{ error_message }}</p>
                 {% if error_message %}
-                    <p><strong>{{ error_message }}</strong></p>
+                    <div class="error-display">
+                        <p class="red"><strong>{{ error_message }}</strong></p>
+                {% else %}
+                    <div>
                 {% endif %}
-                {% for choice in choices %}
+                    {% for choice in choices %}
+                        <p class="trivia-choice">
+                            <input type="radio" name="choice" value={{ choice.number }}>{{ choice.index }}{{ choice }}</input>
+                        </p>
+                    {% endfor %}
                     <p>
-                        <input type="radio" name="choice" value={{ choice.number }}>{{ choice.index }}{{ choice }}</input>
+                        <input type="submit" value="Submit" name="trivia_submit"/>
                     </p>
-                {% endfor %}
-                <p>
-                    <input type="submit" value="Submit" name="trivia_submit"/>
-                </p>
+                    </div>
             </form>
         </div>
 

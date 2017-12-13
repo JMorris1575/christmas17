@@ -137,7 +137,6 @@ p.no-p-height {
 
 .error-display {
     border: 3px solid red;
-    width: 60%;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -371,6 +370,12 @@ p.no-p-height {
     border-radius: 10px;
     box-shadow: 10px 10px 20px rgba(0,0,0,0.8);
     padding: 10px;
+    }
+
+.trivia-choice {
+    font-family: "Times New Roman", serif;
+    color: #208020;
+    font-weight: normal;
     }
 
 .trivia-header {

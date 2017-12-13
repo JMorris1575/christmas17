@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View
+from django.http import HttpResponseRedirect
 
 from .models import TriviaQuestion, TriviaChoice, TriviaUserResponse
 from django.contrib.auth.models import User
@@ -70,38 +71,11 @@ class DisplayQuestion(View):
 class DisplayResult(View):
     template_name = 'trivia/trivia_result.html'
 
-    def get(self, request, question_number=None):
+    def get(self, request, question_number=None, context=None):
+        print('********* request: ', request)
+        print('********* Got into DisplayResult with context = ', context)
         return render(request, self.template_name, {'display_memory': utils.get_memory(),
                                                     'q_number': question_number})
-
-    def post(self, request, question_number=None):
-        if int(question_number) < request.user.userprofile.get_next_trivia():
-            return redirect(reverse('already_answered'))
-        try:
-            print('************ Got into the try')
-            choice_index = request.POST['choice']
-        except (KeyError, TriviaChoice.DoesNotExist):
-            print('*************** Got into the except')
-
-            return redirect(reverse('display_question', args=(question_number,),), permanent=True,
-                            display_memory=utils.get_memory(),
-                            error_message='You must choose one of the responses below.')
-        print('*************** Got past the try/except')
-        question = TriviaQuestion.objects.get(number=question_number)
-        choice = TriviaChoice.objects.filter(question=question).get(number=choice_index)
-        correct_choice = TriviaChoice.objects.filter(question=question).get(correct=True)
-        user_response = TriviaUserResponse(user=request.user, question=question, response=choice)
-        user_response.save()
-        profile = request.user.userprofile
-        profile.trivia_questions_attempted += 1
-        if choice.correct:
-            profile.trivia_answers_correct += 1
-        profile.save()
-
-        return render(request, self.template_name, {'display_memory': utils.get_memory(),
-                                                    'question': question,
-                                                    'choice': choice,
-                                                    'correct_choice': correct_choice})
 
 
 class EndOfQuestions(View):
@@ -130,3 +104,33 @@ class TemporarilyClosed(View):
 
     def get(self, request):
         return render(request, self.template_name, {'display_memory': utils.get_memory(),})
+
+
+def trivia_choice(request, question_number=None):
+    if int(question_number) < request.user.userprofile.get_next_trivia():
+        return redirect(reverse('already_answered'))
+    question = TriviaQuestion.objects.get(number=question_number)
+    choices = TriviaChoice.objects.filter(question=question.pk)
+    try:
+        choice_index = request.POST['choice']
+    except (KeyError, TriviaChoice.DoesNotExist):
+        return render(request, 'trivia/trivia_question.html',
+                      {'question': question,
+                       'choices': choices,
+                       'display_memory': utils.get_memory(),
+                       'error_message': 'You must choose one of the responses below.'})
+    else:
+        choice = TriviaChoice.objects.filter(question=question).get(number=choice_index)
+        correct_choice = TriviaChoice.objects.filter(question=question).get(correct=True)
+        user_response = TriviaUserResponse(user=request.user, question=question, response=choice)
+        user_response.save()
+        profile = request.user.userprofile
+        profile.trivia_questions_attempted += 1
+        if choice.correct:
+            profile.trivia_answers_correct += 1
+        profile.save()
+        return render(request, ('trivia/trivia_result.html'), {
+                        'display_memory': utils.get_memory(),
+                        'question': question,
+                        'choice': choice,
+                        'correct_choice': correct_choice})

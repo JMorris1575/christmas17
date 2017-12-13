@@ -4,7 +4,7 @@ from django.views.generic import RedirectView
 from django.urls import reverse
 from .views import (Scoreboard, DisplayQuestion, DisplayResult,
                     EndOfQuestions, AlreadyAnswered, ComposeTrivia,
-                    TemporarilyClosed)
+                    TemporarilyClosed, trivia_choice)
 
 urlpatterns = [
     url(r'^$',
@@ -18,6 +18,8 @@ urlpatterns = [
     url(r'^question/(?P<question_number>[0-9]+)/$',
         login_required(DisplayQuestion.as_view()),
         name='display_question'),
+    url(r'^process_choice/(?P<question_number>[0-9]+)/$',
+        trivia_choice, name='trivia_submit'),
     url(r'^result/$',
         RedirectView.as_view(pattern_name='scoreboard')),
     url(r'^result/(?P<question_number>[0-9]+)/$',
