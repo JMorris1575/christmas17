@@ -258,6 +258,221 @@ not the error_message. Strange.
 I did notice, however, that the Django tutorial used a function-based view called vote. Perhaps that's what I need to do
 instead of going directly to DisplayResult.
 
+Attempted Solutions
+-------------------
+
+After a great deal of trial-and-error I finally got something to work here are the three files mainly involved:
+
+**trivia/urls.py**::
+
+    from django.conf.urls import url
+    from django.contrib.auth.decorators import login_required
+    from django.views.generic import RedirectView
+    from django.urls import reverse
+    from .views import (Scoreboard, DisplayQuestion, DisplayResult,
+                        EndOfQuestions, AlreadyAnswered, ComposeTrivia,
+                        TemporarilyClosed, trivia_choice)
+
+    urlpatterns = [
+        url(r'^$',
+            RedirectView.as_view(
+            url='/trivia/scoreboard/')),
+        url(r'^scoreboard/$',
+            login_required(Scoreboard.as_view()),
+            name='scoreboard'),
+        url(r'^question/$',
+            RedirectView.as_view(pattern_name='scoreboard')),
+        url(r'^question/(?P<question_number>[0-9]+)/$',
+            login_required(DisplayQuestion.as_view()),
+            name='display_question'),
+        url(r'^process_choice/(?P<question_number>[0-9]+)/$',
+            trivia_choice, name='trivia_submit'),
+        url(r'^result/$',
+            RedirectView.as_view(pattern_name='scoreboard')),
+        url(r'^result/(?P<question_number>[0-9]+)/$',
+            login_required(DisplayResult.as_view()),
+            name='display_result'),
+        url(r'^no_more_questions/$', login_required(EndOfQuestions.as_view()), name='end_of_questions'),
+        url(r'^already_answered/$', login_required(AlreadyAnswered.as_view()), name='already_answered'),
+        url(r'^compose/$', login_required(ComposeTrivia.as_view())),
+        url(r'^temporarily_closed/$', login_required(TemporarilyClosed.as_view()), name='temporarily_closed',)
+    ]
+
+Note the addition of a ``trivia/process_choice/n/`` url. This points to a new functional view in ``trivia/views.py``
+called ``trivia_submit``:
+
+**trivia/views.py**::
+
+    from django.shortcuts import render, redirect
+    from django.urls import reverse
+    from django.views.generic import View
+    from django.http import HttpResponseRedirect
+
+    from .models import TriviaQuestion, TriviaChoice, TriviaUserResponse
+    from django.contrib.auth.models import User
+    from user.models import UserProfile
+
+    from operator import itemgetter
+
+    import utils
+
+    (...)
+
+    class DisplayQuestion(View):
+        template_name = 'trivia/trivia_question.html'
+
+        def get(self, request, question_number=None, error_message=None):
+            if int(question_number) > request.user.userprofile.get_next_trivia():  # prevents going beyond the next question
+                question_number = request.user.userprofile.get_next_trivia()
+                return redirect('/trivia/question/' + str(question_number) + '/')
+            if int(question_number) > len(TriviaQuestion.objects.all()):
+                return redirect(reverse('end_of_questions'))
+            question = TriviaQuestion.objects.get(number=question_number)
+            choices = TriviaChoice.objects.filter(question=question.pk)
+            return render(request, self.template_name, {'display_memory': utils.get_memory(),
+                                                        'question': question,
+                                                        'choices': choices,
+                                                        'error_message':error_message})
+
+
+    class DisplayResult(View):
+        template_name = 'trivia/trivia_result.html'
+
+        def get(self, request, question_number=None, context=None):
+            return render(request, self.template_name, {'display_memory': utils.get_memory(),
+                                                        'q_number': question_number})
+
+    (...)
+
+    def trivia_choice(request, question_number=None):
+        if int(question_number) < request.user.userprofile.get_next_trivia():
+            return redirect(reverse('already_answered'))
+        question = TriviaQuestion.objects.get(number=question_number)
+        choices = TriviaChoice.objects.filter(question=question.pk)
+        try:
+            choice_index = request.POST['choice']
+        except (KeyError, TriviaChoice.DoesNotExist):
+            return render(request, 'trivia/trivia_question.html',
+                          {'question': question,
+                           'choices': choices,
+                           'display_memory': utils.get_memory(),
+                           'error_message': 'You must choose one of the responses below.'})
+        else:
+            choice = TriviaChoice.objects.filter(question=question).get(number=choice_index)
+            correct_choice = TriviaChoice.objects.filter(question=question).get(correct=True)
+            user_response = TriviaUserResponse(user=request.user, question=question, response=choice)
+            user_response.save()
+            profile = request.user.userprofile
+            profile.trivia_questions_attempted += 1
+            if choice.correct:
+                profile.trivia_answers_correct += 1
+            profile.save()
+            return render(request, ('trivia/trivia_result.html'), {
+                            'display_memory': utils.get_memory(),
+                            'question': question,
+                            'choice': choice,
+                            'correct_choice': correct_choice})
+
+This is what probably caused most of the trouble. First I had a hard time determining what error to try to catch in the
+``try-except`` section. I found out by studying part 4 of the Django tutorial.
+
+But the greatest difficulty lay in trying to get back to the same question page one has just left and display the error
+message there. One thing I learned is that ``render`` renders a template, while ``redirect`` uses a url to redirect to.
+This url can often be found through using the ``reverse`` function.
+
+What I still don't understand is how something like ``return render(request, ('trivia/trivia_result.html'), {...}``
+knows which url to go to -- or does it? I will try now to see what url I go to when I give a response to a trivia
+question...
+
+It goes to ``/trivia/process_choice/n/``, the one from the form action on the ``trivia_question.html`` template. It
+still seems that I need to use ``redirect`` to get to the results page but I don't know how to do that and still send
+a context or a bunch of variables.
+
+In the tutorial, ``render`` was used to get back to the ``polls/detail.html`` page with the ``error_message`` in the
+context.  ``HttpResponseRedirect`` was used if there WAS a vote cast but, aside from the ``args=(question.id,)`` to
+indicate which question, there were no other variables sent -- like the ``display_memory`` I have to send to
+``header.html``. Also, the tutorial warns that an ``HttpResponseRedirect`` must always be returned after successfully
+dealing with POST data so that the data won't be entered twice if the user hits the Back button.
+
+So, I have to figure out how to use a ``redirect`` (which, I believe, returns the necessary ``HttpResponseRedirect``,)
+and still get the proper context information sent to the final template.
+
+Perhaps this needs to be done within the receiving view. If I use::
+
+    return redirect('trivia_result', args=(question_number,))
+
+I should get to the ``get`` method of the ``DisplayResult`` view. Somehow, this needs to be given the choice the user
+made but I don't see that anything else is necessary. Perhaps this will work:
+
+**last line of trivia_choice view**::
+
+    return redirect('trivia_result', args=(question_number,),
+                    user_choice=choice,
+                    question=question,
+                    correct_choice=correct_choice)
+
+Then, for the view:
+
+**DisplayResult view**::
+
+    class DisplayResult(View):
+        template_name = 'trivia/trivia_result.html'
+
+        def get(self, request, question=None, user_choice=None, correct_choice=None):
+
+            return render(request, self.template_name, {'display_memory': utils.get_memory(),
+                                                        'question': question,
+                                                        'user_choice': user_choice,
+                                                        'correct_choice': correct_choice})
+
+Then the ``trivia/trivia_result.html`` template would say::
+
+    {% extends parent_template|default:"trivia/base_trivia.html" %}
+    {% load static %}
+
+        {{ block.super }}
+
+        {% block content %}
+            <div class="trivia width-40">
+                <h3>Question {{ question.number }}: {{ question }}</h3>
+                <h3>You chose  {{ user_choice.index }}{{ user_choice }}</h3>
+                <h2>
+                    {% if choice.correct %}
+                        You are right!
+                    {% else %}
+                        Sorry, that isn't correct. The correct answer is {{ correct_choice.index }}{{ correct_choice }}.
+                    {% endif %}
+                </h2>
+                <h4>
+                    Out of {{ user.userprofile.trivia_questions_attempted }} questions attempted so far, you have gotten
+                    {{ user.userprofile.trivia_answers_correct }} of them right. That gives you a score of
+                    {{ user.userprofile.score }}.
+                </h4>
+                <p class="center-button">
+                    <a href="{% url 'display_question' user.userprofile.get_next_trivia %}">
+                        <button>Next Question</button>
+                    </a>
+                </p>
+            </div>
+
+        {% endblock %}
+
+This did not work either. I kept getting the dreaded "No reverse found" error.
+
+The Real Solution
+-----------------
+
+This may not be the best solution, since it violates DRY, but I think it will do for now.
+
+It seems that when using ``redirect`` any data passed has to be in the url itself. I finally got it working by changing
+the ``trivia_result`` (note the name change from before) to include the user's choice number::
+
+    url(r'^result/(?P<question_number>[0-9]+)/(?P<choice_number>[0-9]+)/$',
+        login_required(DisplayResult.as_view()),
+        name='trivia_result'),
+
+(continue explanation)
+
 
 Temporarily Closed Page for Trivia App
 ======================================

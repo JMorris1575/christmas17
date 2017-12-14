@@ -71,11 +71,14 @@ class DisplayQuestion(View):
 class DisplayResult(View):
     template_name = 'trivia/trivia_result.html'
 
-    def get(self, request, question_number=None, context=None):
-        print('********* request: ', request)
-        print('********* Got into DisplayResult with context = ', context)
+    def get(self, request, question_number=None, choice_number=None):
+        question = TriviaQuestion.objects.get(number=question_number)
+        user_choice = TriviaChoice.objects.filter(question=question).get(number=choice_number)
+        correct_choice = TriviaChoice.objects.filter(question=question).get(correct=True)
         return render(request, self.template_name, {'display_memory': utils.get_memory(),
-                                                    'q_number': question_number})
+                                                    'question': question,
+                                                    'user_choice': user_choice,
+                                                    'correct_choice': correct_choice})
 
 
 class EndOfQuestions(View):
@@ -121,7 +124,6 @@ def trivia_choice(request, question_number=None):
                        'error_message': 'You must choose one of the responses below.'})
     else:
         choice = TriviaChoice.objects.filter(question=question).get(number=choice_index)
-        correct_choice = TriviaChoice.objects.filter(question=question).get(correct=True)
         user_response = TriviaUserResponse(user=request.user, question=question, response=choice)
         user_response.save()
         profile = request.user.userprofile
@@ -129,8 +131,10 @@ def trivia_choice(request, question_number=None):
         if choice.correct:
             profile.trivia_answers_correct += 1
         profile.save()
-        return render(request, ('trivia/trivia_result.html'), {
-                        'display_memory': utils.get_memory(),
-                        'question': question,
-                        'choice': choice,
-                        'correct_choice': correct_choice})
+        return redirect('trivia_result', question_number=question_number, choice_number=str(choice.number))
+
+        # return render(request, ('trivia/trivia_result.html'), {
+        #                 'display_memory': utils.get_memory(),
+        #                 'question': question,
+        #                 'choice': choice,
+        #                 'correct_choice': correct_choice})
