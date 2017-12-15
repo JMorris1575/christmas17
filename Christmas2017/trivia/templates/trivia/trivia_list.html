@@ -1,0 +1,23 @@
+{% extends parent_template|default:"trivia/base_trivia.html" %}
+{% load static %}
+
+{{ block.super }}
+
+{% block content %}
+
+    <h2>Select the questions you want to edit or click the Add New button below.</h2>
+    <form action="/trivia/edit/" method="get">
+        <ul>
+        {% for question in object_list %}
+            <li>
+                <input type="checkbox" name="trivia_questions" value="{{ question.number }}"/>
+                {{ question.number }}. {{ question }}
+            </li>
+        {% empty %}
+            <li>No questions have been composed yet.</li>
+        {% endfor %}
+        </ul>
+        <p><button type="submit">Edit Selected</button></p>
+    </form>
+
+{% endblock %}

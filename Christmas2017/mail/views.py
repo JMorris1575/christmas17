@@ -81,7 +81,6 @@ class MailCompose(View):
                         'users': User.objects.all() })
 
     def post(self, request):
-        print("I've gotten to the post method of MailCompose.")
         recipients = request.POST.getlist('family_member')
         orig_subject = request.POST['subject']
         orig_message = request.POST['message']

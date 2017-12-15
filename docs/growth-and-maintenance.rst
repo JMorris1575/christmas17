@@ -156,10 +156,176 @@ of questions a user has attempted rather than the total number of questions. [
     /trivia/question/n/, question n's page (trivia_question.html)
     /trivia/question/n/review, question n's review page (trivia_review.html)
     /trivia/result/n/, question n's results page (trivia_result.html)
-    /trivia/compose/, a page for the administrator to add new questions or edit previous questions (trivia_compose.html)
-    /trivia/edit/n/, question n's edit page (trivia_compose.html)
+    /trivia/list/, administrator's page to elect to add new or select previous questions to edit (trivia_list.html)
+    /trivia/edit/n/, question n's editing page (trivia_edit.html)
     /trivia/delete/n/, question n's delete confirmation page (trivia_delete.html)
 
+Listing the Available Questions
++++++++++++++++++++++++++++++++
+
+I'm just getting back to this section after a lot of work on the :ref:`problem below<trivia_error_checking>`. From
+reading the above material I just changed what had been ``trivia/trivia_compose.html`` to ``trivia/trivia_list.html``. I
+wonder if using a ListView would be helpful here. I will study the documentation at:
+https://docs.djangoproject.com/en/1.11/ref/class-based-views/generic-display/
+
+From my reading so far I'm not sure what the advantage is but I think I might be able to try it. Here is a
+QuestionList view closely following their example::
+
+    class QuestionList(ListView):
+
+        model = TriviaQuestion
+
+        def get_context_data(self, **kwargs):
+            context = super(QuestionList, self).get_context_data(**kwargs)
+            context['display_memory'] = utils.display_memory()
+            return context
+
+I wonder if that ``get_context_data`` thing will help with the :ref:`violation of DRY`<dry_violation>` I was dealing
+with below. I may find out later.
+
+The corresponding url should be::
+
+    url(r'list/$', QuestionList.as_view(), name='question_list')
+
+Finally, here is the body of the ``trivia_list.html`` template in a form that only lists the questions, rather than
+giving the opportunity to edit any of them::
+
+    {% block content %}
+        <h2>Select a question to edit or click the Add New button below.</h2>
+        <ul>
+        {% for question in object_list %}
+            <li>{{ question.number }}. {{ question }}</li>
+        {% empty %}
+            <li>No questions have been composed yet.</li>
+        {% endfor %}
+        </ul>
+    {% endblock %}
+
+Perhaps that ``{% empty %}`` tag may be an advantage here, simplifying the error checking I suppose. Let's see if this
+actually works. (Note: you will also have to change the Add Trivia Question link in ``header.html``.
+
+.. csv-table::*Does clicking the "Add Trivia Questions" link display the list of questions?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, it displays the compose.html stub, make the changes above
+    No, it couldn't find the template ``triviaquestion_list``, add a ``template_name = `` line in the view
+    No, "No questions have been composed yet.", add ``return context`` to end of ``get_context_data()`` (edited above)
+    Yes, the memory displays along with the current list of questions
+
+I can see how this makes things easier for those cases where the list is based on a single model. All I have to do is
+tell it which model.
+
+This ``get_context_data()`` should not have to be added to every view, though. There must be a way to do it with a
+Mixin. I will save that adventure for later.
+
+Converting the List to a Form
++++++++++++++++++++++++++++++
+
+Let's go for broke and place a check-box next to each question. When the Edit button is clicked those questions will be
+slated for editing... somehow.
+
+I've already done check-boxes in the mail app. I'll look to see what I did there.
+
+**mail/compose.html**::
+
+    {% block content %}
+
+        {{ block.super }}
+
+        <div class="content">
+
+            <h2>This page allows an administrator to compose and send e-mails to selected users.</h2>
+
+            <form class="form-left" action="/mail/compose/" method="post">{% csrf_token %}
+                <ul class="form-left">
+                    {% for user in users %}
+                        <li>
+                            <input type="checkbox" name="family_member" value="{{ user }}"/>
+                            {{ user.userprofile.get_name }}<br />
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p class="instructions"><label for="sbjct">Subject:</label></p>
+                <p><textarea id="sbjct" name="subject" rows="1" cols="40"></textarea></p>
+                <p class="instructions"><label for="msg">Enter your message below:</label></p>
+                <p><textarea id="msg" name="message" rows="10" cols="40"></textarea></p>
+                <p><button class="my-button" type="submit">Send</button></p>
+            </form>
+
+            <a class="form-left" href="/gift/list/">
+                <button class="my-button">Cancel</button>
+            </a>
+
+        </div>
+
+    {% endblock %}
+
+So I suspect I'll end up with what is below (since I will keep editing it until I get it right).
+
+**trivia/trivia_list.html**::
+
+    {% extends parent_template|default:"trivia/base_trivia.html" %}
+    {% load static %}
+
+    {{ block.super }}
+
+    {% block content %}
+
+        <h2>Select the questions you want to edit or click the Add New button below.</h2>
+        <form action="/trivia/edit/" method="post">
+            {% csrf_token %}
+            <ul>
+            {% for question in object_list %}
+                <li>
+                    <input type="checkbox" name="trivia_question" value="{{ question.number }}"/>
+                    {{ question.number }}. {{ question }}
+                </li>
+            {% empty %}
+                <li>No questions have been composed yet.</li>
+            {% endfor %}
+            </ul>
+            <p><button type="submit">Edit Selected</button></p>
+        </form>
+
+    {% endblock %}
+
+Now to check it out...
+
+.. csv-table::**Do the questions appear in a form with checkboxes on the trivia_list page?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, just the list; no checkboxes, edit ``trivia_list.html`` as above
+    Yes, but the bullets for the <li> tag still appear, fix it later in css
+
+.. csv-table::**Does selecting a single question and clicking "Edit Selected" display the stub of the edit page?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, I stay at the url ``/trivia/list/`` but the page is blank, change the form action to ``/trivia/edit/``
+    No, got a 404 Page not found error, add a url for ``/trivia/edit/`` and a TriviaEdit view
+    No, got a TemplateDoesNotExist error, create the ``trivia_edit.html`` template
+    Yes, after the correction of a slight copy/paste error
+
+Getting the Trivia Edit Page to Work
+++++++++++++++++++++++++++++++++++++
+
+Something tells me I'm going about this the wrong way but I'm thinking of using the ``get`` method to display each
+successive edit page ``/trivia/edit/n/``. First I'll have to figure out how to get it the series of questions.
+
+.. csv-table::**Does selecting a single question and clicking "Edit Selected" display that question on the edit page?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, it only displays the stub, have the TriviaEdit get() method redirect to ``/trivia/edit/n/``
+
+
+
+
+
+
+.. _trivia_error_checking:
 
 Catching Submits with no Choices Selected
 =========================================
@@ -425,6 +591,8 @@ Then, for the view:
                                                         'user_choice': user_choice,
                                                         'correct_choice': correct_choice})
 
+.. _trivia_result_edit_01:
+
 Then the ``trivia/trivia_result.html`` template would say::
 
     {% extends parent_template|default:"trivia/base_trivia.html" %}
@@ -437,7 +605,7 @@ Then the ``trivia/trivia_result.html`` template would say::
                 <h3>Question {{ question.number }}: {{ question }}</h3>
                 <h3>You chose  {{ user_choice.index }}{{ user_choice }}</h3>
                 <h2>
-                    {% if choice.correct %}
+                    {% if user_choice.correct %}
                         You are right!
                     {% else %}
                         Sorry, that isn't correct. The correct answer is {{ correct_choice.index }}{{ correct_choice }}.
@@ -459,20 +627,60 @@ Then the ``trivia/trivia_result.html`` template would say::
 
 This did not work either. I kept getting the dreaded "No reverse found" error.
 
+.. _dry_violation:
+
 The Real Solution
 -----------------
 
 This may not be the best solution, since it violates DRY, but I think it will do for now.
 
 It seems that when using ``redirect`` any data passed has to be in the url itself. I finally got it working by changing
-the ``trivia_result`` (note the name change from before) to include the user's choice number::
+the ``trivia_result`` (note the name change :ref:`from before<orig_trivia_urls>`) to include the user's choice number::
 
     url(r'^result/(?P<question_number>[0-9]+)/(?P<choice_number>[0-9]+)/$',
         login_required(DisplayResult.as_view()),
         name='trivia_result'),
 
-(continue explanation)
+Thus the ``trivia_choice`` view that calls it looks like this::
 
+    def trivia_choice(request, question_number=None):
+        if int(question_number) < request.user.userprofile.get_next_trivia():
+            return redirect(reverse('already_answered'))
+        question = TriviaQuestion.objects.get(number=question_number)
+        choices = TriviaChoice.objects.filter(question=question.pk)
+        try:
+            choice_index = request.POST['choice']
+        except (KeyError, TriviaChoice.DoesNotExist):
+            return render(request, 'trivia/trivia_question.html',
+                          {'question': question,
+                           'choices': choices,
+                           'display_memory': utils.get_memory(),
+                           'error_message': 'You must choose one of the responses below.'})
+        else:
+            choice = TriviaChoice.objects.filter(question=question).get(number=choice_index)
+            user_response = TriviaUserResponse(user=request.user, question=question, response=choice)
+            user_response.save()
+            profile = request.user.userprofile
+            profile.trivia_questions_attempted += 1
+            if choice.correct:
+                profile.trivia_answers_correct += 1
+            profile.save()
+            return redirect('trivia_result', question_number=question_number, choice_number=choice.number)
+
+Notice that ``question_number`` comes from the url "calling" this view, and is a string. Meanwhile, ``choice_number``,
+coming from ``choice.number`` is an integer. The ``redirect`` shortcut must take care of the conversion for me. I was
+thinking that the question number and response number had to be passed through
+``args=(question_number, choice_number,)`` but they are to be given as parameters as they are here.
+
+The ``trivia_result.html`` template works as shown :ref:`above<trivia_result_edit_01>`.
+
+I'm ready to copy the following files to WebFaction:
+
+* trivia/trivia_question
+* trivia/trivia_result
+* trivia/views
+* trivia/urls
+* christmas17.css
 
 Temporarily Closed Page for Trivia App
 ======================================

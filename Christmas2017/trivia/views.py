@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import View
+from django.views.generic import View, ListView, DetailView
 from django.http import HttpResponseRedirect
 
 from .models import TriviaQuestion, TriviaChoice, TriviaUserResponse
@@ -95,6 +95,35 @@ class AlreadyAnswered(View):
         return render(request, self.template_name, {'display_memory': utils.get_memory(),})
 
 
+class QuestionList(ListView):
+    template_name = 'trivia/trivia_list.html'
+    model = TriviaQuestion
+
+    def get_context_data(self, **kwargs):
+        context = super(QuestionList, self).get_context_data(**kwargs)
+        context['display_memory'] = utils.get_memory()
+        return context
+
+
+class TriviaEdit(View):
+    template_name = 'trivia/trivia_edit.html'
+
+    def get(self, request):
+        question_numbers = request.GET.getlist('trivia_questions')
+        for question_number in question_numbers:
+
+            return render(request, self.template_name)
+
+    def post(self, request):
+        print('Got to the post method of TriviaEdit')
+        return redirect('gift_list')
+
+def trivia_list_edit(request):
+    question_numbers = request.GET.getlist('trivia_questions')
+    print('************* question_numbers = ', question_numbers)
+    return render(request, '/trivia/trivia_edit.html', {'display_memory': utils.get_memory(),})
+
+
 class ComposeTrivia(View):
     template_name = 'trivia/trivia_compose.html'
 
@@ -131,10 +160,4 @@ def trivia_choice(request, question_number=None):
         if choice.correct:
             profile.trivia_answers_correct += 1
         profile.save()
-        return redirect('trivia_result', question_number=question_number, choice_number=str(choice.number))
-
-        # return render(request, ('trivia/trivia_result.html'), {
-        #                 'display_memory': utils.get_memory(),
-        #                 'question': question,
-        #                 'choice': choice,
-        #                 'correct_choice': correct_choice})
+        return redirect('trivia_result', question_number=question_number, choice_number=choice.number)
