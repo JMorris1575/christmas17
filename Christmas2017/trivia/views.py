@@ -120,8 +120,12 @@ class TriviaEdit(View):
 
 def trivia_list_edit(request):
     question_numbers = request.GET.getlist('trivia_questions')
-    print('************* question_numbers = ', question_numbers)
-    return render(request, '/trivia/trivia_edit.html', {'display_memory': utils.get_memory(),})
+    for number in question_numbers:
+        question = TriviaQuestion.objects.get(number=number)
+        choices = TriviaChoice.objects.filter(question=question.pk)
+    return render(request, 'trivia/trivia_edit.html', {'question': question,
+                                                       'choices': choices,
+                                                       'display_memory': utils.get_memory(),})
 
 
 class ComposeTrivia(View):

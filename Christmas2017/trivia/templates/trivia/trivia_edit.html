@@ -5,6 +5,10 @@
 
 {% block content %}
 
-    <h2>Stub for the trivia_edit page.</h2>
+    <h2>New improved trivia_edit page.</h2>
+    <p>{{ question.number }}. {{ question }}</p>
+    {% for choice in choices %}
+        <p>    {{ choice.index }}{{ choice }}</p>
+    {% endfor%}
 
 {% endblock %}
