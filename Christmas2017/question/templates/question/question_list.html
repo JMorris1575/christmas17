@@ -34,7 +34,7 @@
                     <div class="form-left response">
                         {{ response.display }}
                         {% if response.responder == user %}
-                            <a href="{% url 'edit_response' question.pk response.pk%}"> (Edit...)</a>
+                            <a href="{% url 'edit_response' question.pk response.pk %}"> (Edit...)</a>
                         {% endif %}
                     </div>
                 {% endfor %}

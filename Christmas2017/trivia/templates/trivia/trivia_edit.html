@@ -6,9 +6,21 @@
 {% block content %}
 
     <h2>New improved trivia_edit page.</h2>
-    <p>{{ question.number }}. {{ question }}</p>
+    <p>
+        {{ question.number }}. {{ question }}
+        <a href="{% url 'question_edit' question.pk %}">Edit</a>
+    </p>
     {% for choice in choices %}
-        <p>    {{ choice.index }}{{ choice }}</p>
+        <p>
+            {{ choice.index }}{{ choice }}
+            <a href="{% url 'choice_edit' choice.pk %}">Edit</a>
+        </p>
     {% endfor%}
+    <br>
+    <p>
+        <a type="button" href="{% url 'question_list' %}">
+            <button>Cancel Editing</button>
+        </a>
+    </p>
 
 {% endblock %}

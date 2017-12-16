@@ -10,9 +10,9 @@
             <div class="info">
                 <p>
                     You can edit or delete your response here. Scroll down to the entry box, if necessary, edit your
-                    response and click the 'Save' button or click the Delete... button to delete this response.  Click on the
-                    "Question Page" button to return to that page or on "Gifts," the bells, or the "Christmas 2016" title to
-                    return to the main page.
+                    response and click the 'Save' button or click the Delete... button to delete this response.  Click
+                    on the "Question Page" button to return to that page or on "Gifts," the bells, or the "Christmas
+                    2017" title to return to the main page.
                 </p>
             </div>
         </div>
@@ -23,7 +23,8 @@
         <h4 class="question">{{ question }}</h4>
     </div>
 
-    <form class="form-left green" action="{% url 'edit_response' question.pk response.pk %}" method="post">{% csrf_token %}
+    <form class="form-left green" action="{% url 'edit_response' question.pk response.pk %}" method="post">
+        {% csrf_token %}
         <p><label for="response">Edit your response below:</label></p>
         <p><textarea id="response" name="response_text" rows="3" cols="40">{{ response.response }}</textarea></p>
         <p><button class="my-button" type="submit">Save</button></p>

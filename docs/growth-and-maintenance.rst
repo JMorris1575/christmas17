@@ -319,9 +319,107 @@ successive edit page ``/trivia/edit/n/``. First I'll have to figure out how to g
     :widths: auto
 
     No, it only displays the stub, have the TriviaEdit get() method redirect to ``/trivia/edit/n/``
+    Yes, , the relevant changes appear below
+
+**from trivia/views.py**::
+
+    class TriviaEdit(View):
+        template_name = 'trivia/trivia_edit.html'
+
+        def get(self, request):
+            question_numbers = request.GET.getlist('trivia_questions')
+            for question_number in question_numbers:
+
+                return render(request, self.template_name)
+
+        def post(self, request):
+            print('Got to the post method of TriviaEdit')
+            return redirect('gift_list')
+
+    def trivia_list_edit(request):
+        question_numbers = request.GET.getlist('trivia_questions')
+        for number in question_numbers:
+            question = TriviaQuestion.objects.get(number=number)
+            choices = TriviaChoice.objects.filter(question=question.pk)
+        return render(request, 'trivia/trivia_edit.html', {'question': question,
+                                                           'choices': choices,
+                                                           'display_memory': utils.get_memory(),})
 
 
+    class ComposeTrivia(View):
+        template_name = 'trivia/trivia_compose.html'
 
+        def get(self, request):
+            return render(request, self.template_name, {'display_memory': utils.get_memory(),})
+
+
+**from trivia/urls.py**::
+
+    url(r'^list/$', QuestionList.as_view(), name='question_list'),
+    url(r'^edit/$', trivia_list_edit, name='trivia_list_edit'),
+    url(r'^compose/$', login_required(ComposeTrivia.as_view())),
+
+**from trivia/trivia_edit.html**::
+
+    {% block content %}
+
+        <h2>New improved trivia_edit page.</h2>
+        <p>{{ question.number }}. {{ question }}</p>
+        {% for choice in choices %}
+            <p>    {{ choice.index }}{{ choice }}</p>
+        {% endfor%}
+
+    {% endblock %}
+
+.. _edit_idea:
+
+In the process of doing that I thought of a simple method to edit both the questions and the choices: create a section
+for each question and it's choices, put a link to 'Edit' each question and each of it's choices, and put an 'Add Choice'
+button to the bottom of each section. There should also be a 'Cancel' button which sends them back to the list page. Let
+me try to implement the 'Cancel' button first:
+
+.. csv-table::**Does a working 'Cancel' button appear on the edit page?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, only the first of the selected questions, add a link with type="button" link back to 'question_list'
+    No, I get a link rather than a button, put a <button> between the <a>, </a> tags
+    Yes, and it works too1
+
+Now let's see if I can get the 'Edit' links in there and pointing to the right pages
+
+.. csv-table::**Does selecting a single question to edit display an edit page as :ref:`described above<edit_idea>`?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, no edit links or buttons are visible with each question, add them in trivia_edit.html
+    No, kept getting 'Could not parse remainder' errors, use the correct syntax: {% url 'url-name' parm_1 parm_2... %}
+    No, NoReverseMatch error as expected, update urls to include 'question_edit' and 'choice_edit'
+    No, ImportError in terminal: cannot import name 'QuestionEdit', create views for QuestionEdit and ChoiceEdit
+    Yes, 'Edit Question' and 'Edit Choice' appear in the right places, simplify it to say 'Edit' - redundant otherwise
+
+Now to get the 'Edit' links to work. Since these are edits to single models I can use Django's UpdateView.
+
+.. csv-table::**Does selecting a single question and clicking "Edit" next to the question get to a question edit page?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, 'QuestionEdit is missing a QuerySet', tell the view to use model = TriviaQuestion
+    No, 'AttributeError' having to do with Generic detail view QuestionEdit, try supplying a template and its suffix
+    No, 'Generic detail view QuestionEdit must be called with either an object pk or a slug', complete update form html
+    No, same problem, update urls to use (?P<pk>\d+) since you are sending pks
+    No, NoReverseMatch for 'choice_edit', delete reference to question in choice link in trivia_edit.html
+    No, ImproperlyConfigured error - not using 'fields' attribute is prohibited, use 'fields' attribute in view
+    No, TemplateDoesNotExist, add the 'trivia/' and the '.html' to the template name
+    Yes, , now work on getting the edits to work
+
+First I got the 'Edit' links for the choices to work using what I learned above. When I click 'Update' on the form,
+however, it complains that there is no URL to redirect to. I believe this is because I left the ``action`` blank in the
+<form> tag. I'll work on it later.
+
+But I notice how easy it is to use the built-in forms in Django in those cases where they apply to what I'm doing. I do
+have less control, I don't get to have everything called what I would like, but there are probably ways to override the
+default behavior that I don't know about yet.
 
 
 

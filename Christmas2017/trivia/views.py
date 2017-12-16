@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import View, ListView, DetailView
+from django.views.generic import View, ListView, UpdateView, DetailView
 from django.http import HttpResponseRedirect
 
 from .models import TriviaQuestion, TriviaChoice, TriviaUserResponse
@@ -117,6 +117,16 @@ class TriviaEdit(View):
     def post(self, request):
         print('Got to the post method of TriviaEdit')
         return redirect('gift_list')
+
+class QuestionEdit(UpdateView):
+    model = TriviaQuestion
+    fields = ['number', 'text']
+    template_name = 'trivia/triviaquestion_update_form.html'
+
+class ChoiceEdit(UpdateView):
+    model = TriviaChoice
+    fields = ['question', 'number', 'text', 'correct']
+    template_name = 'trivia/triviachoice_update_form.html'
 
 def trivia_list_edit(request):
     question_numbers = request.GET.getlist('trivia_questions')

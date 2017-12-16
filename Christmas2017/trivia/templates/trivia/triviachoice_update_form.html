@@ -1,0 +1,14 @@
+{% extends parent_template|default:"trivia/base_trivia.html" %}
+{% load static %}
+
+{{ block.super }}
+
+{% block content %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Update" />
+    </form>
+
+{% endblock %}
