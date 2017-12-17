@@ -130,11 +130,8 @@ class ChoiceEdit(UpdateView):
 
 def trivia_list_edit(request):
     question_numbers = request.GET.getlist('trivia_questions')
-    for number in question_numbers:
-        question = TriviaQuestion.objects.get(number=number)
-        choices = TriviaChoice.objects.filter(question=question.pk)
-    return render(request, 'trivia/trivia_edit.html', {'question': question,
-                                                       'choices': choices,
+    questions = TriviaQuestion.objects.filter(number__in=question_numbers)
+    return render(request, 'trivia/trivia_edit.html', {'questions': questions,
                                                        'display_memory': utils.get_memory(),})
 
 

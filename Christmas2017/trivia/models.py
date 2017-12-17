@@ -15,6 +15,9 @@ class TriviaQuestion(models.Model):
     class Meta:
         ordering = ['number']
 
+    def get_choices(self):
+        return TriviaChoice.objects.filter(question=self)
+
 
 class TriviaChoice(models.Model):
     question = models.ForeignKey(TriviaQuestion)

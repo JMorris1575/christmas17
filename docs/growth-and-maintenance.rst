@@ -421,6 +421,17 @@ But I notice how easy it is to use the built-in forms in Django in those cases w
 have less control, I don't get to have everything called what I would like, but there are probably ways to override the
 default behavior that I don't know about yet.
 
+Actually Editing Questions and Choices
+++++++++++++++++++++++++++++++++++++++
+
+I think all that remains is to come up with a place for the forms to redirect to. I think the most logical place is the
+page that displays the questions and all of their choices, in other words, ``trivia/edit/question/n/`` which is named:
+``question_edit``. Thus the action lines should say::
+
+    action="{% url 'question_edit' {{ question.number }} %}"
+
+Let's try that...
+
 
 
 .. _trivia_error_checking:
