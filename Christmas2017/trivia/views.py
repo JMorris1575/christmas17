@@ -109,14 +109,16 @@ class TriviaEdit(View):
     template_name = 'trivia/trivia_edit.html'
 
     def get(self, request):
-        question_numbers = request.GET.getlist('trivia_questions')
-        for question_number in question_numbers:
-
-            return render(request, self.template_name)
+        print('**************** GET = ', request.GET)
+        question_pk = request.GET.get('trivia_question')
+        print('**************** question_pk = ', question_pk)
+        question = TriviaQuestion.objects.get(pk=question_pk)
+        return render(request, self.template_name, {'display_memory':utils.get_memory(), 'question': question})
 
     def post(self, request):
-        print('Got to the post method of TriviaEdit')
-        return redirect('gift_list')
+        print('request.POST = ', request.POST)
+        question = TriviaQuestion.objects.get(number=request.POST['number'])
+        return render(request, self.template_name, {'display_memory': utils.get_memory(), 'question': question})
 
 class QuestionEdit(UpdateView):
     model = TriviaQuestion

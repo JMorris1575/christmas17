@@ -432,6 +432,54 @@ page that displays the questions and all of their choices, in other words, ``tri
 
 Let's try that...
 
+No, that didn't work. For one thing, I don't think the double braces are required around question.number. For another,
+that is not the place that all the selected questions are listed along with their choices. Meanwhile, I don't know how
+to keep the list of selected questions through the different views and templates that are used.
+
+Changing My Approach to Editing
++++++++++++++++++++++++++++++++
+
+I think I will be better off putting an 'Edit' link next to each question in the question list. That should send me to
+a page with that question and it's coices available for editing. After editing either the question or one of the
+choices, it should direct me back to the page with that question and its choices. When I click 'Done Editing' I should
+go back to the whole question list page. Here is a step-by-step process for doing all that:
+
+.. csv-table::**Do radio buttons appear at the beginning of each question on the trivia_list page?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, I have bullet point dots and checkboxes, edit trivia_list.html to eliminate checkboxes and add Edit links
+    Yes, and they work to get me to the question edit page for that question too!
+
+.. csv-table::**Does clicking 'Update' on the question or choice_edit page return to the edit page for that question?**
+    :header: Success?, Result, Action to be Taken
+    :widths: auto
+
+    No, it gets me to that page but without the question and its choices showing
+    No, and I made so many changes without documenting them I lost track of what I was doing, restart the whole process
+
+
+Starting Over Again on Add/Edit Trivia
+--------------------------------------
+
+I think I need to take a more careful, more systematic approach, defining url patterns, etc. ahead of time and thinking
+things through more carefully. I also need to do a more careful study of Class Based Generic Views in Django so that I
+have a better understanding of what they do and how I can use them.
+
+New Add/Edit Trivia URL Patterns
+++++++++++++++++++++++++++++++++
+
+.. csv-table::**URL Patterns for Add/Edit Trivia**
+    :header: url pattern, view called, name, notes
+    :widths: auto
+
+    /trivia/list/, TriviaList.as_view(), trivia_list, lists all of the trivia questions with radio buttons for selection
+    /trivia/create/n/, TriviaCreate.as_view(), trivia_create, allows entry of question and choices for question n
+    /trivia/edit/n/, TriviaEdit.as_view(), trivia_edit, allows editing of question n
+    /trivia/delete/n/, TriviaDelete.as_view(), trivia_delete, double checks and accomplishes deletion of question n
+
+
+
 
 
 .. _trivia_error_checking:

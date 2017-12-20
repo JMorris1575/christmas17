@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^no_more_questions/$', login_required(EndOfQuestions.as_view()), name='end_of_questions'),
     url(r'^already_answered/$', login_required(AlreadyAnswered.as_view()), name='already_answered'),
     url(r'^list/$', QuestionList.as_view(), name='question_list'),
-    url(r'^edit/$', trivia_list_edit, name='trivia_edit'),
+    url(r'^edit/$', TriviaEdit.as_view(), name='trivia_edit'),
     url(r'^edit/question/(?P<pk>\d+)/$', QuestionEdit.as_view(), name='question_edit'),
     url(r'edit/choice/(?P<pk>\d+)/$', ChoiceEdit.as_view(), name='choice_edit'),
     url(r'^compose/$', login_required(ComposeTrivia.as_view())),
