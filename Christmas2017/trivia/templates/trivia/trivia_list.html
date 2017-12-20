@@ -6,7 +6,7 @@
 {% block content %}
 
     <h2>Choose a question for editing by clicking on its Edit link below.</h2>
-    <form action="{% url 'trivia_edit' %}" method="get">
+    <form action="{% url 'trivia_select_for_edit' %}" method="get">
         <ul>
         {% for question in object_list %}
             <li>

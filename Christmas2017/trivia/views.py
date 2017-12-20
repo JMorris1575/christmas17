@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import View, ListView, UpdateView, DetailView
+from django.views.generic import View, ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.http import HttpResponseRedirect
 
 from .models import TriviaQuestion, TriviaChoice, TriviaUserResponse
@@ -95,46 +95,51 @@ class AlreadyAnswered(View):
         return render(request, self.template_name, {'display_memory': utils.get_memory(),})
 
 
-class QuestionList(ListView):
+class TriviaList(ListView):
     template_name = 'trivia/trivia_list.html'
     model = TriviaQuestion
 
     def get_context_data(self, **kwargs):
-        context = super(QuestionList, self).get_context_data(**kwargs)
+        context = super(TriviaList, self).get_context_data(**kwargs)
         context['display_memory'] = utils.get_memory()
         return context
+
+
+class TriviaCreate(CreateView):
+    pass
 
 
 class TriviaEdit(View):
     template_name = 'trivia/trivia_edit.html'
 
-    def get(self, request):
-        print('**************** GET = ', request.GET)
-        question_pk = request.GET.get('trivia_question')
-        print('**************** question_pk = ', question_pk)
-        question = TriviaQuestion.objects.get(pk=question_pk)
+    def get(self, request, pk):
+        question = TriviaQuestion.objects.get(pk=pk)
         return render(request, self.template_name, {'display_memory':utils.get_memory(), 'question': question})
 
-    def post(self, request):
+    def post(self, request, pk):
         print('request.POST = ', request.POST)
         question = TriviaQuestion.objects.get(number=request.POST['number'])
         return render(request, self.template_name, {'display_memory': utils.get_memory(), 'question': question})
+
+
+class TriviaDelete(DeleteView):
+    pass
 
 class QuestionEdit(UpdateView):
     model = TriviaQuestion
     fields = ['number', 'text']
     template_name = 'trivia/triviaquestion_update_form.html'
 
+
 class ChoiceEdit(UpdateView):
     model = TriviaChoice
     fields = ['question', 'number', 'text', 'correct']
     template_name = 'trivia/triviachoice_update_form.html'
 
-def trivia_list_edit(request):
-    question_numbers = request.GET.getlist('trivia_questions')
-    questions = TriviaQuestion.objects.filter(number__in=question_numbers)
-    return render(request, 'trivia/trivia_edit.html', {'questions': questions,
-                                                       'display_memory': utils.get_memory(),})
+def trivia_select_edit(request):
+    question_number = request.GET.get('trivia_question')
+    question = TriviaQuestion.objects.get(number=question_number)
+    return redirect('trivia_edit', question.pk)
 
 
 class ComposeTrivia(View):

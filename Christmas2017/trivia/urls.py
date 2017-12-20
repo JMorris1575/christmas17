@@ -4,9 +4,9 @@ from django.views.generic import RedirectView
 from django.urls import reverse
 from .views import (Scoreboard, DisplayQuestion, DisplayResult,
                     EndOfQuestions, AlreadyAnswered, ComposeTrivia,
-                    QuestionList, TriviaEdit, TemporarilyClosed,
-                    QuestionEdit, ChoiceEdit,
-                    trivia_choice, trivia_list_edit)
+                    TriviaList, TriviaCreate, TriviaEdit, TriviaDelete,
+                    TemporarilyClosed, QuestionEdit, ChoiceEdit,
+                    trivia_choice, trivia_select_edit)
 
 urlpatterns = [
     url(r'^$',
@@ -29,9 +29,12 @@ urlpatterns = [
         name='trivia_result'),
     url(r'^no_more_questions/$', login_required(EndOfQuestions.as_view()), name='end_of_questions'),
     url(r'^already_answered/$', login_required(AlreadyAnswered.as_view()), name='already_answered'),
-    url(r'^list/$', QuestionList.as_view(), name='question_list'),
-    url(r'^edit/$', TriviaEdit.as_view(), name='trivia_edit'),
+    url(r'^list/$', TriviaList.as_view(), name='trivia_list'),
+    url(r'^select/$', trivia_select_edit, name='trivia_select_for_edit'),
+    url(r'^create/(?P<pk>\d+)/$', TriviaCreate.as_view(), name='trivia_create'),
     url(r'^edit/question/(?P<pk>\d+)/$', QuestionEdit.as_view(), name='question_edit'),
+    url(r'^edit/(?P<pk>\d+)/$', TriviaEdit.as_view(), name='trivia_edit'),
+    url(r'^delete/(?P<pk>\d+)/$', TriviaDelete.as_view(), name='trivia_delete'),
     url(r'edit/choice/(?P<pk>\d+)/$', ChoiceEdit.as_view(), name='choice_edit'),
     url(r'^compose/$', login_required(ComposeTrivia.as_view())),
     url(r'^temporarily_closed/$', login_required(TemporarilyClosed.as_view()), name='temporarily_closed',)
