@@ -21,6 +21,9 @@ class TriviaQuestion(models.Model):
     def get_choices(self):
         return TriviaChoice.objects.filter(question=self)
 
+    def count(self):
+        return len(TriviaQuestion.objects.all())
+
     def get_absolute_url(self):
         return reverse('trivia_edit', kwargs={'pk': self.pk})
 

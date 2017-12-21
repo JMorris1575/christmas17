@@ -1,0 +1,20 @@
+{% extends parent_template|default:"trivia/base_trivia.html" %}
+{% load static %}
+
+{{ block.super }}
+
+{% block content %}
+
+
+    <form action="{% url 'trivia_create' %}" method="post">
+        {% csrf_token %}
+        <p>
+            <input type="hidden" name="question_number" required value={{ count }} id="question_number" />
+            <label for="question_text" >Question Text:</label>
+            <input type="text" id="question_text" required />
+
+        </p>
+        <input type="submit" value="Create" />
+    </form>
+
+{% endblock %}

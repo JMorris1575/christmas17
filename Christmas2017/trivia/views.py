@@ -106,7 +106,15 @@ class TriviaList(ListView):
 
 
 class TriviaCreate(CreateView):
-    pass
+    template_name = 'trivia/trivia_create.html'
+    model = TriviaQuestion
+    fields = ['number', 'text']
+
+    def get_context_data(self, **kwargs):
+        context = super(TriviaCreate, self).get_context_data(**kwargs)
+        context['display_memory'] = utils.get_memory()
+        context['count'] = TriviaQuestion.objects.count() + 1   # point to the next available question
+        return context
 
 
 class TriviaEdit(View):
