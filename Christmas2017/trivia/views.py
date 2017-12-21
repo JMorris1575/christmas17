@@ -112,12 +112,12 @@ class TriviaCreate(CreateView):
 class TriviaEdit(View):
     template_name = 'trivia/trivia_edit.html'
 
-    def get(self, request, pk):
-        question = TriviaQuestion.objects.get(pk=pk)
+    def get(self, request, *args, **kwargs):
+        question = TriviaQuestion.objects.get(pk=kwargs['pk'])
         return render(request, self.template_name, {'display_memory':utils.get_memory(), 'question': question})
 
     def post(self, request, pk):
-        print('request.POST = ', request.POST)
+        print('Got to TriviaEdit post(), request.POST = ', request.POST)
         question = TriviaQuestion.objects.get(number=request.POST['number'])
         return render(request, self.template_name, {'display_memory': utils.get_memory(), 'question': question})
 
@@ -128,13 +128,24 @@ class TriviaDelete(DeleteView):
 class QuestionEdit(UpdateView):
     model = TriviaQuestion
     fields = ['number', 'text']
-    template_name = 'trivia/triviaquestion_update_form.html'
+    template_name = 'trivia/trivia_update_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(QuestionEdit, self).get_context_data(**kwargs)
+        context['display_memory'] = utils.get_memory()
+        return context
 
 
 class ChoiceEdit(UpdateView):
     model = TriviaChoice
     fields = ['question', 'number', 'text', 'correct']
-    template_name = 'trivia/triviachoice_update_form.html'
+    template_name = 'trivia/trivia_update_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ChoiceEdit, self).get_context_data(**kwargs)
+        context['display_memory'] = utils.get_memory()
+        return context
+
 
 def trivia_select_edit(request):
     question_number = request.GET.get('trivia_question')

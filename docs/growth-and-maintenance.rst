@@ -478,8 +478,228 @@ New Add/Edit Trivia URL Patterns
     /trivia/edit/n/, TriviaEdit.as_view(), trivia_edit, allows editing of question n
     /trivia/delete/n/, TriviaDelete.as_view(), trivia_delete, double checks and accomplishes deletion of question n
 
+.. index:: kwargs
+
+.. index:: generic class based views
+
+Finally Getting Editing to Work
+-------------------------------
+
+After a lot of trial and error experimentation, mostly errors, and careful reading of the error messages and determining
+which of my files was actually at fault, I finally got the editing feature to work for both trivia questions and trivia
+choices. It involved a careful look at the links in the templates, the discovery that a <form action> does not seem to
+be used when using Generic Class Based Views, and some fattening up of the TriviaQuestion and TriviaChoice models.
+
+I also learned that the ``**kwargs`` passed to the class based views seem to be passed through the url. For instance,
+for the url ``trivia/edit/2/`` the '2' is the pk kwarg (keyword argument) that is picked up in the view. I still don't
+completely understand how context is passed in every case. My QuestionEdit and ChoiceEdit views, which do not have get
+or post functions, do not pass the ``display_memory`` context variable. After I list the necessary parts of the files
+below, I will try to figure that out.
+
+.. csv-table::**Current URL Patterns for Add/Edit Trivia**
+    :header: url pattern, view called, name, notes
+    :widths: auto
+
+    /trivia/list/, TriviaList, trivia_list, When the user clicks the Add/Edit Trivia link they come here
+    /trivia/select/, trivia_select_edit, trivia_select_for_edit, redirects radio-button selection to ``trivia_edit``
+    /trivia/create/, TriviaCreate, trivia_create, not yet implemented and may need to change
+    /trivia/edit/n/, TriviaEdit, trivia_edit, displays the question with its choices all with Edit links
+    /trivia/question/n/, QuestionEdit, question_edit, edits question n's text and number, doesn't error check number
+    /trivia/choice/n/, ChoiceEdit, choice_edit, edits choice n's question, number, text, correct. No error checking.
+
+Here are the current forms of parts of the files:
+
+**from trivia/urls.py**::
+
+    url(r'^list/$', TriviaList.as_view(), name='trivia_list'),
+    url(r'^select/$', trivia_select_edit, name='trivia_select_for_edit'),
+    url(r'^create/(?P<pk>\d+)/$', TriviaCreate.as_view(), name='trivia_create'),
+    url(r'^edit/(?P<pk>\d+)/$', TriviaEdit.as_view(), name='trivia_edit'),
+    url(r'^edit/question/(?P<pk>\d+)/$', QuestionEdit.as_view(), name='question_edit'),
+    url(r'^edit/choice/(?P<pk>\d+)/$', ChoiceEdit.as_view(), name='choice_edit'),
+
+** from trivia/views.py**::
+
+    class TriviaList(ListView):
+        template_name = 'trivia/trivia_list.html'
+        model = TriviaQuestion
+
+        def get_context_data(self, **kwargs):
+            context = super(TriviaList, self).get_context_data(**kwargs)
+            context['display_memory'] = utils.get_memory()
+            return context
+
+    ...
+
+    class TriviaEdit(View):
+        template_name = 'trivia/trivia_edit.html'
+
+        def get(self, request, *args, **kwargs):
+            question = TriviaQuestion.objects.get(pk=kwargs['pk'])
+            return render(request, self.template_name, {'display_memory':utils.get_memory(), 'question': question})
+
+        def post(self, request, pk):
+            print('Got to TriviaEdit post(), request.POST = ', request.POST)
+            question = TriviaQuestion.objects.get(number=request.POST['number'])
+            return render(request, self.template_name, {'display_memory': utils.get_memory(), 'question': question})
 
 
+    ...
+
+    class QuestionEdit(UpdateView):
+        model = TriviaQuestion
+        fields = ['number', 'text']
+        template_name = 'trivia/triviaquestion_update_form.html'
+
+
+    class ChoiceEdit(UpdateView):
+        model = TriviaChoice
+        fields = ['question', 'number', 'text', 'correct']
+        template_name = 'trivia/triviachoice_update_form.html'
+
+    def trivia_select_edit(request):
+        question_number = request.GET.get('trivia_question')
+        question = TriviaQuestion.objects.get(number=question_number)
+        return redirect('trivia_edit', question.pk)
+
+
+**trivia/trivia_list.html**::
+
+    {% block content %}
+
+        <h2>Choose a question for editing by clicking on its Edit link below.</h2>
+        <form action="{% url 'trivia_select_for_edit' %}" method="get">
+            <ul>
+            {% for question in object_list %}
+                <li>
+                    <input type="radio" name="trivia_question" value="{{ question.number }}"/>
+                    {{ question.number }}. {{ question }}
+                </li>
+            {% empty %}
+                <li>No questions have been composed yet.</li>
+            {% endfor %}
+            </ul>
+            <p><button type="submit">Edit Selected</button></p>
+        </form>
+
+    {% endblock %}
+
+Note that in this template I do need to supply a form action. I'm not sure why but I suspect that the view that uses it
+does not create the form action on its own.
+
+**trivia/trivia_edit.html**::
+
+    {% block content %}
+
+        <h2>Select the 'Edit' link next to the question or choice you wish to edit.</h2>
+        <p>
+            {{ question.number }}. {{ question }}
+            <a href="{{ question.get_update_url }}">Edit</a>
+        </p>
+        {% for choice in question.get_choices %}
+            <p>
+                {{ choice.index }}{{ choice }}
+                <a href="{% url 'choice_edit' choice.pk %}">Edit</a>
+            </p>
+        {% endfor%}
+        <br>
+        <p>
+            <a type="button" href="{% url 'trivia_list' %}">
+                <button>Done Editing</button>
+            </a>
+        </p>
+
+    {% endblock %}
+
+**trivia/trivia_update_form.html**::
+
+    {% block content %}
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Update" />
+        </form>
+
+    {% endblock %}
+
+Note that here, in this view called by the QuestionEdit view (a subclass of Django's UpdateView), no form action needs
+to be given.
+
+Note also that, while writing this, I discovered something. I previously had two templates,
+``triviaquestion_update_form.html`` for editing questions and ``triviachoice_update_form.html`` for editing choices.
+These two files, however, were identical. To adhere to DRY, I set the ``template_name`` attribute in both
+``QuestionEdit`` and ``ChoiceEdit`` to ``trivia_update_form``.
+
+**trivia/models.py**::
+
+    class TriviaQuestion(models.Model):
+        number = models.IntegerField(unique=True)
+        text = models.TextField()
+        attempted = models.IntegerField(default=0)
+        correct = models.IntegerField(default=0)
+
+        def __str__(self):
+            return self.text
+
+        class Meta:
+            ordering = ['number']
+
+        def get_choices(self):
+            return TriviaChoice.objects.filter(question=self)
+
+        def get_absolute_url(self):
+            return reverse('trivia_edit', kwargs={'pk': self.pk})
+
+        def get_update_url(self):
+            return reverse('question_edit', kwargs={'pk': self.pk})
+
+
+    class TriviaChoice(models.Model):
+        question = models.ForeignKey(TriviaQuestion)
+        number = models.IntegerField()
+        text = models.CharField(max_length=255)
+        correct = models.BooleanField(default=False)
+
+        def __str__(self):
+            return self.text
+
+        class Meta:
+            unique_together = ('question', 'number')
+            ordering = ['question', 'number']
+
+        def index(self):
+            return ' ' + chr(64 + self.number) + ') '
+
+        def get_absolute_url(self):
+            return reverse('trivia_edit', kwargs={'pk': self.question.pk})
+
+        def get_update_url(self):
+            return reverse('choice_edit', kwargs={'pk': self.pk})
+
+Here the models stayed the same but I had to give each of them a couple of new methods. I don't know what
+``get_absolute_url`` is actually meant to be used for but I'm using it to redirect(?) back to the page that displays
+the question with it's choices and 'Edit' tags.
+
+I'm using ``get_update_url`` to get to the QuestionEdit or ChoiceEdit views with the proper kwargs set.
+
+Currently neither the QuestionEdit page nor the ChoiceEdit page display a Christmas memory. I will try to fix that next.
+
+.. index:: Problems; displaying extra context
+
+Getting a Memory to Display on Editing Pages
+--------------------------------------------
+
+I did it! Well, it wasn't exactly me, http://ccbv.co.uk, in their entry for UpdateView, clued me in to look for a
+method called ``get_context_data`` and, reading Django's own documentation at
+https://docs.djangoproject.com/en/1.11/topics/class-based-views/generic-display/ I could follow the example and found
+out what I needed to do: just add a method to both the QuestionEdit and ChoiceEdit views to override
+``get_context_data`` as shown below for the QuestionView::
+
+    def get_context_data(self, **kwargs):
+        context = super(QuestionEdit, self).get_context_data(**kwargs)
+        context['display_memory'] = utils.get_memory()
+        return context
 
 
 .. _trivia_error_checking:
@@ -560,7 +780,7 @@ Perhaps question_number gets into the url by means of the context dictionary but
 
 I will also have to modify ``trivia_question.html`` to do something with the ``error_message``.
 
-I may also want to try ``return render(request, reverse('display_question'), {'question_number'.... }) to see if that
+I may also want to try ``return render(request, reverse('display_question'), {'question_number'.... })`` to see if that
 works.
 
 No, none of that works. What is coming closest so far is::

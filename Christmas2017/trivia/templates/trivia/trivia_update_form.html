@@ -5,11 +5,9 @@
 
 {% block content %}
 
-    <!-- <form action="{% url 'trivia_edit' question.pk %}" method="post"> -->
-    <form action="/trivia/edit/question/{{ question.pk }}" method="post">
+    <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="hidden" value="{{ question.pk }}" />
         <input type="submit" value="Update" />
     </form>
 

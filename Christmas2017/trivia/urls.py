@@ -32,10 +32,10 @@ urlpatterns = [
     url(r'^list/$', TriviaList.as_view(), name='trivia_list'),
     url(r'^select/$', trivia_select_edit, name='trivia_select_for_edit'),
     url(r'^create/(?P<pk>\d+)/$', TriviaCreate.as_view(), name='trivia_create'),
-    url(r'^edit/question/(?P<pk>\d+)/$', QuestionEdit.as_view(), name='question_edit'),
     url(r'^edit/(?P<pk>\d+)/$', TriviaEdit.as_view(), name='trivia_edit'),
+    url(r'^edit/question/(?P<pk>\d+)/$', QuestionEdit.as_view(), name='question_edit'),
+    url(r'^edit/choice/(?P<pk>\d+)/$', ChoiceEdit.as_view(), name='choice_edit'),
     url(r'^delete/(?P<pk>\d+)/$', TriviaDelete.as_view(), name='trivia_delete'),
-    url(r'edit/choice/(?P<pk>\d+)/$', ChoiceEdit.as_view(), name='choice_edit'),
     url(r'^compose/$', login_required(ComposeTrivia.as_view())),
     url(r'^temporarily_closed/$', login_required(TemporarilyClosed.as_view()), name='temporarily_closed',)
 ]

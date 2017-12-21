@@ -1,5 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
+
+import utils
 
 # Create your models here.
 
@@ -18,6 +21,12 @@ class TriviaQuestion(models.Model):
     def get_choices(self):
         return TriviaChoice.objects.filter(question=self)
 
+    def get_absolute_url(self):
+        return reverse('trivia_edit', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('question_edit', kwargs={'pk': self.pk})
+
 
 class TriviaChoice(models.Model):
     question = models.ForeignKey(TriviaQuestion)
@@ -34,6 +43,12 @@ class TriviaChoice(models.Model):
 
     def index(self):
         return ' ' + chr(64 + self.number) + ') '
+
+    def get_absolute_url(self):
+        return reverse('trivia_edit', kwargs={'pk': self.question.pk})
+
+    def get_update_url(self):
+        return reverse('choice_edit', kwargs={'pk': self.pk})
 
 
 class TriviaUserResponse(models.Model):

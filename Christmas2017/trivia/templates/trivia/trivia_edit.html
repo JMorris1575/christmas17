@@ -5,10 +5,10 @@
 
 {% block content %}
 
-    <h2>New improved trivia_edit page.</h2>
+    <h2>Select the 'Edit' link next to the question or choice you wish to edit.</h2>
     <p>
         {{ question.number }}. {{ question }}
-        <a href="{% url 'question_edit' question.pk %}">Edit</a>
+        <a href="{{ question.get_update_url }}">Edit</a>
     </p>
     {% for choice in question.get_choices %}
         <p>
