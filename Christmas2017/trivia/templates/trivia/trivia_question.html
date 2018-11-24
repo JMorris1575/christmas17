@@ -14,9 +14,10 @@
                 {% if error_message %}
                     <div class="error-display">
                         <p class="red"><strong>{{ error_message }}</strong></p>
+                    </div>
                 {% else %}
                     <div>
-                {% endif %}
+
                     {% for choice in choices %}
                         <p class="trivia-choice">
                             <input type="radio" name="choice" value={{ choice.number }}>{{ choice.index }}{{ choice }}</input>
@@ -26,6 +27,7 @@
                         <input type="submit" value="Submit" name="trivia_submit"/>
                     </p>
                     </div>
+                {% endif %}
             </form>
         </div>
 
